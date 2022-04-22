@@ -6,12 +6,14 @@ const validate = require('jsonschema').validate;
 const compSchema = {
     type: 'object',
     properties: {
-        date: { type: 'string', format: 'date' },
+        start_date: { type: 'string', format: 'date' },
+        end_date: { type: 'string', format: 'date' },
         name: { type: 'string', minLength: 1, maxLength: 100 },
         venue: { type: 'string', minLength: 1, maxLength: 100 },
+        max_users: { type: 'integer', minimum: 1 },
         phase_id: { type: 'integer', minimum: 1, maximum: 5 },
     },
-    required: ['date', 'name', 'phase_id'],
+    required: ['start_date', 'name', 'phase_id'],
     maxProperties: 4,
 };
 
