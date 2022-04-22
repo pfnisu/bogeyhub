@@ -12,7 +12,6 @@ const pool = mysql.createPool({
 module.exports = {
     // Return the new id if insert succeeded
     save: (comp) => {
-        console.log(process.env);
         return new Promise((resolve, reject) => {
             pool.query('insert into competition set ?', comp, (err, res) => {
                 if (err) reject('Saving to DB failed.\n' + err);
@@ -23,7 +22,12 @@ module.exports = {
     // Return an array of competition objects, can be empty
     findAll: (params) => {
         return new Promise((resolve, reject) => {
-            pool.query('select * from competition ', (err, res) => {
+            pool.query(
+                'select competition.id, start_date, end_date, ' +
+                'competition.name, venue, max_users, competition.info, ' +
+                'phase.name as phase from competition ' +
+                'inner join phase on phase.id = competition.phase_id',
+                (err, res) => {
                     if (err) reject('DB query failed.\n' + err);
                     else resolve(res);
                 }
