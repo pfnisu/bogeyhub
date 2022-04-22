@@ -31,7 +31,8 @@ CREATE TABLE phase (
 
 CREATE TABLE competition (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date DATE NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE,
     name VARCHAR(100) NOT NULL,
     venue VARCHAR(100),
     max_users INT,
