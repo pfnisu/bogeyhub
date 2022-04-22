@@ -8,6 +8,9 @@ export const CreateComp = () => {
     const dateRef = React.createRef();
     const nameRef = React.createRef();
 
+    // Format current date for default form value
+    let currDate = new Date().toJSON().split('T')[0];
+
     // Add new competition with only mandatory data
     const addComp = async () => {
         let newcomp = {
@@ -17,19 +20,17 @@ export const CreateComp = () => {
         };
         // POST data to backend
         await request(path, newcomp);
-        dateRef.current.value = "";
+        dateRef.current.value = currDate;
         nameRef.current.value = "";
     }
-    // Format current date for default form value
-    let currDate = new Date().toJSON().split('T')[0];
 
     return (
         <>
-            <h1>Admin</h1>
+            <h1>Create a competition</h1>
             <form onSubmit={e => e.preventDefault()}>
                 <input ref={nameRef} type="text" placeholder="Competition name" />
                 <input ref={dateRef} type="date" defaultValue={currDate} />
-                <button onClick={() => addComp()}>Create competition</button>
+                <button onClick={() => addComp()}>Create</button>
             </form>
         </>
 
