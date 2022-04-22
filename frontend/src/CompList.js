@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {request} from './index';
+import {Register} from './Register';
 
 const path = 'competition';
 const uri = 'http://localhost:8080/';
@@ -12,9 +13,7 @@ export const CompList = () => {
     React.useEffect(() => {
         (async () => {
             let resp = await fetch(uri + path);
-            console.log(resp);
             let json = await resp.json();
-            console.log(json);
             setCompetitions([...json]);
         })();
     }, []);
@@ -23,7 +22,10 @@ export const CompList = () => {
         <>
             <h1>Competitions</h1>
             <ul>
-                {competitions.map(c => <li key={c.id}>{c.name}, {c.date}</li>)}
+                {competitions.map(c =>
+                    <li className={c.phase} key={c.id}>
+                        <Register comp={c} />
+                    </li>)}
             </ul>
         </>
     );
