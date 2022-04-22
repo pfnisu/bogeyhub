@@ -22,10 +22,7 @@ export const CompList = () => {
         <>
             <h1>Competitions</h1>
             <ul>
-                {competitions.map(c =>
-                    <li className={c.phase} key={c.id}>
-                        <Register comp={c} />
-                    </li>)}
+                {competitions.map(c => <Register comp={c} key={c.id} />)}
             </ul>
         </>
     );
