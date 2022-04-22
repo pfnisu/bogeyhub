@@ -14,7 +14,7 @@ export const CreateComp = () => {
     // Add new competition with only mandatory data
     const addComp = async () => {
         let newcomp = {
-            date: dateRef.current.value,
+            start_date: dateRef.current.value,
             name: nameRef.current.value,
             phase_id: 1,
         };
