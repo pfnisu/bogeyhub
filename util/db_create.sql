@@ -5,13 +5,21 @@ CREATE TABLE sex (
     name VARCHAR(20) NOT NULL
 );
 
+CREATE TABLE role (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
+);
+
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     password CHAR(192) NOT NULL,
     birth_year INT,
     sex_id INT,
+    role_id INT NOT NULL,
     FOREIGN KEY(sex_id) REFERENCES sex(id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY(role_id) REFERENCES role(id)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
@@ -43,7 +51,7 @@ CREATE TABLE competition (
 );
 
 CREATE TABLE registration (
-    time TIMESTAMP NOT NULL, -- DEFAULT now(),
+    time TIMESTAMP DEFAULT now(),
     user_id INT NOT NULL,
     competition_id INT NOT NULL,
     PRIMARY KEY(user_id, competition_id),
