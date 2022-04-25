@@ -1,18 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {request} from './index';
 import {Register} from './Register';
+import {request} from './index';
 
-const path = 'competition';
-const uri = 'http://localhost:8080/';
-
-export const CompList = () => {
+export const CompList = (props) => {
     const [competitions, setCompetitions] = React.useState([]);
 
     // GET competitions from backend to state array at component mount
     React.useEffect(() => {
         (async () => {
-            let resp = await fetch(uri + path);
+            let resp = await fetch(props.path);
             let json = await resp.json();
             setCompetitions([...json]);
         })();
