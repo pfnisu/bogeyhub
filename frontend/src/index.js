@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom';
 import {CreateComp} from './CreateComp';
 import {CompList} from './CompList';
+import {Competition} from './Competition';
+import {ScoreInput} from './ScoreInput';
 import './index.css';
 
 const uri = 'http://localhost:8080/';
@@ -13,7 +15,6 @@ export const request = async (resource, data, method = 'POST') => {
             headers: { 'Content-type': 'application/json' },
             body: JSON.stringify(data)
         });
-        console.log(resp);
         return resp;
     } catch(e) {
         console.log('DB update failed.');
@@ -21,7 +22,6 @@ export const request = async (resource, data, method = 'POST') => {
 }
 
 const App = () => {
-
     return (
         <BrowserRouter>
             <nav>
@@ -30,8 +30,16 @@ const App = () => {
             </nav>
             <main>
                 <Routes>
-                    <Route path='/' element={<CompList/>} />
+                    <Route path='/' element={<CompList path={uri + 'competition/'} />} />
                     <Route path='admin/*' element={<CreateComp/>} />
+                    <Route path='competition/'>
+                        <Route path=':compId' element={
+                            <Competition path={uri + 'competition/'} />} />
+                    </Route>
+                    <Route path='input/'>
+                        <Route path=':compId' element={
+                            <ScoreInput path={uri + 'input/'} />} />
+                    </Route>
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>
             </main>
