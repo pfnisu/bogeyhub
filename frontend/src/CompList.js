@@ -19,7 +19,9 @@ export const CompList = (props) => {
         <>
             <h1>Competitions</h1>
             <ul>
-                {competitions.map(c => <Register comp={c} key={c.id} />)}
+                {competitions.length === 0
+                    ? <li>Loading...</li>
+                    : competitions.map(c => <Register comp={c} key={c.id} />)}
             </ul>
         </>
     );
