@@ -34,6 +34,38 @@ module.exports = {
             );
         });
     },
+    // Query round result data, result in columnar form for scalability
+    resultsById: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select hole, result, user.name as user from competition ' +
+                'inner join round on competition.id = round.competition_id ' +
+                'inner join score on round.id = score.round_id ' +
+                'inner join user on user.id = score.user_id ' +
+                'where competition.id = ?',
+                [id],
+                (err, res) => {
+                    if (err) reject('DB query failed.\n' + err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
+    // Get groups for a round
+    groupsById: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select group_number, start_position, user.name as user from groups ' +
+                'inner join user on user.id = groups.user_id ' +
+                'where round_id = ?',
+                [id],
+                (err, res) => {
+                    if (err) reject('DB query failed.\n' + err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
     // Return true if deleted, false if no rows affected
     deleteById: (id) => {
         return new Promise((resolve, reject) => {
