@@ -5,7 +5,7 @@ import {request} from './index';
 
 export const ScoreInput = (props) => {
     const [competition, setCompetition] = React.useState({});
-    let params = useParams();
+    const params = useParams();
 
     // GET competition with compId from backend at component mount
     React.useEffect(() => {
