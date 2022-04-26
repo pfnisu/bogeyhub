@@ -6,6 +6,7 @@ import {CompList} from './CompList';
 import {Login} from './Login';
 import {Competition} from './Competition';
 import {ScoreInput} from './ScoreInput';
+import {Groups} from './Groups';
 import './index.css';
 
 const uri = 'http://localhost:8080/';
@@ -43,10 +44,10 @@ const App = () => {
                         <Route path=':compId' element={
                             <Competition path={uri + 'competition/'} />} />
                     </Route>
-                    <Route path='input/'>
-                        <Route path=':compId' element={
-                            <ScoreInput path={uri + 'input/'} />} />
-                    </Route>
+                    <Route path='competition/:compId/input/' element={
+                            <ScoreInput path={uri + 'competition/input/'} />} />
+                    <Route path='competition/:compId/groups/' element={
+                            <Groups path={uri + 'competition/group/'} />} />
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>
             </main>
