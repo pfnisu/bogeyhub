@@ -53,6 +53,15 @@ h1 {
 h2,ul p {
 	font-size:1.1em;
 }
+tr.score {
+    padding:4px;
+}
+tr.score td {
+    margin:4px;
+	border-radius:6px;
+    padding:4px 8px;
+	background-color:#f6f5f4;
+}
 form {
 	display:flex;
 	flex-wrap:wrap;
@@ -112,7 +121,7 @@ li a {
 .critical {
 	background:#61dafb;
 }
-li.registration, .important {
+li.registration, .important, tr.score td.important {
 	background:#cff3fd;
 }
 .minor {
