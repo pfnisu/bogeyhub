@@ -25,7 +25,6 @@ CREATE TABLE user (
 
 CREATE TABLE course (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date DATE NOT NULL,
     name VARCHAR(100) NOT NULL,
     holes INT NOT NULL,
     info TEXT
@@ -72,32 +71,26 @@ CREATE TABLE round (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE card (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE groups (
+    group_number INT NOT NULL,
     start_time DATE,
     start_hole INT,
+    start_position INT NOT NULL,
+    user_id INT NOT NULL,
     round_id INT NOT NULL,
+    PRIMARY KEY(user_id, round_id),
+    FOREIGN KEY(user_id) REFERENCES user(id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY(round_id) REFERENCES round(id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE card_player (
-    start_position INT NOT NULL,
-    user_id INT NOT NULL,
-    card_id INT NOT NULL,
-    PRIMARY KEY(user_id, card_id),
-    FOREIGN KEY(user_id) REFERENCES user(id)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY(card_id) REFERENCES card(id)
-        ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 CREATE TABLE score (
-    hole INT NOT NULL,
     result INT NOT NULL,
+    hole INT NOT NULL,
     user_id INT NOT NULL,
     round_id INT NOT NULL,
-    PRIMARY KEY(user_id, round_id),
+    PRIMARY KEY(hole, user_id, round_id),
     FOREIGN KEY(user_id) REFERENCES user(id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY(round_id) REFERENCES round(id)
