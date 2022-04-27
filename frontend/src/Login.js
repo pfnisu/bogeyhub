@@ -100,6 +100,7 @@ export const Login = (props) => {
                     <input ref={pwRef} type='password' placeholder='Password' />
                     <input ref={repwRef} type='password' placeholder='Re-type password' />
                     <button onClick={() => createAccount()}>Create account</button>
+                    <button onClick={() => setUi('login')}>Cancel</button>
                 </form>
             </>}
         </>
