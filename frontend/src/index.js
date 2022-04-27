@@ -34,13 +34,14 @@ const App = () => {
             </nav>
             <main>
                 <Routes>
-                    <Route path='/' element={<CompList path={uri + 'competition/'} />} />
+                    <Route path='/' element={
+                        <CompList path={uri + 'competition/'} user={user} />} />
                     <Route path='admin/*' element={<CreateComp/>} />
                     <Route path='login/*' element={
                         <Login user={user} setUser={setUser} />} />
                     <Route path='competition/'>
                         <Route path=':compId' element={
-                            <Competition path={uri + 'competition/'} />} />
+                            <Competition path={uri + 'competition/'} user={user} />} />
                     </Route>
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>
