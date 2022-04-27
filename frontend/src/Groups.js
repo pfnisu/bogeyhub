@@ -10,7 +10,7 @@ export const Groups = (props) => {
     // GET groups for compId
     React.useEffect(() => {
         (async () => {
-            let resp = await fetch(props.path + params.compId);
+            let resp = await fetch(props.path + 'group/' + params.compId);
             let json = await resp.json();
             setGroups(json);
         })();
