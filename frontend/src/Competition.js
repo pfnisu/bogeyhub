@@ -24,9 +24,9 @@ export const Competition = (props) => {
         <>
             <h1>{competition.name}</h1>
             {ui === 'results' && <>
+                <button className='sel' onClick={() => setUi('results')}>Results</button>
                 <button onClick={() => setUi('info')}>View info</button>
                 <button onClick={() => setUi('groups')}>View groups</button>
-                <button className='sel' onClick={() => setUi('results')}>Results</button>
                 {props.user !== '' &&
                     <button className='right' onClick={() => setUi('input')}>
                         Input scores
@@ -35,9 +35,9 @@ export const Competition = (props) => {
                 <ScoreTable path={props.path} id={params.compId} />
             </>}
             {ui === 'info' && <>
+                <button onClick={() => setUi('results')}>Results</button>
                 <button className='sel' onClick={() => setUi('info')}>View info</button>
                 <button onClick={() => setUi('groups')}>View groups</button>
-                <button onClick={() => setUi('results')}>Results</button>
                 {props.user !== '' &&
                     <button className='right' onClick={() => setUi('input')}>
                         Input scores
@@ -46,9 +46,9 @@ export const Competition = (props) => {
                 <p>{competition.info}</p>
             </>}
             {ui === 'input' && <>
+                <button onClick={() => setUi('results')}>Results</button>
                 <button onClick={() => setUi('info')}>View info</button>
                 <button onClick={() => setUi('groups')}>View groups</button>
-                <button onClick={() => setUi('results')}>Results</button>
                 {props.user !== '' &&
                     <button className='sel right' onClick={() => setUi('input')}>
                         Input scores
@@ -57,9 +57,9 @@ export const Competition = (props) => {
                 <ScoreInput path={props.path} id={params.compId} />
             </>}
             {ui === 'groups' && <>
+                <button onClick={() => setUi('results')}>Results</button>
                 <button onClick={() => setUi('info')}>View info</button>
                 <button className='sel' onClick={() => setUi('groups')}>View groups</button>
-                <button onClick={() => setUi('results')}>Results</button>
                 {props.user !== '' &&
                     <button className='right' onClick={() => setUi('input')}>
                         Input scores
