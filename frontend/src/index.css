@@ -25,10 +25,6 @@ nav a {
 	text-decoration:none;
 	cursor:pointer;
 }
-nav a:last-child {
-	width:auto;
-	padding:12px 16px;
-}
 nav a:hover {
 	background-color:#61dafb;
 	color:#282c34;
@@ -84,7 +80,7 @@ input[type=checkbox] {
 	margin:0 4px 0 0;
 	vertical-align:5%;
 }
-label,select,button,ol span {
+label,select,button,input[type=number],ol span {
 	background:#f6f5f4;
 }
 ol span {
@@ -92,13 +88,16 @@ ol span {
 	border-radius:6px;
 	padding:4px 8px;
 }
-select {
-	width:25%;
-	margin:0 0 8px auto;
+input[type=number],select {
+    min-width:25%;
+    width:25%;
 }
-input:not([type=checkbox]):focus,label:hover,select:hover,button:hover {
+input:not([type=checkbox]):focus,label:hover,select:hover,button:hover,main > button.sel {
 	outline:2px solid #61dafb;
 	box-shadow:0 0 8px #61dafb;
+}
+input.error {
+	outline:2px solid red;
 }
 label:active,select:active,button:active {
 	box-shadow:inset 1px 1px 1px #484c54;
@@ -144,11 +143,11 @@ li span,ol p {
 li label {
 	display:inline-block;
 }
-li button {
+li button,button.right {
 	float:right;
 	margin:0 0 0 4px;
 }
-li button:last-of-type {
+button:last-of-type {
 	margin:0 0 8px auto;
 }
 @media (min-width:640px) {
