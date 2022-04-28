@@ -1,4 +1,7 @@
 -- Create tables for scoring database
+DROP DATABASE dbpfnisu2;
+CREATE DATABASE dbpfnisu2;
+USE dbpfnisu2;
 
 CREATE TABLE sex (
     id INT AUTO_INCREMENT PRIMARY KEY,

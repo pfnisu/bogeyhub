@@ -16,9 +16,9 @@ INSERT INTO phase(name) VALUES
     ('closed'),
     ('active'),
     ('complete');
-INSERT INTO competition(start_date, name, phase_id) VALUES
-    ('2022-05-01', 'Test competition', 1),
-    ('2022-05-02', 'Test phase 2', 2);
+INSERT INTO competition(start_date, name, info, phase_id) VALUES
+    ('2022-05-01', 'Test competition', 'Info text', 1),
+    ('2022-05-02', 'Test phase 2', 'Info text 2', 2);
 INSERT INTO registration(user_id, competition_id) VALUES
     (1, 1),
     (2, 2);
