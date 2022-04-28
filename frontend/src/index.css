@@ -45,6 +45,7 @@ main * {
 }
 h1 {
 	font-size:1.3em;
+    border-bottom:1px solid #484c54;
 }
 h2,ul p {
 	font-size:1.1em;
@@ -96,8 +97,10 @@ input:not([type=checkbox]):focus,textarea:focus,select:hover,button:hover,main >
 	outline:2px solid #61dafb;
 	box-shadow:0 0 8px #61dafb;
 }
-input.error {
+.error {
 	outline:2px solid red;
+	border-radius:6px;
+	padding:8px;
 }
 select:active,button:active {
 	box-shadow:inset 1px 1px 1px #484c54;
