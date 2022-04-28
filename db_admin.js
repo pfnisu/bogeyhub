@@ -12,8 +12,17 @@ module.exports = {
             });
         });
     },
+    // Return true if updated, false if no rows affected
+    updateComp: (id, comp) => {
+        return new Promise((resolve, reject) => {
+            pool.query('update competition set ? where id = ?', [comp, id], (err, res) => {
+                if (err) reject('Saving to DB failed.\n' + err);
+                else resolve(res.affectedRows !== 0);
+            });
+        });
+    },
     // Return true if deleted, false if no rows affected
-    deleteById: (id) => {
+    deleteComp: (id) => {
         return new Promise((resolve, reject) => {
             pool.query('delete from competition where id = ?', [id], (err, res) => {
                 if (err) reject('Deletion failed.\n' + err);
