@@ -16,16 +16,17 @@ export const Admin = (props) => {
     const nameRef = React.createRef();
     const infoRef = React.createRef();
 
-    // GET competition with compId from backend at component mount
-    React.useEffect(() => {
-        (async () => {
+    const getComp = async () => {
             if (params.compId == undefined) return false;
             let resp = await fetch(props.getPath + params.compId);
             let json = await resp.json();
             setCompetition(json);
             setUi('edit');
-        })();
-    }, []);
+    }
+
+    // GET competition with compId at component mount and when ui mode changes
+    React.useEffect(() => getComp(), []);
+    React.useEffect(() => getComp(), [ui]);
 
     // PATCH competition with edited data
     const editComp = async () => {
@@ -41,7 +42,7 @@ export const Admin = (props) => {
 
     return (
         <>
-            {ui === 'create' && <CreateComp />}
+            {ui === 'create' && <CreateComp path={props.path} setUi={setUi} />}
             {ui === 'edit' && <>
                 <h1>Edit competition: {competition.name}</h1>
                 <form onSubmit={e => e.preventDefault()}>
