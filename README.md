@@ -15,3 +15,6 @@ Niko Suoniemi <niko.suoniemi@tuni.fi>
 * Alpha-quality release
 * Most of the central functionality incomplete
 * Project framework and Frontend UI is in good order
+* Admin functionality can be tested with
+    * username: admin
+    * no password
