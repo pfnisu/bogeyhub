@@ -62,7 +62,7 @@ form {
 	display:flex;
 	flex-wrap:wrap;
 }
-input,label,select,button,.list {
+input,select,textarea,button,.list {
 	margin-right:4px;
 	border:1px solid #484c54;
 	border-radius:6px;
@@ -73,14 +73,14 @@ input,label,select,button,.list {
 	background-color:#484c54;
 	color:white;
 }
-input:not([type=checkbox]) {
+input:not([type=checkbox]),textarea {
 	min-width:100%;
 }
 input[type=checkbox] {
 	margin:0 4px 0 0;
 	vertical-align:5%;
 }
-label,select,button,input[type=number],ol span {
+select,button,input[type=number],ol span {
 	background:#f6f5f4;
 }
 ol span {
@@ -92,14 +92,14 @@ input[type=number],select {
     min-width:25%;
     width:25%;
 }
-input:not([type=checkbox]):focus,label:hover,select:hover,button:hover,main > button.sel {
+input:not([type=checkbox]):focus,textarea:focus,select:hover,button:hover,main > button.sel {
 	outline:2px solid #61dafb;
 	box-shadow:0 0 8px #61dafb;
 }
 input.error {
 	outline:2px solid red;
 }
-label:active,select:active,button:active {
+select:active,button:active {
 	box-shadow:inset 1px 1px 1px #484c54;
 }
 ol {
@@ -140,12 +140,12 @@ li span,ol p {
 	font-size:0.9em;
 	margin:0 0 8px 0;
 }
-li label {
-	display:inline-block;
-}
 li button,button.right {
 	float:right;
 	margin:0 0 0 4px;
+}
+li button:last-of-type {
+	margin-left:4px;
 }
 button:last-of-type {
 	margin:0 0 8px auto;
