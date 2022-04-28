@@ -8,8 +8,9 @@ export const ScoreTable = (props) => {
     // GET results for compId
     React.useEffect(() => {
         (async () => {
+            props.setErr(null);
             let resp = await request(props.path + 'result/' + props.id);
-            setResults(resp);
+            resp ? setResults(resp) : props.setErr('Loading results failed');
         })();
     }, []);
 

@@ -27,6 +27,8 @@ export const request = async (resource, method = 'GET', data = null) => {
 const App = () => {
     // Active user account
     const [user, setUser] = React.useState('');
+    // App-wide error message
+    const [err, setErr] = React.useState(null);
 
     // Set title
     React.useEffect(() => document.title = 'Disc golf scoring', []);
@@ -39,20 +41,21 @@ const App = () => {
                 <NavLink to='/login'>{user ? 'Logged in as ' + user : 'Login'}</NavLink>
             </nav>
             <main>
+                {err && <p className='error'>{err}</p>}
                 <Routes>
                     <Route path='/' element={
-                        <CompList path={compPath} user={user} />} />
+                        <CompList path={compPath} user={user} setErr={setErr} />} />
                     <Route path='admin/'>
                         <Route index element={
-                            <Admin path={adminPath} getPath={compPath} />} />
+                            <Admin path={adminPath} getPath={compPath} setErr={setErr} />} />
                         <Route path=':compId' element={
-                            <Admin path={adminPath} getPath={compPath} />} />
+                            <Admin path={adminPath} getPath={compPath} setErr={setErr} />} />
                     </Route>
                     <Route path='login/*' element={
-                        <Login user={user} setUser={setUser} />} />
+                        <Login user={user} setUser={setUser} setErr={setErr} />} />
                     <Route path='competition/'>
                         <Route path=':compId' element={
-                            <Competition path={compPath} user={user} />} />
+                            <Competition path={compPath} user={user} setErr={setErr} />} />
                     </Route>
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>

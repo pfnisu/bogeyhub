@@ -10,8 +10,9 @@ export const Groups = (props) => {
     // GET groups for compId
     React.useEffect(() => {
         (async () => {
+            props.setErr(null);
             let resp = await request(props.path + 'group/' + params.compId);
-            setGroups(resp);
+            resp ? setGroups(resp) : props.setErr('Loading groups failed');
         })();
     }, []);
 

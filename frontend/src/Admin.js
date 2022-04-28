@@ -9,7 +9,6 @@ export const Admin = (props) => {
     // UI mode: create, edit
     const [ui, setUi] = React.useState('create');
     const [competition, setCompetition] = React.useState({});
-    const [fail, setFail] = React.useState(null);
     const params = useParams();
 
     const dateRef = React.createRef();
@@ -18,12 +17,13 @@ export const Admin = (props) => {
     const infoRef = React.createRef();
 
     const getComp = async () => {
+        props.setErr(null);
         if (params.compId == undefined) return false;
         let resp = await request(props.getPath + params.compId);
 
         // Format start_date for default form value
         resp.start_date = resp.start_date.split('T')[0];
-        setCompetition(resp);
+        resp ? setCompetition(resp) : setErr('Loading competition failed');
         setUi('edit');
     }
 
@@ -45,8 +45,8 @@ export const Admin = (props) => {
 
     return (
         <>
-            {fail && <p className='error'>{fail}</p>}
-            {ui === 'create' && <CreateComp path={props.path} setUi={setUi} setFail={setFail} />}
+            {ui === 'create' &&
+                <CreateComp path={props.path} setUi={setUi} setErr={props.setErr} />}
             {ui === 'edit' && <>
                 <h1>Edit competition: {competition.name}</h1>
                 <form onSubmit={e => e.preventDefault()}>

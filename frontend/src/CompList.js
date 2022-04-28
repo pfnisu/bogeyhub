@@ -9,8 +9,9 @@ export const CompList = (props) => {
     // GET competitions from backend to state array at component mount
     React.useEffect(() => {
         (async () => {
+            props.setErr(null);
             let resp = await request(props.path);
-            setCompetitions([...resp]);
+            resp ? setCompetitions([...resp]) : props.setErr('Loading competitions failed');
         })();
     }, []);
 

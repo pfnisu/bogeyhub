@@ -26,7 +26,7 @@ export const CreateComp = (props) => {
             nav('/admin/' + resp.id);
             props.setUi('edit');
         } else {
-            props.setFail('Failed to create competition.');
+            props.setErr('Failed to create competition');
         }
     }
 

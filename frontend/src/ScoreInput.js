@@ -10,8 +10,9 @@ export const ScoreInput = (props) => {
     // GET competition with compId from backend at component mount
     React.useEffect(() => {
         (async () => {
+            props.setErr(null);
             let resp = await request(props.path + params.compId);
-            setCompetition(resp);
+            resp ? setCompetition(resp) : props.setErr('Loading competition failed');
         })();
     }, []);
     return (

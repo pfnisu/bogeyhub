@@ -60,6 +60,8 @@ export const Login = (props) => {
     const update = async () => {
     }
 
+    React.useEffect(() => props.setErr(null), []);
+
     return (
         <>
             {ui === 'login' && <>
