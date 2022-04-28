@@ -25,6 +25,9 @@ const App = () => {
     // Active user account
     const [user, setUser] = React.useState('');
 
+    // Set title
+    React.useEffect(() => document.title = 'Disc golf scoring', []);
+
     return (
         <BrowserRouter>
             <nav>
