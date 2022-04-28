@@ -66,7 +66,7 @@ export const Login = (props) => {
                 {props.user === '' && <>
                     <h1>Login</h1>
                     <form onSubmit={e => e.preventDefault()}>
-                        <input ref={userRef} type='text' placeholder='User name' />
+                        <input ref={userRef} type='text' placeholder='User name' autoFocus />
                         <input ref={pwRef} type='password' placeholder='Password' />
                         <button onClick={() => login()}>Login</button>
                         <button onClick={() => setUi('create')}>Create account</button>
@@ -96,7 +96,7 @@ export const Login = (props) => {
             {ui === 'create' && <>
                 <h1>Create account</h1>
                 <form onSubmit={e => e.preventDefault()}>
-                    <input ref={userRef} type='text' placeholder='User name' />
+                    <input ref={userRef} type='text' placeholder='User name' autoFocus />
                     <input ref={pwRef} type='password' placeholder='Password' />
                     <input ref={repwRef} type='password' placeholder='Re-type password' />
                     <button onClick={() => createAccount()}>Create account</button>
