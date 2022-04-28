@@ -18,11 +18,13 @@ export const Admin = (props) => {
     const infoRef = React.createRef();
 
     const getComp = async () => {
-            if (params.compId == undefined) return false;
-            let resp = await fetch(props.getPath + params.compId);
-            let json = await resp.json();
-            setCompetition(json);
-            setUi('edit');
+        if (params.compId == undefined) return false;
+        let resp = await request(props.getPath + params.compId);
+
+        // Format start_date for default form value
+        resp.start_date = resp.start_date.split('T')[0];
+        setCompetition(resp);
+        setUi('edit');
     }
 
     // GET competition with compId at component mount and when ui mode changes
@@ -31,14 +33,14 @@ export const Admin = (props) => {
 
     // PATCH competition with edited data
     const editComp = async () => {
-        let comp = {
+        let data = {
             start_date: dateRef.current.value,
             name: nameRef.current.value,
             info: infoRef.current.value,
             phase_id: 1,
         };
         // PATCH data to backend
-        await request(props.path, comp, 'PATCH');
+        await request(props.path + params.compId, 'PATCH', data);
     }
 
     return (
@@ -55,8 +57,8 @@ export const Admin = (props) => {
                     <label>End date:</label>
                     <input ref={enddateRef} type='date' />
                     <label>Info:</label>
-                    <textarea ref={infoRef} />
-                    <button onClick={() => addComp()}>Save changes</button>
+                    <textarea ref={infoRef} defaultValue={competition.info} />
+                    <button onClick={() => editComp()}>Save changes</button>
                 </form>
             </>}
         </>
