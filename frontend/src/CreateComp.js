@@ -13,13 +13,13 @@ export const CreateComp = (props) => {
 
     // Add new competition with only mandatory data
     const addComp = async () => {
-        let newcomp = {
+        let data = {
             start_date: dateRef.current.value,
             name: nameRef.current.value,
             phase_id: 1,
         };
         // POST data to backend
-        let resp = await request(props.path, newcomp);
+        let resp = await request(props.path, 'POST', data);
 
         // If POST succeeded, navigate to new compId and show edit view
         if (resp) {
