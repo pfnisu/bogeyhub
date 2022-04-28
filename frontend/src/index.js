@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom';
-import {CreateComp} from './CreateComp';
+import {Admin} from './Admin';
 import {CompList} from './CompList';
 import {Login} from './Login';
 import {Competition} from './Competition';
@@ -36,7 +36,12 @@ const App = () => {
                 <Routes>
                     <Route path='/' element={
                         <CompList path={uri + 'competition/'} user={user} />} />
-                    <Route path='admin/*' element={<CreateComp/>} />
+                    <Route path='admin/'>
+                        <Route index element={
+                            <Admin path={uri + 'admin/'} getPath={uri + 'competition/'} />} />
+                        <Route path=':compId' element={
+                            <Admin path={uri + 'admin/'} getPath={uri + 'competition/'} />} />
+                    </Route>
                     <Route path='login/*' element={
                         <Login user={user} setUser={setUser} />} />
                     <Route path='competition/'>
