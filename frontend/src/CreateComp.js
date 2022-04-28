@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {request} from './index';
 
-const path = 'competition';
-
-export const CreateComp = () => {
+export const CreateComp = (props) => {
     const dateRef = React.createRef();
     const nameRef = React.createRef();
 
@@ -19,17 +17,17 @@ export const CreateComp = () => {
             phase_id: 1,
         };
         // POST data to backend
-        await request(path, newcomp);
+        await request(props.path, newcomp);
         dateRef.current.value = currDate;
-        nameRef.current.value = "";
+        nameRef.current.value = '';
     }
 
     return (
         <>
             <h1>Create a competition</h1>
             <form onSubmit={e => e.preventDefault()}>
-                <input ref={nameRef} type="text" placeholder="Competition name" />
-                <input ref={dateRef} type="date" defaultValue={currDate} />
+                <input ref={nameRef} type='text' placeholder='Competition name' />
+                <input ref={dateRef} type='date' defaultValue={currDate} />
                 <button onClick={() => addComp()}>Create</button>
             </form>
         </>
