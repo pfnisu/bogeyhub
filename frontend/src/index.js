@@ -7,9 +7,8 @@ import {Login} from './Login';
 import {Competition} from './Competition';
 import './index.css';
 
-const uri = 'http://localhost:8080';
-const compPath = uri+'/competition/';
-const adminPath = uri+'/admin/';
+const compPath = '/competition/';
+const adminPath = '/admin/';
 export const request = async (resource, method = 'GET', data = null) => {
     try {
         let resp = await fetch(resource, {
