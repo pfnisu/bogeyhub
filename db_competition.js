@@ -1,13 +1,6 @@
-require('dotenv').config();
 const mysql = require('mysql');
-
-const pool = mysql.createPool({
-    host: process.env.host,
-    user: process.env.user,
-    password: process.env.password,
-    database: process.env.database,
-    connectionLimit: 10,
-});
+const settings = require('./db_settings.js');
+const pool = mysql.createPool(settings);
 
 module.exports = {
     // Return the new id if insert succeeded
