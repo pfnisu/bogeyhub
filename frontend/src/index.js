@@ -10,17 +10,17 @@ import './index.css';
 const uri = 'http://localhost:8080';
 const compPath = uri+'/competition/';
 const adminPath = uri+'/admin/';
-export const request = async (resource, data, method = 'POST') => {
+export const request = async (resource, method = 'GET', data = null) => {
     try {
         let resp = await fetch(resource, {
             method: method,
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify(data)
+            body: data && JSON.stringify(data)
         });
         let json = await resp.json();
         return json;
     } catch(e) {
-        console.log('DB update failed.');
+        console.log(method + ' request failed.');
     }
 }
 
