@@ -8,17 +8,22 @@ export const Register = (props) => {
 
     // Make comp title into a link to comp view
     let title = <Link to={'/competition/' + props.comp.id}>{props.comp.name}</Link>;
+
     return (
         <li className={props.comp.phase}>
+            {props.user === 'admin' &&
+                <Link to={'/admin/' + props.comp.id}>
+                    <button onClick={() => setUi('admin')}>&#9881; Admin</button>
+                </Link>}
             {props.user !== '' &&
-                <button onClick={() => setUi('register')}>Register</button>}
+                <button onClick={() => setUi('register')}>&#119558; Register</button>}
             {ui === 'initial' && <>
-                <button onClick={() => setUi('info')}>View info</button>
+                <button onClick={() => setUi('info')}>&#8505; View info</button>
                 <h2>{title}</h2>
             </>}
             {ui === 'register' && <>
                 <button onClick={() => setUi('initial')}>Cancel</button>
-                <button onClick={() => setUi('info')}>View info</button>
+                <button onClick={() => setUi('info')}>&#8505; View info</button>
                 <h2>{title}</h2>
             </>}
             {ui === 'info' && <>
