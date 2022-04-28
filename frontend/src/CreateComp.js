@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {useNavigate} from 'react-router-dom';
 import {request} from './index';
 
 export const CreateComp = (props) => {
+    const [fail, setFail] = React.useState(null);
+    const nav = useNavigate();
     const dateRef = React.createRef();
     const nameRef = React.createRef();
 
@@ -17,16 +20,23 @@ export const CreateComp = (props) => {
             phase_id: 1,
         };
         // POST data to backend
-        await request(props.path, newcomp);
-        dateRef.current.value = currDate;
-        nameRef.current.value = '';
+        let resp = await request(props.path, newcomp);
+
+        // If POST succeeded, navigate to new compId and show edit view
+        if (resp) {
+            nav('/admin/' + resp.id);
+            props.setUi('edit');
+        } else {
+            setFail('Failed to create competition.');
+        }
     }
 
     return (
         <>
             <h1>Create a competition</h1>
+            {fail && <p>{fail}</p>}
             <form onSubmit={e => e.preventDefault()}>
-                <input ref={nameRef} type='text' placeholder='Competition name' />
+                <input ref={nameRef} type='text' placeholder='Competition name' autoFocus />
                 <input ref={dateRef} type='date' defaultValue={currDate} />
                 <button onClick={() => addComp()}>Create</button>
             </form>
