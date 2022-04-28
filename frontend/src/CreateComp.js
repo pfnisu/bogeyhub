@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 import {request} from './index';
 
 export const CreateComp = (props) => {
-    const [fail, setFail] = React.useState(null);
     const nav = useNavigate();
     const dateRef = React.createRef();
     const nameRef = React.createRef();
@@ -27,14 +26,13 @@ export const CreateComp = (props) => {
             nav('/admin/' + resp.id);
             props.setUi('edit');
         } else {
-            setFail('Failed to create competition.');
+            props.setFail('Failed to create competition.');
         }
     }
 
     return (
         <>
             <h1>Create a competition</h1>
-            {fail && <p>{fail}</p>}
             <form onSubmit={e => e.preventDefault()}>
                 <input ref={nameRef} type='text' placeholder='Competition name' autoFocus />
                 <input ref={dateRef} type='date' defaultValue={currDate} />

@@ -9,6 +9,7 @@ export const Admin = (props) => {
     // UI mode: create, edit
     const [ui, setUi] = React.useState('create');
     const [competition, setCompetition] = React.useState({});
+    const [fail, setFail] = React.useState(null);
     const params = useParams();
 
     const dateRef = React.createRef();
@@ -42,7 +43,8 @@ export const Admin = (props) => {
 
     return (
         <>
-            {ui === 'create' && <CreateComp path={props.path} setUi={setUi} />}
+            {fail && <p className='error'>{fail}</p>}
+            {ui === 'create' && <CreateComp path={props.path} setUi={setUi} setFail={setFail} />}
             {ui === 'edit' && <>
                 <h1>Edit competition: {competition.name}</h1>
                 <form onSubmit={e => e.preventDefault()}>
