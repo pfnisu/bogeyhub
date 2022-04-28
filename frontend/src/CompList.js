@@ -9,9 +9,8 @@ export const CompList = (props) => {
     // GET competitions from backend to state array at component mount
     React.useEffect(() => {
         (async () => {
-            let resp = await fetch(props.path);
-            let json = await resp.json();
-            setCompetitions([...json]);
+            let resp = await request(props.path);
+            setCompetitions([...resp]);
         })();
     }, []);
 

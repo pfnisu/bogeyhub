@@ -8,9 +8,8 @@ export const ScoreTable = (props) => {
     // GET results for compId
     React.useEffect(() => {
         (async () => {
-            let resp = await fetch(props.path + 'result/' + props.id);
-            let json = await resp.json();
-            setResults(json);
+            let resp = await request(props.path + 'result/' + props.id);
+            setResults(resp);
         })();
     }, []);
 

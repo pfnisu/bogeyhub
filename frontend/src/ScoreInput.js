@@ -10,14 +10,13 @@ export const ScoreInput = (props) => {
     // GET competition with compId from backend at component mount
     React.useEffect(() => {
         (async () => {
-            let resp = await fetch(props.path + params.compId);
-            let json = await resp.json();
-            setCompetition(json);
+            let resp = await request(props.path + params.compId);
+            setCompetition(resp);
         })();
     }, []);
     return (
         <>
-            <h1>{competition.name}</h1>
+            <h2>Score input</h2>
         </>
     );
 };
