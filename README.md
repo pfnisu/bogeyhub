@@ -4,11 +4,19 @@
 
 Disc golf scoring and competition organizing app.
 
+## App URL
+
+App is deployed to Heroku: <dg-scoring.heroku.com>
+
 ## Author
 
 Niko Suoniemi <niko.suoniemi@tuni.fi>
 
 ## Releases
+
+### 0.1.1
+
+* Added Heroku deployment
 
 ### 0.1.0
 
