@@ -6,7 +6,7 @@ Disc golf scoring and competition organizing app.
 
 ## App URL
 
-App is deployed to Heroku: <dg-scoring.heroku.com>
+App is deployed to Heroku: <https://dg-scoring.herokuapp.com>
 
 ## Author
 
