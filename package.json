@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "heroku": "^7.60.2",
     "nodemon": "^2.0.15"
   }
 }
