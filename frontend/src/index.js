@@ -20,7 +20,8 @@ export const request = async (resource, method = 'GET', data = null) => {
             headers: { 'Content-type': 'application/json' },
             body: data && JSON.stringify(data)
         });
-        if (resp.ok && method === 'GET' || method === 'POST') return await resp.json();
+        if (resp.ok && resp.status != 204 &&
+            (method === 'GET' || method === 'POST')) return await resp.json();
     } catch(e) {
         console.log(method + ' request failed');
     }
