@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {request} from './index';
+import {request, path} from './index';
 
 export const Login = (props) => {
     // UI mode: login, create
@@ -75,7 +75,7 @@ export const Login = (props) => {
                     </form>
                 </>}
                 {props.user !== '' && <>
-                    <h1>User profile: {props.user}</h1>
+                    <h1>User profile: {props.user.name}</h1>
                     <button className='right' onClick={() => login()}>Logout</button>
                     <p>User id:</p>
                     <p>Age:</p>

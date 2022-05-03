@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Register} from './Register';
-import {request} from './index';
+import {request, path} from './index';
 
 export const CompList = (props) => {
     const [competitions, setCompetitions] = React.useState([]);
@@ -10,7 +10,7 @@ export const CompList = (props) => {
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
-            let resp = await request(props.path);
+            let resp = await request(path.comp);
             resp ? setCompetitions([...resp]) : props.setErr('Loading competitions failed');
         })();
     }, []);
@@ -22,7 +22,7 @@ export const CompList = (props) => {
                 {competitions.length === 0
                     ? <li>Loading...</li>
                     : competitions.map(c =>
-                        <Register user={props.user} comp={c} key={c.id} />)}
+                        <Register user={props.user} comp={c} key={c.id} setErr={props.setErr} />)}
             </ul>
         </>
     );

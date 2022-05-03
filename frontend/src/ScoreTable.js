@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {request} from './index';
+import {request, path} from './index';
 
 export const ScoreTable = (props) => {
     const [results, setResults] = React.useState([]);
@@ -9,7 +9,7 @@ export const ScoreTable = (props) => {
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
-            let resp = await request(props.path + 'result/' + props.id);
+            let resp = await request(path.comp + 'result/' + props.id);
             resp ? setResults(resp) : props.setErr('Loading results failed');
         })();
     }, []);

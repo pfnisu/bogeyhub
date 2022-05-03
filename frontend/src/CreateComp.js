@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {useNavigate} from 'react-router-dom';
-import {request} from './index';
+import {request, path} from './index';
 
 export const CreateComp = (props) => {
     const nav = useNavigate();
@@ -19,11 +19,11 @@ export const CreateComp = (props) => {
             phase_id: 1,
         };
         // POST data to backend
-        let resp = await request(props.path, 'POST', data);
+        let resp = await request(path.admin, 'POST', data);
 
         // If POST succeeded, navigate to new compId and show edit view
         if (resp) {
-            nav('/admin/' + resp.id);
+            nav(path.admin + resp.id);
             props.setUi('edit');
         } else {
             props.setErr('Failed to create competition');

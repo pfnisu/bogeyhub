@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {useParams} from 'react-router-dom';
-import {request} from './index';
+import {request, path} from './index';
 
 export const Groups = (props) => {
     const [groups, setGroups] = React.useState([]);
@@ -11,7 +11,7 @@ export const Groups = (props) => {
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
-            let resp = await request(props.path + 'group/' + params.compId);
+            let resp = await request(path.comp + 'group/' + params.compId);
             resp ? setGroups(resp) : props.setErr('Loading groups failed');
         })();
     }, []);

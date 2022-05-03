@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
 import {useParams} from 'react-router-dom';
-import {request} from './index';
+import {request, path} from './index';
 
 // Creating competitions is limited to admin
 export const Admin = (props) => {
@@ -19,7 +19,7 @@ export const Admin = (props) => {
     const getComp = async () => {
         props.setErr(null);
         if (params.compId == undefined) return false;
-        let resp = await request(props.getPath + params.compId);
+        let resp = await request(path.comp + params.compId);
 
         // Format start_date for default form value
         resp.start_date = resp.start_date.split('T')[0];
@@ -40,9 +40,10 @@ export const Admin = (props) => {
             phase_id: 1,
         };
         // PATCH data to backend
-        await request(props.path + params.compId, 'PATCH', data);
+        await request(path.comp + params.compId, 'PATCH', data);
     }
 
+    // TODO show save success/fail in ui (spinner/ checkmark in button)
     return (
         <>
             {ui === 'create' &&

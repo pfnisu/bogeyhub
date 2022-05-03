@@ -4,7 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import {ScoreTable} from './ScoreTable';
 import {ScoreInput} from './ScoreInput';
 import {Groups} from './Groups';
-import {request} from './index';
+import {request, path} from './index';
 
 export const Competition = (props) => {
     // UI mode: results, info, registrations, groups, input
@@ -16,7 +16,7 @@ export const Competition = (props) => {
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
-            let resp = await request(props.path + params.compId);
+            let resp = await request(path.comp + params.compId);
             resp ?  setCompetition(resp) : props.setErr('Loading competition failed');
         })();
     }, []);
@@ -46,19 +46,19 @@ export const Competition = (props) => {
                 </button>
             }
             {ui === 'results' && <>
-                <ScoreTable path={props.path} id={params.compId} setErr={props.setErr} />
+                <ScoreTable id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'info' && <>
                 <p>{competition.info}</p>
             </>}
             {ui === 'registrations' && <>
-                <Groups path={props.path} id={params.compId} setErr={props.setErr} />
+                <Groups id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'groups' && <>
-                <Groups path={props.path} id={params.compId} setErr={props.setErr} />
+                <Groups id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'input' && <>
-                <ScoreInput path={props.path} id={params.compId} setErr={props.setErr} />
+                <ScoreInput id={params.compId} setErr={props.setErr} />
             </>}
         </>
     );
