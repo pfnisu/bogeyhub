@@ -4,6 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import {ScoreTable} from './ScoreTable';
 import {ScoreInput} from './ScoreInput';
 import {Groups} from './Groups';
+import {RegList} from './RegList';
 import {request, path} from './index';
 
 export const Competition = (props) => {
@@ -52,7 +53,7 @@ export const Competition = (props) => {
                 <p>{competition.info}</p>
             </>}
             {ui === 'registrations' && <>
-                <Groups id={params.compId} setErr={props.setErr} />
+                <RegList id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'groups' && <>
                 <Groups id={params.compId} setErr={props.setErr} />
