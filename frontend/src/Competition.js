@@ -7,7 +7,7 @@ import {Groups} from './Groups';
 import {request} from './index';
 
 export const Competition = (props) => {
-    // UI mode: results, info, input, groups
+    // UI mode: results, info, registrations, groups, input
     const [ui, setUi] = React.useState('results');
     const [competition, setCompetition] = React.useState({});
     const params = useParams();
@@ -20,58 +20,45 @@ export const Competition = (props) => {
             resp ?  setCompetition(resp) : props.setErr('Loading competition failed');
         })();
     }, []);
+
+    // Handle ui mode change
+    const focus = (ev, ui) => {
+        // Remove .sel from previous focus and add it to clicked one
+        document.querySelector('.sel').classList.remove('sel');
+        ev.target.classList.add('sel');
+        setUi(ui);
+    };
+
     return (
         <>
             <h1>{competition.name}</h1>
-            {ui === 'results' && <>
-                <button className='sel' onClick={() => setUi('results')}>
-                    &#9733; Results
+            <button className='sel' onClick={(ev) => focus(ev, 'results')}>
+                &#9733; Results
+            </button>
+            <button onClick={(ev) => focus(ev, 'info')}>&#8505; Info</button>
+            <button onClick={(ev) => focus(ev, 'registrations')}>
+                &#119558; Registrations
+            </button>
+            <button onClick={(ev) => focus(ev, 'groups')}>&#9776; Groups</button>
+            {props.user !== '' &&
+                <button className='right' onClick={(ev) => focus(ev, 'input')}>
+                    &#9998; Input scores
                 </button>
-                <button onClick={() => setUi('info')}>&#8505; View info</button>
-                <button onClick={() => setUi('groups')}>&#119558; View groups</button>
-                {props.user !== '' &&
-                    <button className='right' onClick={() => setUi('input')}>
-                        &#9998; Input scores
-                    </button>
-                }
+            }
+            {ui === 'results' && <>
                 <ScoreTable path={props.path} id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'info' && <>
-                <button onClick={() => setUi('results')}>&#9733; Results</button>
-                <button className='sel' onClick={() => setUi('info')}>
-                    &#8505; View info
-                </button>
-                <button onClick={() => setUi('groups')}>&#119558; View groups</button>
-                {props.user !== '' &&
-                    <button className='right' onClick={() => setUi('input')}>
-                        &#9998; Input scores
-                    </button>
-                }
                 <p>{competition.info}</p>
             </>}
-            {ui === 'input' && <>
-                <button onClick={() => setUi('results')}>&#9733; Results</button>
-                <button onClick={() => setUi('info')}>&#8505; View info</button>
-                <button onClick={() => setUi('groups')}>&#119558; View groups</button>
-                {props.user !== '' &&
-                    <button className='sel right' onClick={() => setUi('input')}>
-                        &#9998; Input scores
-                    </button>
-                }
-                <ScoreInput path={props.path} id={params.compId} setErr={props.setErr} />
+            {ui === 'registrations' && <>
+                <Groups path={props.path} id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'groups' && <>
-                <button onClick={() => setUi('results')}>&#9733; Results</button>
-                <button onClick={() => setUi('info')}>&#8505; View info</button>
-                <button className='sel' onClick={() => setUi('groups')}>
-                    &#119558; View groups
-                </button>
-                {props.user !== '' &&
-                    <button className='right' onClick={() => setUi('input')}>
-                        &#9998; Input scores
-                    </button>
-                }
                 <Groups path={props.path} id={params.compId} setErr={props.setErr} />
+            </>}
+            {ui === 'input' && <>
+                <ScoreInput path={props.path} id={params.compId} setErr={props.setErr} />
             </>}
         </>
     );
