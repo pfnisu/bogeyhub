@@ -35,6 +35,23 @@ module.exports = {
             );
         });
     },
+    // Get registrations for a competition
+    registrationsById: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select time, division.name as division, user.name as user from registration ' +
+                'inner join user on user.id = registration.user_id ' +
+                'inner join division on division.id = registration.division_id ' +
+                'where competition_id = ?',
+                [id],
+                (err, res) => {
+                    console.log(err);
+                    if (err) reject('DB query failed.\n' + err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
     // Get groups for a round
     groupsById: (id) => {
         return new Promise((resolve, reject) => {

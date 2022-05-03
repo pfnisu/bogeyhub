@@ -51,6 +51,17 @@ competition.get('/result/:id([0-9]+)', async (req, res) => {
     }
 });
 
+// Get registrations for competition id
+competition.get('/registrations/:id([0-9]+)', async (req, res) => {
+    try {
+        let result = await db.registrationsById(req.params.id);
+        if (result) res.status(200).send(result);
+        else res.status(404).send('Id not found');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 // Get groups for competition id
 competition.get('/group/:id([0-9]+)', async (req, res) => {
     try {
