@@ -20,8 +20,10 @@ export const request = async (resource, method = 'GET', data = null) => {
             headers: { 'Content-type': 'application/json' },
             body: data && JSON.stringify(data)
         });
+        // Parse as json if expected, else return bool
         if (resp.ok && resp.status != 204 &&
             (method === 'GET' || method === 'POST')) return await resp.json();
+        return resp.ok;
     } catch(e) {
         console.log(method + ' request failed');
     }
@@ -29,7 +31,7 @@ export const request = async (resource, method = 'GET', data = null) => {
 
 const App = () => {
     // Active user account
-    const [user, setUser] = React.useState('');
+    const [user, setUser] = React.useState({name: '', id: null});
     // App-wide error message
     const [err, setErr] = React.useState(null);
 
@@ -40,8 +42,8 @@ const App = () => {
         <BrowserRouter>
             <nav>
                 <NavLink to='/'>Disc golf scoring</NavLink>
-                {user === 'admin' && <NavLink to='/admin'>Admin</NavLink>}
-                <NavLink to='/login'>{user ? 'Logged in as ' + user : 'Login'}</NavLink>
+                {user.name === 'admin' && <NavLink to='/admin'>Admin</NavLink>}
+                <NavLink to='/login'>{user.name ? 'User: ' + user.name : 'Login'}</NavLink>
             </nav>
             <main>
                 {err && <p className='error'>{err}</p>}
