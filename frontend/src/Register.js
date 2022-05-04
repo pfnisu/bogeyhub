@@ -1,44 +1,72 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
+import {request, path} from './index';
 
 export const Register = (props) => {
     // UI mode: initial, register, info
     const [ui, setUi] = React.useState('initial');
+    const divRef = React.createRef();
 
     // Make comp title into a link to comp view
-    let title = <Link to={'/competition/' + props.comp.id}>{props.comp.name}</Link>;
+    let title = <Link to={path.comp + props.comp.id}>{props.comp.name}</Link>;
+    let division = '';
+    if (props.user.sex === 'male') division = 'MPO';
+    else if (props.user.sex === 'female') division = 'FPO';
+
+    // Add user to registration list
+    const addReg = async () => {
+        let data = {
+            user_id: props.user.id,
+            competition_id: props.comp.id,
+            division: divRef.current.value,
+        };
+        // POST data to backend
+        let resp = await request(path.user + 'register/' + props.comp.id, 'POST', data);
+
+        // Show err if POST failed
+        if (!resp) props.setErr('Failed to register');
+    }
+
+    // Handle ui mode change
+    const focus = (ev, ui) => {
+        // Remove .sel from previous focus and add it to clicked one
+        ev.target.parentNode.querySelector('.sel')?.classList.remove('sel');
+        ev.target.classList.add('sel');
+        setUi(ui);
+    };
 
     return (
         <li className={props.comp.phase}>
-            {props.user === 'admin' &&
+            {props.user.name === 'admin' &&
                 <Link to={'/admin/' + props.comp.id}>
-                    <button onClick={() => setUi('admin')}>&#9881; Admin</button>
+                    <button>&#9881; Admin</button>
                 </Link>}
-            {props.user !== '' &&
-                <button onClick={() => setUi('register')}>&#119558; Register</button>}
-            {ui === 'initial' && <>
-                <button onClick={() => setUi('info')}>&#8505; View info</button>
-                <h2>{title}</h2>
-            </>}
-            {ui === 'register' && <>
-                <button onClick={() => setUi('initial')}>Cancel</button>
-                <button onClick={() => setUi('info')}>&#8505; View info</button>
-                <h2>{title}</h2>
-            </>}
-            {ui === 'info' && <>
-                <button onClick={() => setUi('initial')}>Hide info</button>
-                <h2>{title}</h2>
-                <span>{props.comp.info}</span>
-            </>}
+            {props.user.name !== '' &&
+                <button onClick={(ev) => focus(ev, 'register')}>&#119558; Register</button>}
+            <button onClick={(ev) => focus(ev, 'info')}>&#8505; Info</button>
+            <h2>{title}</h2>
             <span>
                 {new Date(props.comp.start_date).toJSON().split('T')[0]}
                 {props.comp.end_date
                     ?  ' - ' + new Date(props.comp.end_date).toJSON().split('T')[0]
                     : ''}
-                , {props.comp.venue}
-                , {props.comp.phase}
             </span>
+            {ui === 'register' && <>
+                <p>Register to division:</p>
+                <form onSubmit={e => e.preventDefault()}>
+                    <select ref={divRef} defaultValue={props.user.sex}>
+                        <option value='' disabled hidden>Division</option>
+                        <option value='MPO'>MPO</option>
+                        <option value='FPO'>FPO</option>
+                    </select>
+                    <button onClick={() => addReg()}>&#10003; OK</button>
+                </form>
+            </>}
+            {ui === 'info' && <>
+                <p>Venue: {props.comp.venue}</p>
+                <p>Info: {props.comp.info}</p>
+            </>}
         </li>
     );
 };
