@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Routes, Route, NavLink} from 'react-router-dom';
 import {Admin} from './Admin';
 import {CompList} from './CompList';
@@ -36,7 +36,7 @@ const App = () => {
     const [err, setErr] = React.useState(null);
 
     // Set title
-    React.useEffect(() => document.title = 'Disc golf scoring', []);
+    React.useEffect(() => { document.title = 'Disc golf scoring' }, []);
 
     return (
         <BrowserRouter>
@@ -69,7 +69,4 @@ const App = () => {
     );
 };
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);

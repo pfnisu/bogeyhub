@@ -28,7 +28,7 @@ export const Admin = (props) => {
     }
 
     // GET competition with compId at component mount
-    React.useEffect(() => getComp(), []);
+    React.useEffect(() => { getComp() }, []);
 
     // PATCH competition with edited data
     const editComp = async () => {
