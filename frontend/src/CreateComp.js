@@ -24,6 +24,7 @@ export const CreateComp = (props) => {
         // If POST succeeded, navigate to new compId and show edit view
         if (resp) {
             nav(path.admin + resp.id);
+            props.setCompetition(data);
             props.setUi('edit');
         } else {
             props.setErr('Failed to create competition');
