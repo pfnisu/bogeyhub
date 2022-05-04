@@ -6,7 +6,7 @@ import {request, path} from './index';
 
 // Creating competitions is limited to admin
 export const Admin = (props) => {
-    // UI mode: create, edit
+    // UI mode: create, edit, delete
     const [ui, setUi] = React.useState('create');
     const [competition, setCompetition] = React.useState({});
     const params = useParams();
@@ -23,13 +23,12 @@ export const Admin = (props) => {
 
         // Format start_date for default form value
         resp.start_date = resp.start_date.split('T')[0];
-        resp ? setCompetition(resp) : setErr('Loading competition failed');
+        resp ? setCompetition(resp) : props.setErr('Loading competition failed');
         setUi('edit');
     }
 
-    // GET competition with compId at component mount and when ui mode changes
+    // GET competition with compId at component mount
     React.useEffect(() => getComp(), []);
-    React.useEffect(() => getComp(), [ui]);
 
     // PATCH competition with edited data
     const editComp = async () => {
@@ -39,17 +38,28 @@ export const Admin = (props) => {
             info: infoRef.current.value,
             phase_id: 1,
         };
-        // PATCH data to backend
-        await request(path.comp + params.compId, 'PATCH', data);
+
+        await request(path.admin + params.compId, 'PATCH', data);
+    }
+
+    // DELETE competition
+    const delComp = async () => {
+        props.setErr(null);
+        if (params.compId == undefined) return false;
+        let resp = await request(path.admin + params.compId, 'DELETE');
+
+        resp ? setUi('create') : props.setErr('Deletion failed');
     }
 
     // TODO show save success/fail in ui (spinner/ checkmark in button)
     return (
         <>
             {ui === 'create' &&
-                <CreateComp path={props.path} setUi={setUi} setErr={props.setErr} />}
+                <CreateComp setCompetition={setCompetition} setUi={setUi} setErr={props.setErr} />}
             {ui === 'edit' && <>
                 <h1>Edit competition: {competition.name}</h1>
+                <button>Create rounds and groups</button>
+                <button className='right' onClick={() => setUi('delete')}>&#10005; Delete competition</button>
                 <form onSubmit={e => e.preventDefault()}>
                     <label>Name:</label>
                     <input ref={nameRef} type='text' defaultValue={competition.name} />
@@ -61,6 +71,11 @@ export const Admin = (props) => {
                     <textarea ref={infoRef} defaultValue={competition.info} />
                     <button onClick={() => editComp()}>Save changes</button>
                 </form>
+            </>}
+            {ui === 'delete' && <>
+                <h1>Delete competition: {competition.name}</h1>
+                <button onClick={() => delComp()}>&#10005; Confirm deletion</button>
+                <button className='right' onClick={() => setUi('edit')}>Cancel</button>
             </>}
         </>
 
