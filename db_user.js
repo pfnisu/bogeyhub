@@ -30,6 +30,19 @@ module.exports = {
             );
         });
     },
+    // Return true if deleted, false if no rows affected
+    deleleReg: (uid, cid) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'delete from registration where user_id = ? and competition_id = ?',
+                [uid, cid],
+                (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.affectedRows !== 0);
+                }
+            );
+        });
+    },
     // Return an array of competition objects, can be empty
     findRegistrations: (id) => {
         return new Promise((resolve, reject) => {
