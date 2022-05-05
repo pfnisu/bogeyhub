@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {request, path} from './index';
 
 export const Register = (props) => {
-    // UI mode: initial, register, info
+    // UI mode: initial, register, unregister, info
     const [ui, setUi] = React.useState('initial');
     const divRef = React.createRef();
 
@@ -27,7 +27,6 @@ export const Register = (props) => {
         props.setErr(null);
         let data = {
             user_id: props.user.id,
-            competition_id: props.comp.id,
             division: divRef.current.value,
         };
         // POST data to backend
@@ -37,14 +36,29 @@ export const Register = (props) => {
         resp ? focus(ev, 'initial') : props.setErr('Failed to register');
     }
 
+    // Remove registration for current user
+    const removeReg = async (ev) => {
+        props.setErr(null);
+        let data = {
+            user_id: props.user.id,
+        };
+        // POST data to backend
+        let resp = await request(path.user + 'unregister/' + props.comp.id, 'DELETE', data);
+
+        // Show err if POST failed
+        resp ? focus(ev, 'initial') : props.setErr('Failed to unregister');
+    }
+
     return (
         <li className={props.comp.phase}>
             {props.user.name === 'admin' &&
                 <Link to={'/admin/' + props.comp.id}>
                     <button>&#9881; Admin</button>
                 </Link>}
-            {props.user.name !== '' &&
+            {props.user.name !== '' && !props.reg &&
                 <button onClick={(ev) => focus(ev, 'register')}>&#119558; Register</button>}
+            {props.user.name !== '' && props.reg &&
+                <button onClick={(ev) => focus(ev, 'unregister')}>&#10005; Remove registration</button>}
             <button onClick={(ev) => focus(ev, 'info')}>&#8505; Info</button>
             <h2>{title}</h2>
             <span>
@@ -62,6 +76,12 @@ export const Register = (props) => {
                         <option value='FPO'>FPO</option>
                     </select>
                     <button onClick={(ev) => addReg(ev)}>&#10003; OK</button>
+                </form>
+            </>}
+            {ui === 'unregister' && <>
+                <p>Remove registration:</p>
+                <form onSubmit={e => e.preventDefault()}>
+                <button onClick={(ev) => removeReg(ev)}>&#10005; Confirm removal</button>
                 </form>
             </>}
             {ui === 'info' && <>
