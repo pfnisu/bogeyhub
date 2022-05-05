@@ -34,16 +34,11 @@ module.exports = {
     findRegistrations: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select competition.id, start_date, end_date, ' +
-                'competition.name, venue, max_users, competition.info, ' +
-                'phase.name as phase from competition ' +
-                'inner join phase on phase.id = competition.phase_id ' +
-                'inner join registration on competition.id = registration.competition_id ' +
+                'select competition_id as id from registration ' +
                 'inner join user on user.id = registration.user_id ' +
                 'where user.id = ?',
                 [id],
                 (err, res) => {
-                    console.log(res);
                     if (err) reject(err);
                     else resolve(res);
                 }
