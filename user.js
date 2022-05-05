@@ -4,6 +4,17 @@ const regSchema = require('./schema.js').registration;
 const user = require('express').Router();
 const validate = require('jsonschema').validate;
 
+// Get registrations by user id
+user.get('/:id([0-9]+)', async (req, res) => {
+    try {
+        let result = await db.findRegistrations(req.params.id);
+        if (result) res.status(200).send(result);
+        else res.status(404).send('Id not found');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 // Login
 user.post('/login', async (req, res) => {
     // Return 400 Bad Request if invalid user data
