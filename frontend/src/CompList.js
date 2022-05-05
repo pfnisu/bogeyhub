@@ -6,6 +6,7 @@ import {request, path} from './index';
 export const CompList = (props) => {
     const [competitions, setCompetitions] = React.useState([]);
     const [myComps, setMyComps] = React.useState([]);
+    const [allComps, setAllComps] = React.useState([]);
 
     // GET competitions from backend to state array at component mount
     React.useEffect(() => {
@@ -13,21 +14,27 @@ export const CompList = (props) => {
             props.setErr(null);
             let resp = await request(path.comp);
             resp ? setCompetitions([...resp]) : props.setErr('Loading competitions failed');
+        })();
+    }, []);
 
-            // GET comps where active user is registered
+    // GET comp id's where active user is registered and split list
+    React.useEffect(() => {
+        (async () => {
+            props.setErr(null);
             if (props.user.name !== '') {
                 let resp = await request(path.user + props.user.id);
                 if (resp) {
-                    setMyComps([...resp]);
-
-                    // Filter out competitions where user is registered
-                    setCompetitions(competitions.filter((el) =>
-                        myComps.findIndex((my) => my.id === el.id) === -1
-                    ));
+                    let my = [];
+                    let all = [];
+                    competitions.forEach((comp) => {
+                        resp.find((el) => el.id === comp.id) ? my.push(comp) : all.push(comp);
+                    });
+                    setMyComps([...my]);
+                    setAllComps([...all]);
                 } else props.setErr('Loading my competitions failed');
-            }
+            } else setAllComps(competitions);
         })();
-    }, []);
+    }, [competitions]);
 
     return (
         <>
@@ -38,14 +45,14 @@ export const CompList = (props) => {
                     {myComps.length === 0
                         ? <li>No registrations</li>
                         : myComps.map(c =>
-                            <Register user={{name:'',id:null}} comp={c} key={c.id} setErr={props.setErr} />)}
+                            <Register reg={true} user={props.user} comp={c} key={c.id} setErr={props.setErr} />)}
                 </ul>
             </>}
             <h2>Open registrations</h2>
             <ul>
-                {competitions.length === 0
+                {allComps.length === 0
                     ? <li>No available competitions</li>
-                    : competitions.map(c =>
+                    : allComps.map(c =>
                         <Register user={props.user} comp={c} key={c.id} setErr={props.setErr} />)}
             </ul>
         </>
