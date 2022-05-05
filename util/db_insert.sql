@@ -7,6 +7,9 @@ INSERT INTO role(name) VALUES
     ('admin'),
     ('td'),
     ('user');
+INSERT INTO division(name) VALUES
+    ('MPO'),
+    ('FPO');
 INSERT INTO user(name, password, role_id) VALUES
     ('admin', 'admin', 1),
     ('Test Player', 'password', 3);
@@ -19,9 +22,9 @@ INSERT INTO phase(name) VALUES
 INSERT INTO competition(start_date, name, info, phase_id) VALUES
     ('2022-05-01', 'Test competition', 'Info text', 1),
     ('2022-05-02', 'Test phase 2', 'Info text 2', 2);
-INSERT INTO registration(user_id, competition_id) VALUES
-    (1, 1),
-    (2, 2);
+INSERT INTO registration(division_id, user_id, competition_id) VALUES
+    (1, 1, 1),
+    (1, 2, 2);
 INSERT INTO course(name, holes) VALUES
     ('Testirata', 9);
 INSERT INTO round(date, competition_id) VALUES

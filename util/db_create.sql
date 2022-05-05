@@ -52,11 +52,19 @@ CREATE TABLE competition (
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+CREATE TABLE division (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
+);
+
 CREATE TABLE registration (
     time TIMESTAMP DEFAULT now(),
+    division_id INT NOT NULL,
     user_id INT NOT NULL,
     competition_id INT NOT NULL,
     PRIMARY KEY(user_id, competition_id),
+    FOREIGN KEY(division_id) REFERENCES division(id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY(user_id) REFERENCES user(id)
         ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY(competition_id) REFERENCES competition(id)
