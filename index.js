@@ -1,5 +1,6 @@
 const competition = require('./competition.js');
 const admin = require('./admin.js');
+const user = require('./user.js');
 const express = require('express');
 
 const app = express();
@@ -17,6 +18,7 @@ const port = process.env.PORT || 8080;
         app.use('/competition', competition);
         // TODO authenticate /admin requests
         app.use('/admin', admin);
+        app.use('/user', user);
 
         const server = app.listen(port, () => {
             console.log('Listening on port ' + port);
