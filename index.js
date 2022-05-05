@@ -14,11 +14,17 @@ const port = process.env.PORT || 8080;
             res.header('Access-Control-Allow-Origin', '*');
             next();
         });
+
         app.use(express.static('frontend/build'));
-        app.use('/competition', competition);
-        // TODO authenticate /admin requests
-        app.use('/admin', admin);
-        app.use('/user', user);
+        // Delegate frontend routing (handled by react-router)
+        app.use(
+            ['/admin/*', '/competition/*', '/login/'],
+            express.static('frontend/build')
+        );
+
+        app.use('/backend/competition', competition);
+        app.use('/backend/admin', admin); // TODO authenticate /admin requests
+        app.use('/backend/user', user);
 
         const server = app.listen(port, () => {
             console.log('Listening on port ' + port);

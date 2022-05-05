@@ -15,7 +15,7 @@ export const path = {
 };
 export const request = async (resource, method = 'GET', data = null) => {
     try {
-        let resp = await fetch(resource, {
+        let resp = await fetch('/backend' + resource, {
             method: method,
             headers: { 'Content-type': 'application/json' },
             body: data && JSON.stringify(data)
