@@ -5,7 +5,7 @@ import {request, path} from './index';
 export const Login = (props) => {
     // UI mode: login, create
     const [ui, setUi] = React.useState('login');
-    const userRef = React.createRef();
+    const nameRef = React.createRef();
     const pwRef = React.createRef();
     const repwRef = React.createRef();
     const sexRef = React.createRef();
@@ -13,25 +13,46 @@ export const Login = (props) => {
 
     // Try to login with given credentials
     const login = async () => {
+        props.setErr(null);
+        nameRef.current.classList.remove('error');
+        pwRef.current.classList.remove('error');
+        // Name and password can't be empty
+        if (!nameRef.current.value) {
+            nameRef.current.classList.add('error');
+            return false;
+        }
+        if (!pwRef.current.value) {
+            pwRef.current.classList.add('error');
+            return false;
+        }
+
         let credentials = {
-            // Optional chaining for logout
-            user: userRef?.current?.value || '',
-            password: pwRef?.current?.value || '',
+            name: nameRef.current.value,
+            password: pwRef.current.value,
         };
         // POST data to backend
-        //await request(path, credentials);
-        props.setUser(credentials.user);
+        let resp = await request(path.user + 'login/', 'POST', credentials);
+        // Set user to response value if success
+        resp ? props.setUser(resp) : props.setErr('Invalid login');
+    }
+
+    // Set user to empty
+    const logout = async () => {
+        props.setUser({
+            name: '',
+            id: null,
+        });
     }
 
     // POST new account
     const createAccount = async () => {
-        userRef.current.classList.remove('error');
+        nameRef.current.classList.remove('error');
         pwRef.current.classList.remove('error');
         repwRef.current.classList.remove('error');
         // Username can't be empty
-        if (!userRef.current.value) {
-            userRef.current.value = '';
-            userRef.current.classList.add('error');
+        if (!nameRef.current.value) {
+            nameRef.current.value = '';
+            nameRef.current.classList.add('error');
             return false;
         }
         // Passwords have to match and can't be empty
@@ -43,16 +64,14 @@ export const Login = (props) => {
             return false;
         }
         let credentials = {
-            user: userRef.current.value,
+            name: nameRef.current.value,
             password: pwRef.current.value,
         };
         // POST data to backend
-        console.log(props.path);
-        console.log(credentials);
-        //await request(path, credentials);
+        let resp = await request(path.user + 'create/', 'POST', credentials);
 
         // Login as the created user and re-set ui
-        props.setUser(credentials.user);
+        resp ? props.setUser(resp) : props.setErr('Account creation failed');
         setUi('login');
     }
 
@@ -60,31 +79,31 @@ export const Login = (props) => {
     const update = async () => {
     }
 
-    React.useEffect(() => props.setErr(null), []);
+    React.useEffect(() => { props.setErr(null) }, []);
+    React.useEffect(() => { props.setErr(null) }, [ui]);
 
     return (
         <>
             {ui === 'login' && <>
-                {props.user === '' && <>
+                {props.user.name === '' && <>
                     <h1>Login</h1>
                     <form onSubmit={e => e.preventDefault()}>
-                        <input ref={userRef} type='text' placeholder='User name' autoFocus />
+                        <input ref={nameRef} type='text' placeholder='User name' autoFocus />
                         <input ref={pwRef} type='password' placeholder='Password' />
                         <button onClick={() => login()}>Login</button>
                         <button onClick={() => setUi('create')}>Create account</button>
                     </form>
                 </>}
-                {props.user !== '' && <>
+                {props.user.name !== '' && <>
                     <h1>User profile: {props.user.name}</h1>
-                    <button className='right' onClick={() => login()}>Logout</button>
-                    <p>User id:</p>
+                    <button className='right' onClick={() => logout()}>Logout</button>
+                    <p>User id: {props.user.id}</p>
                     <p>Age:</p>
                     <p>Sex:</p>
                     <h2>Change your profile settings</h2>
                     <form onSubmit={e => e.preventDefault()}>
-                        <input ref={userRef} type='text' placeholder='Change user name' />
                         <input ref={pwRef} type='password' placeholder='Change password' />
-                        <input type='password' placeholder='Re-type new password' />
+                        <input ref={repwRef} type='password' placeholder='Re-type new password' />
                         <input ref={ageRef} type='number' placeholder='Age' />
                         <select ref={sexRef} defaultValue=''>
                             <option value=''>Sex</option>
@@ -98,7 +117,7 @@ export const Login = (props) => {
             {ui === 'create' && <>
                 <h1>Create account</h1>
                 <form onSubmit={e => e.preventDefault()}>
-                    <input ref={userRef} type='text' placeholder='User name' autoFocus />
+                    <input ref={nameRef} type='text' placeholder='User name' autoFocus />
                     <input ref={pwRef} type='password' placeholder='Password' />
                     <input ref={repwRef} type='password' placeholder='Re-type password' />
                     <button onClick={() => createAccount()}>Create account</button>
