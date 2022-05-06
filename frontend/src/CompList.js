@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Register} from './Register';
-import {request, path} from './index';
+import {request, path} from './util';
 
 export const CompList = (props) => {
     const [competitions, setCompetitions] = React.useState([]);
@@ -22,16 +22,13 @@ export const CompList = (props) => {
         (async () => {
             props.setErr(null);
             if (props.user.name !== '') {
-                let resp = await request(path.user + props.user.id);
-                if (resp) {
-                    let my = [];
-                    let all = [];
-                    competitions.forEach((comp) => {
-                        resp.find((el) => el.id === comp.id) ? my.push(comp) : all.push(comp);
-                    });
-                    setMyComps([...my]);
-                    setAllComps([...all]);
-                } else props.setErr('Loading my competitions failed');
+                let my = [];
+                let all = [];
+                competitions.forEach((comp) => {
+                    props.regs.find((el) => el.id === comp.id) ? my.push(comp) : all.push(comp);
+                });
+                setMyComps([...my]);
+                setAllComps([...all]);
             } else setAllComps(competitions);
         })();
     }, [competitions]);
