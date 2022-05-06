@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
-import {request, path} from './index';
+import {request, path, focus} from './util';
 
 export const Register = (props) => {
     // UI mode: initial, register, unregister, info
@@ -14,14 +14,6 @@ export const Register = (props) => {
     if (props.user.sex === 'male') division = 'MPO';
     else if (props.user.sex === 'female') division = 'FPO';
 
-    // Handle ui mode change
-    const focus = (ev, ui) => {
-        // Remove .sel from previous focus and add it to clicked one
-        ev.target.parentNode.querySelector('.sel')?.classList.remove('sel');
-        ev.target.classList.add('sel');
-        setUi(ui);
-    };
-
     // Add user to registration list
     const addReg = async (ev) => {
         props.setErr(null);
@@ -33,7 +25,7 @@ export const Register = (props) => {
         let resp = await request(path.user + 'register/' + props.comp.id, 'POST', data);
 
         // Show err if POST failed
-        resp ? focus(ev, 'initial') : props.setErr('Failed to register');
+        resp ? focus(ev, setUi('initial')) : props.setErr('Failed to register');
     }
 
     // Remove registration for current user
@@ -46,7 +38,7 @@ export const Register = (props) => {
         let resp = await request(path.user + 'unregister/' + props.comp.id, 'DELETE', data);
 
         // Show err if POST failed
-        resp ? focus(ev, 'initial') : props.setErr('Failed to unregister');
+        resp ? focus(ev, setUi('initial')) : props.setErr('Failed to unregister');
     }
 
     return (
@@ -56,10 +48,10 @@ export const Register = (props) => {
                     <button>&#9881; Admin</button>
                 </Link>}
             {props.user.name !== '' && !props.reg &&
-                <button onClick={(ev) => focus(ev, 'register')}>&#119558; Register</button>}
+                <button onClick={(ev) => focus(ev, setUi('register'))}>&#119558; Register</button>}
             {props.user.name !== '' && props.reg &&
-                <button onClick={(ev) => focus(ev, 'unregister')}>&#10005; Remove registration</button>}
-            <button onClick={(ev) => focus(ev, 'info')}>&#8505; Info</button>
+                <button onClick={(ev) => focus(ev, setUi('unregister'))}>&#10005; Unregister</button>}
+            <button onClick={(ev) => focus(ev, setUi('info'))}>&#8505; Info</button>
             <h2>{title}</h2>
             <span>
                 {new Date(props.comp.start_date).toJSON().split('T')[0]}
