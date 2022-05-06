@@ -47,6 +47,10 @@ h1 {
 	font-size:1.3em;
     border-bottom:1px solid #484c54;
 }
+li > h2 {
+    display:inline-block;
+    margin-right:8px;
+}
 h2,ul p {
 	font-size:1.1em;
 }
