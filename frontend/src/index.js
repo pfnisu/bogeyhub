@@ -5,38 +5,31 @@ import {Admin} from './Admin';
 import {CompList} from './CompList';
 import {Login} from './Login';
 import {Competition} from './Competition';
+import {request, path} from './util';
 import './index.css';
 
-export const path = {
-    admin:'/admin/',
-    comp:'/competition/',
-    reg:'/register/',
-    user:'/user/',
-};
-export const request = async (resource, method = 'GET', data = null) => {
-    try {
-        let resp = await fetch('/backend' + resource, {
-            method: method,
-            headers: { 'Content-type': 'application/json' },
-            body: data && JSON.stringify(data)
-        });
-        // Parse as json if expected, else return bool
-        if (resp.ok && resp.status != 204 &&
-            (method === 'GET' || method === 'POST')) return await resp.json();
-        return resp.ok;
-    } catch(e) {
-        console.log(method + ' request failed');
-    }
-};
-
+// Main component: routing, nav, error msgs
 const App = () => {
     // Active user account
     const [user, setUser] = React.useState({name: '', id: null});
+    // Competition id's where user is registered
+    const [regs, setRegs] = React.useState([]);
     // App-wide error message
     const [err, setErr] = React.useState(null);
 
     // Set title
     React.useEffect(() => { document.title = 'Disc golf scoring' }, []);
+
+    // Load regs when user changes
+    React.useEffect(() => {
+        (async () => {
+            setErr(null);
+            if (user.name !== '') {
+                let resp = await request(path.user + user.id);
+                resp ? setRegs(resp) : setErr('Loading registrations failed');
+            }
+        })();
+    }, [user]);
 
     return (
         <BrowserRouter>
@@ -49,7 +42,7 @@ const App = () => {
                 {err && <p className='error'>{err}</p>}
                 <Routes>
                     <Route path='/' element={
-                        <CompList user={user} setErr={setErr} />} />
+                        <CompList user={user} regs={regs} setErr={setErr} />} />
                     <Route path='admin/'>
                         <Route index element={
                             <Admin setErr={setErr} />} />
