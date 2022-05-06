@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {request, path} from './index';
+import {request, path} from './util';
 
 export const Login = (props) => {
     // UI mode: login, create

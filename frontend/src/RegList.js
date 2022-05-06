@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
 import {useParams} from 'react-router-dom';
-import {request, path} from './index';
+import {request, path} from './util';
 
 // List of registered users for a competition
 export const RegList = (props) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {useParams} from 'react-router-dom';
-import {request, path} from './index';
+import {request, path} from './util';
 
 export const ScoreInput = (props) => {
     const [competition, setCompetition] = React.useState({});

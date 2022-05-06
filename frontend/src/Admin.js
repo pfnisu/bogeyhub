@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
 import {useParams} from 'react-router-dom';
-import {request, path} from './index';
+import {request, path} from './util';
 
 // Creating competitions is limited to admin
 export const Admin = (props) => {

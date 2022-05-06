@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {useNavigate} from 'react-router-dom';
-import {request, path} from './index';
+import {request, path} from './util';
 
 export const CreateComp = (props) => {
     const nav = useNavigate();
