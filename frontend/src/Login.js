@@ -71,6 +71,7 @@ export const Login = (props) => {
         // Update state if success
         if (resp) {
             ev.target.classList.add('ok');
+            ev.target.innerHTML = '&#10003; Saved';
             props.setUser(state => {return {...state, ...credentials}});
         } else props.setErr('Saving failed');
     }

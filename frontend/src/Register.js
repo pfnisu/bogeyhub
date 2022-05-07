@@ -7,6 +7,7 @@ export const Register = (props) => {
     // UI mode: initial, register, unregister, info
     const [ui, setUi] = React.useState('initial');
     const divRef = React.createRef();
+    const regRef = React.createRef();
 
     // Make comp title into a link to comp view
     let title = <Link to={path.comp + props.comp.id}>{props.comp.name}</Link>;
@@ -27,6 +28,7 @@ export const Register = (props) => {
         // Add id to regs, or show err
         if (resp) {
             focus(ev, setUi('initial'));
+            regRef.current.innerHTML = '&#10003; Registered';
             props.setRegs(state => [...state, {id: props.comp.id}]);
         } else props.setErr('Failed to register');
     }
@@ -43,6 +45,7 @@ export const Register = (props) => {
         // Filter id from regs, or show err
         if (resp) {
             focus(ev, setUi('initial'));
+            regRef.current.innerHTML = '&#10003; Unregistered';
             props.setRegs(state => state.filter(comp => comp.id !== props.comp.id));
         } else props.setErr('Failed to unregister');
     }
@@ -54,9 +57,13 @@ export const Register = (props) => {
                     <button>&#9881; Edit</button>
                 </Link>}
             {props.user.name !== '' && !props.reg &&
-                <button onClick={(ev) => focus(ev, setUi('register'))}>&#119558; Register</button>}
+                <button ref={regRef} onClick={(ev) => focus(ev, setUi('register'))}>
+                    &#119558; Register
+                </button>}
             {props.user.name !== '' && props.reg &&
-                <button onClick={(ev) => focus(ev, setUi('unregister'))}>&#10005; Unregister</button>}
+                <button ref={regRef} onClick={(ev) => focus(ev, setUi('unregister'))}>
+                    &#10005; Unregister
+                </button>}
             <button onClick={(ev) => focus(ev, setUi('info'))}>&#8505; Info</button>
             <h2>{title}</h2>
             <span>

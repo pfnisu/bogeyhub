@@ -27,9 +27,7 @@ export const CreateComp = (props) => {
             nav(path.admin + resp.id);
             props.setCompetition(data);
             props.setUi('edit');
-        } else {
-            props.setErr('Failed to create competition');
-        }
+        } else props.setErr('Failed to create competition');
     }
 
     return (
