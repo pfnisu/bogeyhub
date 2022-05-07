@@ -24,8 +24,11 @@ export const Register = (props) => {
         // POST data to backend
         let resp = await request(path.user + 'register/' + props.comp.id, 'POST', data);
 
-        // Show err if POST failed
-        resp ? focus(ev, setUi('initial')) : props.setErr('Failed to register');
+        // Add id to regs, or show err
+        if (resp) {
+            focus(ev, setUi('initial'));
+            props.setRegs(state => [...state, {id: props.comp.id}]);
+        } else props.setErr('Failed to register');
     }
 
     // Remove registration for current user
@@ -37,15 +40,18 @@ export const Register = (props) => {
         // POST data to backend
         let resp = await request(path.user + 'unregister/' + props.comp.id, 'DELETE', data);
 
-        // Show err if POST failed
-        resp ? focus(ev, setUi('initial')) : props.setErr('Failed to unregister');
+        // Filter id from regs, or show err
+        if (resp) {
+            focus(ev, setUi('initial'));
+            props.setRegs(state => state.filter(comp => comp.id !== props.comp.id));
+        } else props.setErr('Failed to unregister');
     }
 
     return (
         <li className={props.comp.phase}>
-            {props.user.name === 'admin' &&
+            {props.user.role === 'admin' &&
                 <Link to={'/admin/' + props.comp.id}>
-                    <button>&#9881; Admin</button>
+                    <button>&#9881; Edit</button>
                 </Link>}
             {props.user.name !== '' && !props.reg &&
                 <button onClick={(ev) => focus(ev, setUi('register'))}>&#119558; Register</button>}
