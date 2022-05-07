@@ -4,7 +4,7 @@
 html,body {
 	background-color:#f6f5f4;
 	font-family:'Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
-	font:calc(12px + 0.5vw);
+	font-size:calc(12px + 0.3vw);
 	margin:0;
 }
 nav {
@@ -54,13 +54,9 @@ li > h2 {
 h2,ul p {
 	font-size:1.1em;
 }
-tr.score {
-    padding:4px;
-}
-tr.score td {
-    margin:4px;
+tr.score td,span.score {
 	border-radius:6px;
-    padding:4px 8px;
+    padding:4px;
 	background-color:#f6f5f4;
 }
 form {
@@ -85,7 +81,14 @@ input[type=checkbox] {
 	margin:0 4px 0 0;
 	vertical-align:5%;
 }
-select,button,input[type=number],ol span {
+span.score {
+    width:100%;
+}
+.score input[type=number] {
+    float:right;
+    margin:2px auto 4px;
+}
+select,button,ol span {
 	background:#f6f5f4;
 }
 ol span {
@@ -102,10 +105,14 @@ input:not([type=checkbox]):focus,textarea:focus,select:hover,button:hover,button
 	box-shadow:0 0 8px #61dafb;
 }
 .error {
-	outline:2px solid red;
+	outline:2px solid #f64c54;
 	border:1px solid #484c54;
 	border-radius:6px;
 	padding:8px;
+}
+.ok,.ok:hover {
+	outline:2px solid #61da54;
+	box-shadow:none;
 }
 select:active,button:active {
 	box-shadow:inset 1px 1px 1px #484c54;
@@ -140,7 +147,7 @@ li.registration, .important, tr.score td.important,button.sel {
 li form {
 	margin:0;
 }
-li button,li select,li label,.list {
+li button,li select,li label,.list,span.score {
 	padding:4px 8px;
 }
 li span,ol p {
@@ -148,7 +155,7 @@ li span,ol p {
 	font-size:0.9em;
 	margin:0 0 8px 0;
 }
-li button,button.right {
+li button,.right {
 	float:right;
 	margin:0 0 0 4px;
 }
