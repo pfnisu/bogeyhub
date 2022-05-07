@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Register} from './Register';
-import {request, path} from './util';
+import {request, path, focus} from './util';
 
 export const CompList = (props) => {
+    // UI mode: open, history, my
+    const [ui, setUi] = React.useState('open');
     const [competitions, setCompetitions] = React.useState([]);
     const [myComps, setMyComps] = React.useState([]);
-    const [allComps, setAllComps] = React.useState([]);
+    const [openComps, setOpenComps] = React.useState([]);
 
     // GET competitions from backend to state array at component mount
     React.useEffect(() => {
@@ -17,41 +19,52 @@ export const CompList = (props) => {
         })();
     }, []);
 
-    // GET comp id's where active user is registered and split list
+    // Sepatare comps where active user is registered
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
             if (props.user.name !== '') {
                 let my = [];
-                let all = [];
+                let open = [];
                 competitions.forEach((comp) => {
-                    props.regs.find((el) => el.id === comp.id) ? my.push(comp) : all.push(comp);
+                    props.regs.find((el) => el.id === comp.id) ? my.push(comp) : open.push(comp);
                 });
                 setMyComps([...my]);
-                setAllComps([...all]);
-            } else setAllComps(competitions);
+                setOpenComps([...open]);
+            } else setOpenComps(competitions);
         })();
-    }, [competitions]);
+    }, [competitions, ui]);
 
     return (
         <>
             <h1>Competitions</h1>
-            {props.user.name !== '' && <>
-                <h2>My registrations</h2>
+            <button className='sel' onClick={(ev) => focus(ev, setUi('open'))}>
+                &#119558; Current
+            </button>
+            <button onClick={(ev) => focus(ev, setUi('history'))}>&#10226; History</button>
+            {props.user.name !== '' && <button className='right' onClick={(ev) => focus(ev, setUi('my'))}>
+                &#9829; My competitions
+            </button>}
+            {ui === 'open' && <>
                 <ul>
-                    {myComps.length === 0
-                        ? <li>No registrations</li>
-                        : myComps.map(c =>
-                            <Register reg={true} user={props.user} comp={c} key={c.id} setErr={props.setErr} />)}
+                    {openComps.length === 0
+                        ? <li>No available competitions</li>
+                        : openComps.map(c =>
+                            <Register user={props.user} setRegs={props.setRegs}
+                                comp={c} key={c.id} setErr={props.setErr} />)}
                 </ul>
             </>}
-            <h2>Open registrations</h2>
-            <ul>
-                {allComps.length === 0
-                    ? <li>No available competitions</li>
-                    : allComps.map(c =>
-                        <Register user={props.user} comp={c} key={c.id} setErr={props.setErr} />)}
-            </ul>
+            {ui === 'history' && <>
+            </>}
+            {ui === 'my' && <>
+                <ul>
+                    {myComps.length === 0
+                        ? <li>No competitions</li>
+                        : myComps.map(c =>
+                            <Register reg={true} user={props.user} setRegs={props.setRegs}
+                                comp={c} key={c.id} setErr={props.setErr} />)}
+                </ul>
+            </>}
         </>
     );
 };
