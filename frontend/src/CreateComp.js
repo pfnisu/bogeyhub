@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {useNavigate} from 'react-router-dom';
-import {request, path} from './util';
+import {request, path, check} from './util';
 
 export const CreateComp = (props) => {
     const nav = useNavigate();
@@ -13,6 +13,7 @@ export const CreateComp = (props) => {
 
     // Add new competition with only mandatory data
     const addComp = async () => {
+        if (!check(nameRef)) return false;
         let data = {
             start_date: dateRef.current.value,
             name: nameRef.current.value,

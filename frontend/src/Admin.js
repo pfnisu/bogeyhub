@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
 import {CreateRound} from './CreateRound';
 import {useParams} from 'react-router-dom';
-import {request, path} from './util';
+import {request, path, check} from './util';
 
 // Creating competitions is limited to admin
 export const Admin = (props) => {
@@ -34,6 +34,7 @@ export const Admin = (props) => {
     // PATCH competition with edited data
     const editComp = async (ev) => {
         ev.target.classList.remove('ok');
+        if (!check(nameRef)) return false;
         let data = {
             start_date: dateRef.current.value,
             name: nameRef.current.value,
