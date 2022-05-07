@@ -11,7 +11,7 @@ import './index.css';
 // Main component: routing, nav, error msgs
 const App = () => {
     // Active user account
-    const [user, setUser] = React.useState({name: '', id: null});
+    const [user, setUser] = React.useState({name: '', role: ''});
     // Competition id's where user is registered
     const [regs, setRegs] = React.useState([]);
     // App-wide error message
@@ -35,20 +35,20 @@ const App = () => {
         <BrowserRouter>
             <nav>
                 <NavLink to='/'>Disc golf scoring</NavLink>
-                {user.name === 'admin' && <NavLink to='/admin'>Admin</NavLink>}
+                {user.role === 'admin' && <NavLink to='/admin'>Administration</NavLink>}
                 <NavLink to='/login'>{user.name ? 'User: ' + user.name : 'Login'}</NavLink>
             </nav>
             <main>
                 {err && <p className='error'>{err}</p>}
                 <Routes>
                     <Route path='/' element={
-                        <CompList user={user} regs={regs} setErr={setErr} />} />
-                    <Route path='admin/'>
+                        <CompList user={user} regs={regs} setRegs={setRegs} setErr={setErr} />} />
+                    {user.role === 'admin' && <Route path='admin/'>
                         <Route index element={
                             <Admin setErr={setErr} />} />
                         <Route path=':compId' element={
                             <Admin setErr={setErr} />} />
-                    </Route>
+                    </Route>}
                     <Route path='login/*' element={
                         <Login user={user} setUser={setUser} setErr={setErr} />} />
                     <Route path='competition/'>
