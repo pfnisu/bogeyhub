@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {request, path} from './util';
+import {request, path, check, compare} from './util';
 
 export const Login = (props) => {
     // UI mode: login, create
@@ -11,39 +11,11 @@ export const Login = (props) => {
     const sexRef = React.createRef();
     const yearRef = React.createRef();
 
-    // Username can't be empty
-    const checkName = () => {
-        nameRef.current.classList.remove('error');
-        if (!nameRef.current.value) {
-            nameRef.current.classList.add('error');
-            return false;
-        }
-        return true;
-    }
-
-    // Passwords have to match and can't be empty
-    const checkPw = () => {
-        pwRef.current.classList.remove('error');
-        repwRef.current.classList.remove('error');
-
-        if (pwRef.current.value === '' ||
-            pwRef.current.value !== repwRef.current.value) {
-            repwRef.current.value = '';
-            pwRef.current.classList.add('error');
-            repwRef.current.classList.add('error');
-            return false;
-        }
-        return true;
-    }
     // Try to login with given credentials
     const login = async () => {
         props.setErr(null);
-        if (!checkName()) return false;
-        pwRef.current.classList.remove('error');
-        if (!pwRef.current.value) {
-            pwRef.current.classList.add('error');
-            return false;
-        }
+        if (!check(nameRef)) return false;
+        if (!check(pwRef)) return false;
 
         let credentials = {
             name: nameRef.current.value,
@@ -65,8 +37,8 @@ export const Login = (props) => {
 
     // POST new account
     const createAccount = async () => {
-        if (!checkName()) return false;
-        if (!checkPw()) return false;
+        if (!check(nameRef)) return false;
+        if (!compare(pwRef, repwRef)) return false;
         let credentials = {
             name: nameRef.current.value,
             password: pwRef.current.value,
@@ -90,14 +62,13 @@ export const Login = (props) => {
 
         // Update pw only if not empty and matching
         if (pwRef.current.value) {
-            if (!checkPw()) return false;
+            if (!compare(pwRef, repwRef)) return false;
             else credentials.password = pwRef.current.value;
         }
-        console.log(credentials);
         // POST data to backend
         let resp = await request(path.user + props.user.id, 'PATCH', credentials);
 
-        // Login as the created user and re-set ui
+        // Update state if success
         if (resp) {
             ev.target.classList.add('ok');
             props.setUser(state => {return {...state, ...credentials}});
@@ -133,8 +104,9 @@ export const Login = (props) => {
                     <form onSubmit={e => e.preventDefault()}>
                         <input ref={pwRef} type='password' placeholder='Change password' />
                         <input ref={repwRef} type='password' placeholder='Re-type new password' />
-                        <input ref={yearRef} type='number' placeholder='Birth year' />
-                        <select ref={sexRef} defaultValue=''>
+                        <input ref={yearRef} type='number' placeholder='Birth year'
+                            defaultValue={props.user.birth_year} />
+                        <select ref={sexRef} defaultValue={props.user.sex}>
                             <option value=''>Sex</option>
                             <option value='male'>Male</option>
                             <option value='female'>Female</option>
