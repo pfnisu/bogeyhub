@@ -43,7 +43,11 @@ export const Admin = (props) => {
         };
 
         let resp = await request(path.admin + params.compId, 'PATCH', data);
-        resp ? ev.target.classList.add('ok') : props.setErr('Saving failed');
+        if (resp) {
+            ev.target.classList.add('ok');
+            ev.target.innerHTML = '&#10003; Saved';
+            setCompetition(state => {return {...state, ...data}});
+        } else props.setErr('Saving failed');
     }
 
     // DELETE competition
