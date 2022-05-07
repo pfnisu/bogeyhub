@@ -4,7 +4,7 @@
 html,body {
 	background-color:#f6f5f4;
 	font-family:'Ubuntu','Droid Sans','Helvetica Neue',sans-serif;
-	font-size:calc(12px + 0.3vw);
+	font-size:calc(10px + 0.5vw);
 	margin:0;
 }
 nav {
@@ -67,7 +67,7 @@ input,select,textarea,button,.list {
 	margin-right:4px;
 	border:1px solid #484c54;
 	border-radius:6px;
-	padding:8px;
+	padding:8px 4px;
 	font-size:1em;
 }
 .list {
@@ -100,19 +100,15 @@ input[type=number],select {
     min-width:25%;
     width:25%;
 }
-input:not([type=checkbox]):focus,textarea:focus,select:hover,button:hover,button.sel {
+input:not([type=checkbox]):focus,textarea:focus,select:hover,button:hover,button.sel,.ok {
 	outline:2px solid #61dafb;
 	box-shadow:0 0 8px #61dafb;
 }
 .error {
-	outline:2px solid #f64c54;
+	outline:2px solid red;
 	border:1px solid #484c54;
 	border-radius:6px;
 	padding:8px;
-}
-.ok,.ok:hover {
-	outline:2px solid #61da54;
-	box-shadow:none;
 }
 select:active,button:active {
 	box-shadow:inset 1px 1px 1px #484c54;
@@ -135,7 +131,7 @@ li a {
 .critical {
 	background:#61dafb;
 }
-li.registration, .important, tr.score td.important,button.sel {
+li.registration, .important, tr.score td.important,button.sel,.ok {
 	background:#cff3fd;
 }
 .minor {
@@ -148,7 +144,7 @@ li form {
 	margin:0;
 }
 li button,li select,li label,.list,span.score {
-	padding:4px 8px;
+	padding:4px;
 }
 li span,ol p {
 	display:inline-block;
