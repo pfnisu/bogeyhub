@@ -11,7 +11,7 @@ export const path = {
 // Backend request wrapper
 export const request = async (resource, method = 'GET', data = null) => {
     try {
-        let resp = await fetch('http://localhost:8080/backend' + resource, {
+        let resp = await fetch('/backend' + resource, {
             method: method,
             headers: { 'Content-type': 'application/json' },
             body: data && JSON.stringify(data)
