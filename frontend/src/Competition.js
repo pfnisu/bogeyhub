@@ -25,7 +25,7 @@ export const Competition = (props) => {
     return (
         <>
             <h1>{competition.name}</h1>
-            <button className='sel' onClick={(ev) => focus(ev, 'results')}>
+            <button className='sel' onClick={(ev) => focus(ev, setUi('results'))}>
                 &#9733; Results
             </button>
             <button onClick={(ev) => focus(ev, setUi('registrations'))}>
@@ -47,7 +47,7 @@ export const Competition = (props) => {
                 <Groups id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'input' && <>
-                <ScoreInput id={params.compId} setErr={props.setErr} />
+                <ScoreInput id={params.compId} user={props.user} setErr={props.setErr} />
             </>}
         </>
     );
