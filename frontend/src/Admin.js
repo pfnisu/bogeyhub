@@ -32,7 +32,8 @@ export const Admin = (props) => {
     React.useEffect(() => { getComp() }, []);
 
     // PATCH competition with edited data
-    const editComp = async () => {
+    const editComp = async (ev) => {
+        ev.target.classList.remove('ok');
         let data = {
             start_date: dateRef.current.value,
             name: nameRef.current.value,
@@ -40,7 +41,8 @@ export const Admin = (props) => {
             phase_id: 1,
         };
 
-        await request(path.admin + params.compId, 'PATCH', data);
+        let resp = await request(path.admin + params.compId, 'PATCH', data);
+        resp ? ev.target.classList.add('ok') : props.setErr('Saving failed');
     }
 
     // DELETE competition
@@ -70,7 +72,7 @@ export const Admin = (props) => {
                     <input ref={enddateRef} type='date' />
                     <label>Info:</label>
                     <textarea ref={infoRef} defaultValue={competition.info} />
-                    <button onClick={() => editComp()}>&#10003; Save changes</button>
+                    <button onClick={(ev) => editComp(ev)}>&#10003; Save changes</button>
                 </form>
             </>}
             {ui === 'round' &&
