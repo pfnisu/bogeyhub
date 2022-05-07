@@ -12,7 +12,7 @@ module.exports = {
                 'phase.name as phase from competition ' +
                 'inner join phase on phase.id = competition.phase_id',
                 (err, res) => {
-                    if (err) reject('DB query failed.\n' + err);
+                    if (err) reject(err);
                     else resolve(res);
                 }
             );
@@ -29,7 +29,7 @@ module.exports = {
                 'where competition.id = ?',
                 [id],
                 (err, res) => {
-                    if (err) reject('DB query failed.\n' + err);
+                    if (err) reject(err);
                     else resolve(res);
                 }
             );
@@ -45,8 +45,7 @@ module.exports = {
                 'where competition_id = ?',
                 [id],
                 (err, res) => {
-                    console.log(err);
-                    if (err) reject('DB query failed.\n' + err);
+                    if (err) reject(err);
                     else resolve(res);
                 }
             );
@@ -61,7 +60,7 @@ module.exports = {
                 'where round_id = ?',
                 [id],
                 (err, res) => {
-                    if (err) reject('DB query failed.\n' + err);
+                    if (err) reject(err);
                     else resolve(res);
                 }
             );
@@ -74,7 +73,7 @@ module.exports = {
                 'select * from competition where id = ?',
                 [id],
                 (err, res) => {
-                    if (err) reject('DB query failed.\n' + err);
+                    if (err) reject(err);
                     else if (res.length === 0) resolve(null);
                     else resolve(res[0]);
                 }

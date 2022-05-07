@@ -7,7 +7,7 @@ module.exports = {
     save: (comp) => {
         return new Promise((resolve, reject) => {
             pool.query('insert into competition set ?', comp, (err, res) => {
-                if (err) reject('Saving to DB failed.\n' + err);
+                if (err) reject(err);
                 else resolve(res.insertId);
             });
         });
@@ -16,7 +16,7 @@ module.exports = {
     updateComp: (id, comp) => {
         return new Promise((resolve, reject) => {
             pool.query('update competition set ? where id = ?', [comp, id], (err, res) => {
-                if (err) reject('Saving to DB failed.\n' + err);
+                if (err) reject(err);
                 else resolve(res.affectedRows !== 0);
             });
         });
@@ -25,7 +25,7 @@ module.exports = {
     deleteComp: (id) => {
         return new Promise((resolve, reject) => {
             pool.query('delete from competition where id = ?', [id], (err, res) => {
-                if (err) reject('Deletion failed.\n' + err);
+                if (err) reject(err);
                 else resolve(res.affectedRows !== 0);
             });
         });
