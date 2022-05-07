@@ -105,7 +105,7 @@ export const Login = (props) => {
                         <input ref={pwRef} type='password' placeholder='Change password' />
                         <input ref={repwRef} type='password' placeholder='Re-type new password' />
                         <input ref={yearRef} type='number' placeholder='Birth year'
-                            defaultValue={props.user.birth_year} />
+                            defaultValue={props.user.birth_year || null} />
                         <select ref={sexRef} defaultValue={props.user.sex}>
                             <option value=''>Sex</option>
                             <option value='male'>Male</option>
