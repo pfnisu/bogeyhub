@@ -33,3 +33,27 @@ export const focus = (ev) => {
     ev.target.parentNode.querySelector('.sel')?.classList.remove('sel');
     ev.target.classList.add('sel');
 };
+
+// Check that field isn't empty
+export const check = (field) => {
+    field.current.classList.remove('error');
+    if (!field.current.value) {
+        field.current.classList.add('error');
+        return false;
+    }
+    return true;
+};
+
+// Check that fields match and aren't empty
+export const compare = (f1, f2) => {
+    f1.current.classList.remove('error');
+    f2.current.classList.remove('error');
+
+    if (f1.current.value === '' ||
+        f1.current.value !== f2.current.value) {
+        f1.current.classList.add('error');
+        f2.current.classList.add('error');
+        return false;
+    }
+    return true;
+};
