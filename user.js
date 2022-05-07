@@ -36,7 +36,7 @@ user.post('/login', async (req, res) => {
 user.post('/create', async (req, res) => {
     let body = {
         ...req.body,
-        role_id: 3, // can only create user roles
+        role: 'user', // can only create user roles
     };
     // Return 400 Bad Request if invalid user data
     if (validate(body, userSchema).errors.length) {
@@ -98,6 +98,7 @@ user.delete('/:id([0-9]+)', async (req, res) => {
 
 // Partial update with PATCH
 user.patch('/:id([0-9]+)', async (req, res) => {
+    req.body.birth_year = Number(req.body.birth_year);
     // Return 400 Bad Request if patched obj doesn't validate
     if (validate(req.body, userSchema).errors.length > 0) {
         res.status(400).send('Invalid user data');
