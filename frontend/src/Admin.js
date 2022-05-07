@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
+import {CreateRound} from './CreateRound';
 import {useParams} from 'react-router-dom';
 import {request, path} from './util';
 
@@ -58,7 +59,7 @@ export const Admin = (props) => {
                 <CreateComp setCompetition={setCompetition} setUi={setUi} setErr={props.setErr} />}
             {ui === 'edit' && <>
                 <h1>Edit competition: {competition.name}</h1>
-                <button>Create rounds and groups</button>
+                <button onClick={() => setUi('round')}>&#10023; Create rounds</button>
                 <button className='right' onClick={() => setUi('delete')}>&#10005; Delete competition</button>
                 <form onSubmit={e => e.preventDefault()}>
                     <label>Name:</label>
@@ -69,13 +70,15 @@ export const Admin = (props) => {
                     <input ref={enddateRef} type='date' />
                     <label>Info:</label>
                     <textarea ref={infoRef} defaultValue={competition.info} />
-                    <button onClick={() => editComp()}>Save changes</button>
+                    <button onClick={() => editComp()}>&#10003; Save changes</button>
                 </form>
             </>}
+            {ui === 'round' &&
+                <CreateRound competition={competition} setUi={setUi} setErr={props.setErr} />}
             {ui === 'delete' && <>
                 <h1>Delete competition: {competition.name}</h1>
                 <button onClick={() => delComp()}>&#10005; Confirm deletion</button>
-                <button className='right' onClick={() => setUi('edit')}>Cancel</button>
+                <button className='right' onClick={() => setUi('edit')}>&#171; Cancel</button>
             </>}
         </>
 
