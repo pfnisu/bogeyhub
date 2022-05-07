@@ -9,7 +9,7 @@ export const Login = (props) => {
     const pwRef = React.createRef();
     const repwRef = React.createRef();
     const sexRef = React.createRef();
-    const ageRef = React.createRef();
+    const yearRef = React.createRef();
 
     // Try to login with given credentials
     const login = async () => {
@@ -33,7 +33,7 @@ export const Login = (props) => {
         // POST data to backend
         let resp = await request(path.user + 'login/', 'POST', credentials);
         // Set user to response value if success
-        resp ? props.setUser(resp) : props.setErr('Invalid login');
+        resp ? props.setUser(resp) : props.setErr('Login failed');
     }
 
     // Set user to empty
@@ -91,7 +91,11 @@ export const Login = (props) => {
                         <input ref={nameRef} type='text' placeholder='User name' autoFocus />
                         <input ref={pwRef} type='password' placeholder='Password' />
                         <button onClick={() => login()}>Login</button>
-                        <button onClick={() => setUi('create')}>Create account</button>
+                    </form>
+                    <h1>New user?</h1>
+                    <form onSubmit={e => e.preventDefault()}>
+                    <p>Create account</p>
+                    <button className='right' onClick={() => setUi('create')}>Create account &#187;</button>
                     </form>
                 </>}
                 {props.user.name !== '' && <>
@@ -104,13 +108,13 @@ export const Login = (props) => {
                     <form onSubmit={e => e.preventDefault()}>
                         <input ref={pwRef} type='password' placeholder='Change password' />
                         <input ref={repwRef} type='password' placeholder='Re-type new password' />
-                        <input ref={ageRef} type='number' placeholder='Age' />
+                        <input ref={yearRef} type='number' placeholder='Birth year' />
                         <select ref={sexRef} defaultValue=''>
                             <option value=''>Sex</option>
                             <option value='male'>Male</option>
                             <option value='female'>Female</option>
                         </select>
-                        <button onClick={() => update()}>Save changes</button>
+                        <button onClick={() => update()}>&#10003; Save changes</button>
                     </form>
                 </>}
             </>}
@@ -120,8 +124,8 @@ export const Login = (props) => {
                     <input ref={nameRef} type='text' placeholder='User name' autoFocus />
                     <input ref={pwRef} type='password' placeholder='Password' />
                     <input ref={repwRef} type='password' placeholder='Re-type password' />
-                    <button onClick={() => createAccount()}>Create account</button>
-                    <button onClick={() => setUi('login')}>Cancel</button>
+                    <button onClick={() => createAccount()}>&#10023; Create account</button>
+                    <button onClick={() => setUi('login')}>&#171; Cancel</button>
                 </form>
             </>}
         </>
