@@ -11,21 +11,21 @@ const competition = {
         phase_id: { type: 'integer', minimum: 1, maximum: 5 },
     },
     required: ['start_date', 'name', 'phase_id'],
-    maxProperties: 4,
+    maxProperties: 7,
 };
 
 // Define valid spec for user object
 const user = {
     type: 'object',
     properties: {
+        id: { type: 'integer', minimum: 1 },
         name: { type: 'string' },
         password: { type: 'string' },
-        role_id: { type: 'integer', minimum: 1 },
-        id: { type: 'integer', minimum: 1 },
-        sex: { type: 'string', pattern: /male|female/ },
-        age: { type: 'integer', minimum: 0, maximum: 150 },
+        birth_year: { type: ['integer', 'null'], minimum: 0, maximum: 2022 },
+        sex: { type: ['string', 'null'], pattern: /male|female/ },
+        role: { type: 'string', pattern: /admin|td|user/ },
     },
-    maxProperties: 4,
+    maxProperties: 6,
 };
 
 // Define valid spec for registration object
