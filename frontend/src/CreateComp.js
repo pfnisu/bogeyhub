@@ -37,7 +37,7 @@ export const CreateComp = (props) => {
             <form onSubmit={e => e.preventDefault()}>
                 <input ref={nameRef} type='text' placeholder='Competition name' autoFocus />
                 <input ref={dateRef} type='date' defaultValue={currDate} />
-                <button onClick={() => addComp()}>Create</button>
+                <button onClick={() => addComp()}>&#10023; Create</button>
             </form>
         </>
 
