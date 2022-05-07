@@ -11,16 +11,35 @@ export const Login = (props) => {
     const sexRef = React.createRef();
     const yearRef = React.createRef();
 
-    // Try to login with given credentials
-    const login = async () => {
-        props.setErr(null);
+    // Username can't be empty
+    const checkName = () => {
         nameRef.current.classList.remove('error');
-        pwRef.current.classList.remove('error');
-        // Name and password can't be empty
         if (!nameRef.current.value) {
             nameRef.current.classList.add('error');
             return false;
         }
+        return true;
+    }
+
+    // Passwords have to match and can't be empty
+    const checkPw = () => {
+        pwRef.current.classList.remove('error');
+        repwRef.current.classList.remove('error');
+
+        if (pwRef.current.value === '' ||
+            pwRef.current.value !== repwRef.current.value) {
+            repwRef.current.value = '';
+            pwRef.current.classList.add('error');
+            repwRef.current.classList.add('error');
+            return false;
+        }
+        return true;
+    }
+    // Try to login with given credentials
+    const login = async () => {
+        props.setErr(null);
+        if (!checkName()) return false;
+        pwRef.current.classList.remove('error');
         if (!pwRef.current.value) {
             pwRef.current.classList.add('error');
             return false;
@@ -40,29 +59,14 @@ export const Login = (props) => {
     const logout = async () => {
         props.setUser({
             name: '',
-            id: null,
+            role: '',
         });
     }
 
     // POST new account
     const createAccount = async () => {
-        nameRef.current.classList.remove('error');
-        pwRef.current.classList.remove('error');
-        repwRef.current.classList.remove('error');
-        // Username can't be empty
-        if (!nameRef.current.value) {
-            nameRef.current.value = '';
-            nameRef.current.classList.add('error');
-            return false;
-        }
-        // Passwords have to match and can't be empty
-        if (pwRef.current.value === '' ||
-            pwRef.current.value !== repwRef.current.value) {
-            repwRef.current.value = '';
-            pwRef.current.classList.add('error');
-            repwRef.current.classList.add('error');
-            return false;
-        }
+        if (!checkName()) return false;
+        if (!checkPw()) return false;
         let credentials = {
             name: nameRef.current.value,
             password: pwRef.current.value,
@@ -76,7 +80,28 @@ export const Login = (props) => {
     }
 
     // Update user data
-    const update = async () => {
+    const update = async (ev) => {
+        ev.target.classList.remove('ok');
+        // Can be nulled by user if they wish
+        let credentials = {
+            birth_year: yearRef.current.value || null,
+            sex: sexRef.current.value || null,
+        };
+
+        // Update pw only if not empty and matching
+        if (pwRef.current.value) {
+            if (!checkPw()) return false;
+            else credentials.password = pwRef.current.value;
+        }
+        console.log(credentials);
+        // POST data to backend
+        let resp = await request(path.user + props.user.id, 'PATCH', credentials);
+
+        // Login as the created user and re-set ui
+        if (resp) {
+            ev.target.classList.add('ok');
+            props.setUser(state => {return {...state, ...credentials}});
+        } else props.setErr('Saving failed');
     }
 
     React.useEffect(() => { props.setErr(null) }, []);
@@ -102,8 +127,8 @@ export const Login = (props) => {
                     <h1>User profile: {props.user.name}</h1>
                     <button className='right' onClick={() => logout()}>Logout</button>
                     <p>User id: {props.user.id}</p>
-                    <p>Age:</p>
-                    <p>Sex:</p>
+                    <p>Birth year: {props.user.birth_year || '-'}</p>
+                    <p>Sex: {props.user.sex || '-'}</p>
                     <h2>Change your profile settings</h2>
                     <form onSubmit={e => e.preventDefault()}>
                         <input ref={pwRef} type='password' placeholder='Change password' />
@@ -114,7 +139,7 @@ export const Login = (props) => {
                             <option value='male'>Male</option>
                             <option value='female'>Female</option>
                         </select>
-                        <button onClick={() => update()}>&#10003; Save changes</button>
+                        <button onClick={(ev) => update(ev)}>&#10003; Save changes</button>
                     </form>
                 </>}
             </>}
