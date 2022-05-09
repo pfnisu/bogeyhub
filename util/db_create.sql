@@ -33,6 +33,15 @@ CREATE TABLE course (
     info TEXT
 );
 
+CREATE TABLE hole (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
+    par INT NOT NULL,
+    course_id INT NOT NULL,
+    FOREIGN KEY(course_id) REFERENCES course(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE phase (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
@@ -73,18 +82,19 @@ CREATE TABLE registration (
 
 CREATE TABLE round (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    date DATE NOT NULL,
-    course_id INT,
+    start_date DATE,
+    start_time TIME NOT NULL,
+    course_id INT NOT NULL,
     competition_id INT NOT NULL,
     FOREIGN KEY(course_id) REFERENCES course(id)
-        ON DELETE SET NULL ON UPDATE CASCADE,
+        ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY(competition_id) REFERENCES competition(id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE groups (
+CREATE TABLE `group` (
     group_number INT NOT NULL,
-    start_time DATE,
+    start_time TIME,
     start_hole INT,
     start_position INT NOT NULL,
     user_id INT NOT NULL,
