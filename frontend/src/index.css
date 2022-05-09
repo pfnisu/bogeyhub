@@ -54,10 +54,16 @@ li > h2 {
 h2,ul p {
 	font-size:1.1em;
 }
+table,span.score {
+    width:100%;
+}
 tr.score td,span.score {
 	border-radius:6px;
     padding:4px;
 	background-color:#f6f5f4;
+}
+tr.score td:not(:first-child) {
+    text-align:right;
 }
 form {
 	display:flex;
@@ -80,9 +86,6 @@ input:not([type=checkbox]),textarea {
 input[type=checkbox] {
 	margin:0 4px 0 0;
 	vertical-align:5%;
-}
-span.score {
-    width:100%;
 }
 .score input[type=number] {
     float:right;
