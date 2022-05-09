@@ -30,4 +30,31 @@ module.exports = {
             });
         });
     },
+    // Return an array of course objects, can be empty
+    findCourses: () => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select * from course',
+                (err, res) => {
+                    console.log(res);
+                    if (err) reject(err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
+    // Return an array of holes, can be empty
+    findHoles: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select * from hole where course_id = ?',
+                [id],
+                (err, res) => {
+                    console.log(res);
+                    if (err) reject(err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
 };

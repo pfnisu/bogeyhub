@@ -3,6 +3,28 @@ const compSchema = require('./schema.js').competition;
 const admin = require('express').Router();
 const validate = require('jsonschema').validate;
 
+// Get all courses
+admin.get('/course', async (req, res) => {
+    try {
+        let result = await db.findCourses();
+        if (result) res.status(200).send(result);
+        else res.status(404).send('No courses found');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+// Get holes for a course
+admin.get('/hole/:id([0-9]+)', async (req, res) => {
+    try {
+        let result = await db.findHoles(req.params.id);
+        if (result) res.status(200).send(result);
+        else res.status(404).send('No holes found');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 // Add new competition with POST
 admin.post('/', async (req, res) => {
     // Return 400 Bad Request if invalid competition data
