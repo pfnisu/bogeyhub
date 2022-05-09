@@ -3,6 +3,14 @@ const userSchema = require('./schema.js').user;
 const regSchema = require('./schema.js').registration;
 const user = require('express').Router();
 const validate = require('jsonschema').validate;
+const crypto = require('node:crypto');
+
+// Hash password before passing to db
+// TODO proper salt + pepper
+const hash = (pw) => {
+    let secret = 'f58dd2c0a48df3dceed2cdaac3ce8efa94de578db04e529e';
+    return crypto.createHmac('sha512', secret).update(pw).digest('hex');
+};
 
 // Get registrations by user id
 user.get('/:id([0-9]+)', async (req, res) => {
@@ -17,12 +25,16 @@ user.get('/:id([0-9]+)', async (req, res) => {
 
 // Login
 user.post('/login', async (req, res) => {
+    let body = {
+        ...req.body,
+        password: hash(req.body.password),
+    };
     // Return 400 Bad Request if invalid user data
-    if (validate(req.body, userSchema).errors.length) {
+    if (validate(body, userSchema).errors.length) {
         res.status(400).send('Invalid account data');
     } else {
         try {
-            let result = await db.login(req.body);
+            let result = await db.login(body);
             // If user matched, return name and id
             if (result) res.status(201).send(result);
             else res.status(404).send('User not found');
@@ -36,6 +48,7 @@ user.post('/login', async (req, res) => {
 user.post('/create', async (req, res) => {
     let body = {
         ...req.body,
+        password: hash(req.body.password),
         role: 'user', // can only create user roles
     };
     // Return 400 Bad Request if invalid user data
@@ -98,13 +111,17 @@ user.delete('/:id([0-9]+)', async (req, res) => {
 
 // Partial update with PATCH
 user.patch('/:id([0-9]+)', async (req, res) => {
-    req.body.birth_year = Number(req.body.birth_year);
+    let body = {
+        ...req.body,
+        password: req.body.password ? hash(req.body.password) : '',
+        birth_year: Number(req.body.birth_year),
+    };
     // Return 400 Bad Request if patched obj doesn't validate
-    if (validate(req.body, userSchema).errors.length > 0) {
+    if (validate(body, userSchema).errors.length > 0) {
         res.status(400).send('Invalid user data');
     } else {
         // Try to update db row that has id
-        let success = await db.update(req.params.id, req.body);
+        let success = await db.update(req.params.id, body);
         if (success) res.status(204).end(); // Update ok, 204 No Content
         else res.status(404).send('Id not found');
     }
