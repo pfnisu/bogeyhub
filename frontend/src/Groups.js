@@ -25,7 +25,13 @@ export const Groups = (props) => {
     });
     return (
         <table>
-            <tbody>{table}</tbody>
+            <tbody>
+                <tr className='score'>
+                    <td>Start order</td>
+                    <td>Player</td>
+                </tr>
+                {table}
+            </tbody>
         </table>
     );
 };

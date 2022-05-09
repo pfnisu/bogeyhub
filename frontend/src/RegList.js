@@ -23,13 +23,21 @@ export const RegList = (props) => {
         let time = reg.time.split('T')[1].substr(0, 8);
         return (
             <tr key={idx} className='score'>
-                <td>{idx + 1}</td><td>{reg.user}</td><td>{reg.division}</td><td>{date}</td><td>{time}</td>
+                <td>{idx + 1}</td><td>{reg.user}</td><td>{reg.division}</td><td>{date} {time}</td>
             </tr>
         );
     });
     return (
         <table>
-            <tbody>{table}</tbody>
+            <tbody>
+                <tr className='score'>
+                    <td>#</td>
+                    <td>Player</td>
+                    <td>Division</td>
+                    <td>Time</td>
+                </tr>
+                {table}
+            </tbody>
         </table>
     );
 };
