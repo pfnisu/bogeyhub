@@ -27,7 +27,7 @@ export const Register = (props) => {
 
         // Add id to regs, or show err
         if (resp) {
-            focus(ev, setUi('initial'));
+            setUi('initial');
             regRef.current.innerHTML = '&#10003; Registered';
             props.setRegs(state => [...state, {id: props.comp.id}]);
         } else props.setErr('Failed to register');
@@ -44,7 +44,7 @@ export const Register = (props) => {
 
         // Filter id from regs, or show err
         if (resp) {
-            focus(ev, setUi('initial'));
+            setUi('initial');
             regRef.current.innerHTML = '&#10003; Unregistered';
             props.setRegs(state => state.filter(comp => comp.id !== props.comp.id));
         } else props.setErr('Failed to unregister');
@@ -74,20 +74,17 @@ export const Register = (props) => {
             </span>
             {ui === 'register' && <>
                 <p>Register to division:</p>
-                <form onSubmit={e => e.preventDefault()}>
-                    <select ref={divRef} defaultValue={props.user.sex}>
-                        <option value='' disabled hidden>Division</option>
-                        <option value='MPO'>MPO</option>
-                        <option value='FPO'>FPO</option>
-                    </select>
-                    <button onClick={(ev) => addReg(ev)}>&#10003; OK</button>
-                </form>
+                <select ref={divRef} defaultValue={props.user.sex}>
+                    <option value='' disabled hidden>Division</option>
+                    <option value='MPO'>MPO</option>
+                    <option value='FPO'>FPO</option>
+                </select>
+                <button onClick={(ev) => addReg(ev)}>Add registration</button>
             </>}
             {ui === 'unregister' && <>
                 <p>Remove registration:</p>
-                <form onSubmit={e => e.preventDefault()}>
                 <button onClick={(ev) => removeReg(ev)}>&#10005; Confirm removal</button>
-                </form>
+                <p>Are you sure?</p>
             </>}
             {ui === 'info' && <>
                 <p>Venue: {props.comp.venue}</p>
