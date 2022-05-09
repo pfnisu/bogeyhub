@@ -91,8 +91,8 @@ export const Login = (props) => {
                     </form>
                     <h1>New user?</h1>
                     <form onSubmit={e => e.preventDefault()}>
-                    <p>Create account</p>
-                    <button className='right' onClick={() => setUi('create')}>Create account &#187;</button>
+                        <p>Create an account to get started:</p>
+                        <button className='right' onClick={() => setUi('create')}>Create account &#187;</button>
                     </form>
                 </>}
                 {props.user.name !== '' && <>
@@ -112,7 +112,7 @@ export const Login = (props) => {
                             <option value='male'>Male</option>
                             <option value='female'>Female</option>
                         </select>
-                        <button onClick={(ev) => update(ev)}>&#10003; Save changes</button>
+                        <button onClick={(ev) => update(ev)}>Save changes</button>
                     </form>
                 </>}
             </>}

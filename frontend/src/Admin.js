@@ -77,7 +77,7 @@ export const Admin = (props) => {
                     <input ref={enddateRef} type='date' />
                     <label>Info:</label>
                     <textarea ref={infoRef} defaultValue={competition.info} />
-                    <button onClick={(ev) => editComp(ev)}>&#10003; Save changes</button>
+                    <button onClick={(ev) => editComp(ev)}>Save changes</button>
                 </form>
             </>}
             {ui === 'round' &&
