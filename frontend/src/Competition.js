@@ -11,16 +11,32 @@ export const Competition = (props) => {
     // UI mode: results, registrations, groups, input
     const [ui, setUi] = React.useState('results');
     const [competition, setCompetition] = React.useState({});
+    const [round, setRound] = React.useState({});
+    const [groups, setGroups] = React.useState([]);
     const params = useParams();
 
-    // GET competition with compId from backend at component mount
+    // GET competition and rounds data at component mount
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
             let resp = await request(path.comp + params.compId);
             resp ?  setCompetition(resp) : props.setErr('Loading competition failed');
         })();
+        (async () => {
+            props.setErr(null);
+            let rnds = await request(path.comp + 'rounds/' + params.compId);
+            // Only 1 round is supported currently
+            rnds[0] ?  setRound(rnds[0]) : props.setErr('Loading round info failed');
+        })();
     }, []);
+
+    // GET groups after round is loaded
+    React.useEffect(() => {
+        round.id && (async () => {
+            let grps = await request(path.comp + 'groups/' + round.id);
+            grps ? setGroups(grps) : props.setErr('Loading groups failed');
+        })();
+    }, [round]);
 
     return (
         <>
@@ -37,17 +53,17 @@ export const Competition = (props) => {
                     &#9998; Input scores
                 </button>
             }
-            {ui === 'results' && <>
-                <ScoreTable id={params.compId} setErr={props.setErr} />
+            {ui === 'results' && round.id && <>
+                <ScoreTable id={params.compId} round={round} setErr={props.setErr} />
             </>}
             {ui === 'registrations' && <>
                 <RegList id={params.compId} setErr={props.setErr} />
             </>}
             {ui === 'groups' && <>
-                <Groups id={params.compId} setErr={props.setErr} />
+                <Groups groups={groups} setErr={props.setErr} />
             </>}
             {ui === 'input' && <>
-                <ScoreInput id={params.compId} user={props.user} setErr={props.setErr} />
+                <ScoreInput id={params.compId} groups={groups} user={props.user} setErr={props.setErr} />
             </>}
         </>
     );
