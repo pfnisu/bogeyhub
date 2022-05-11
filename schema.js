@@ -14,6 +14,19 @@ const competition = {
     maxProperties: 7,
 };
 
+// Define valid spec for competition object
+const round = {
+    type: 'object',
+    properties: {
+        start_date: { type: 'string', format: 'date' },
+        start_time: { type: 'string', format: 'time' },
+        course_id: { type: 'integer', minimum: 1 },
+        competition_id: { type: 'integer', minimum: 1 },
+    },
+    required: ['start_time', 'course_id', 'competition_id'],
+    maxProperties: 4,
+};
+
 // Define valid spec for user object
 const user = {
     type: 'object',
@@ -39,4 +52,5 @@ const registration = {
     required: ['user_id', 'competition_id', 'division'],
     maxProperties: 3,
 };
-module.exports = { competition, user, registration };
+
+module.exports = { competition, round, user, registration };
