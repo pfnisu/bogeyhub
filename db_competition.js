@@ -68,19 +68,6 @@ module.exports = {
             );
         });
     },
-    // Find holes of a course
-    holesById: (id) => {
-        return new Promise((resolve, reject) => {
-            pool.query(
-                'select name, par from hole where course_id = ?',
-                [id],
-                (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res);
-                }
-            );
-        });
-    },
     // Find groups of a round
     groupsById: (id) => {
         return new Promise((resolve, reject) => {
