@@ -18,7 +18,7 @@ module.exports = {
             );
         });
     },
-    // Query round result data, result in columnar form for scalability
+    // Find round result data, result in columnar form for scalability
     resultsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
@@ -35,11 +35,12 @@ module.exports = {
             );
         });
     },
-    // Get registrations for a competition
+    // Find registrations for a competition
     registrationsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select time, division.name as division, user.name as user from registration ' +
+                'select time, division.name as division, user.name as user ' +
+                'from registration ' +
                 'inner join user on user.id = registration.user_id ' +
                 'inner join division on division.id = registration.division_id ' +
                 'where competition_id = ?',
@@ -51,15 +52,45 @@ module.exports = {
             );
         });
     },
-    // Get groups for a round
+    // Find rounds of a competition
+    roundsById: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select round.id as id, start_time, course.name as course, course.id as course_id ' +
+                'from round ' +
+                'inner join course on course.id = round.course_id ' +
+                'where competition_id = ?',
+                [id],
+                (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
+    // Find holes of a course
+    holesById: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'select name, par from hole where course_id = ?',
+                [id],
+                (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res);
+                }
+            );
+        });
+    },
+    // Find groups of a round
     groupsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select group_number, start_position, user.name as user from groups ' +
-                'inner join user on user.id = groups.user_id ' +
+                'select group_number, start_position, user.name as user from `group` ' +
+                'inner join user on user.id = group.user_id ' +
                 'where round_id = ?',
                 [id],
                 (err, res) => {
+                    console.log(err);
                     if (err) reject(err);
                     else resolve(res);
                 }
