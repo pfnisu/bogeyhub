@@ -35,12 +35,10 @@ competition.get('/result/:id([0-9]+)', async (req, res) => {
             let arr = [];
             set.forEach(usr => {
                 let score = [];
-                // TODO Null-pad
                 result.forEach(el => el.user === usr && score.push(el.result)),
                 arr.push({
                     user: usr,
                     scores: score,
-                    //scores: result.map(el => el.user === usr ? el.result : null),
                 });
             });
             res.status(200).send(arr);
@@ -62,8 +60,32 @@ competition.get('/registrations/:id([0-9]+)', async (req, res) => {
     }
 });
 
-// Get groups for competition id
-competition.get('/group/:id([0-9]+)', async (req, res) => {
+// Get rounds for competition id
+competition.get('/rounds/:id([0-9]+)', async (req, res) => {
+    try {
+        let rounds = await db.roundsById(req.params.id);
+        if (rounds) {
+            for (let i = 0; i<rounds.length;i++) {
+                let holes = await db.holesById(rounds[i].course_id);
+                // Transpose column-oriented hole data to arrays
+                if (holes) {
+                    rounds[i].holes = [];
+                    rounds[i].pars = [];
+                    holes.forEach((h) => {
+                        rounds[i].holes.push(h.name);
+                        rounds[i].pars.push(h.par);
+                    });
+                } else res.status(404).send('Holes not found');
+            }
+            res.status(200).send(rounds);
+        } else res.status(404).send('Id not found');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+// Get groups for round id
+competition.get('/groups/:id([0-9]+)', async (req, res) => {
     try {
         let result = await db.groupsById(req.params.id);
         if (result) res.status(200).send(result);
