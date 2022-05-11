@@ -43,6 +43,16 @@ admin.post('/', async (req, res) => {
     }
 });
 
+// Add round for competition with POST
+admin.post('/round/:id([0-9]+)', async (req, res) => {
+        try {
+            let result = true;
+            res.status(201).send(result); // 201 Created
+        } catch (err) {
+            res.status(500).send(err);
+        }
+});
+
 // Delete competition matching url param
 admin.delete('/:id([0-9]+)', async (req, res) => {
     try {
