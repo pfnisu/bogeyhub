@@ -1,12 +1,14 @@
 const db = require('./db_admin.js');
+const db_course = require('./db_course.js');
 const compSchema = require('./schema.js').competition;
+const roundSchema = require('./schema.js').round;
 const admin = require('express').Router();
 const validate = require('jsonschema').validate;
 
 // Get all courses
 admin.get('/course', async (req, res) => {
     try {
-        let result = await db.findCourses();
+        let result = await db_course.allCourses();
         if (result) res.status(200).send(result);
         else res.status(404).send('No courses found');
     } catch (err) {
@@ -17,7 +19,7 @@ admin.get('/course', async (req, res) => {
 // Get holes for a course
 admin.get('/hole/:id([0-9]+)', async (req, res) => {
     try {
-        let result = await db.findHoles(req.params.id);
+        let result = await db_course.holesById(req.params.id);
         if (result) res.status(200).send(result);
         else res.status(404).send('No holes found');
     } catch (err) {
@@ -33,7 +35,7 @@ admin.post('/', async (req, res) => {
     } else {
         try {
             let result = {
-                id: await db.save(req.body),
+                id: await db.addComp(req.body),
                 ...req.body,
             };
             res.status(201).send(result); // 201 Created
@@ -45,8 +47,32 @@ admin.post('/', async (req, res) => {
 
 // Add round for competition with POST
 admin.post('/round/:id([0-9]+)', async (req, res) => {
+    let body = {
+        ...req.body,
+        competition_id: Number(req.params.id),
+    };
+    // Return 400 Bad Request if invalid round data
+    if (validate(body, roundSchema).errors.length) {
+        res.status(400).send('Invalid round data');
+    } else {
         try {
-            let result = true;
+            let result = {
+                id: await db.addRound(body),
+            };
+            res.status(201).send(result); // 201 Created
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
+});
+
+// Add groups for a round
+admin.post('/group/:id([0-9]+)', async (req, res) => {
+    // Return 400 Bad Request if invalid group data
+        try {
+            let result = {
+                id: await db.addGroups(req.params.id, req.body),
+            };
             res.status(201).send(result); // 201 Created
         } catch (err) {
             res.status(500).send(err);

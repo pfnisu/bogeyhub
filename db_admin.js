@@ -3,13 +3,43 @@ const settings = require('./db_settings.js');
 const pool = mysql.createPool(settings);
 
 module.exports = {
-    // Return the new id if insert succeeded
-    save: (comp) => {
+    // Add competition, return the new id if insert succeeded
+    addComp: (comp) => {
         return new Promise((resolve, reject) => {
             pool.query('insert into competition set ?', comp, (err, res) => {
                 if (err) reject(err);
                 else resolve(res.insertId);
             });
+        });
+    },
+    // Add round for a comp, return the new id if insert succeeded
+    addRound: (round) => {
+        return new Promise((resolve, reject) => {
+            pool.query('insert into round set ?', round, (err, res) => {
+                if (err) reject(err);
+                else resolve(res.insertId);
+            });
+        });
+    },
+    // Return true if groups inserted, false if no rows affected
+    addGroups: (id, groups) => {
+        let values = [];
+        // Transpose groups into columnar two-dimensional array
+        groups.forEach((group, g_num) =>
+            group.forEach((uid, s_pos) =>
+                values.push([g_num + 1, s_pos + 1, uid, id])
+            )
+        );
+        return new Promise((resolve, reject) => {
+            pool.query(
+                'insert into `group`(group_number, start_position, user_id, round_id) ' +
+                'values ?',
+                [values],
+                (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.affectedRows !== 0);
+                }
+            );
         });
     },
     // Return true if updated, false if no rows affected
@@ -28,33 +58,6 @@ module.exports = {
                 if (err) reject(err);
                 else resolve(res.affectedRows !== 0);
             });
-        });
-    },
-    // Return an array of course objects, can be empty
-    findCourses: () => {
-        return new Promise((resolve, reject) => {
-            pool.query(
-                'select * from course',
-                (err, res) => {
-                    console.log(res);
-                    if (err) reject(err);
-                    else resolve(res);
-                }
-            );
-        });
-    },
-    // Return an array of holes, can be empty
-    findHoles: (id) => {
-        return new Promise((resolve, reject) => {
-            pool.query(
-                'select * from hole where course_id = ?',
-                [id],
-                (err, res) => {
-                    console.log(res);
-                    if (err) reject(err);
-                    else resolve(res);
-                }
-            );
         });
     },
 };
