@@ -39,7 +39,7 @@ module.exports = {
     registrationsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select time, division.name as division, user.name as user ' +
+                'select time, division.name as division, user.name as user, user.id as id ' +
                 'from registration ' +
                 'inner join user on user.id = registration.user_id ' +
                 'inner join division on division.id = registration.division_id ' +
@@ -85,12 +85,12 @@ module.exports = {
     groupsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select group_number, start_position, user.name as user from `group` ' +
+                'select group_number, start_position, user.name as user, user.id as id ' +
+                'from `group` ' +
                 'inner join user on user.id = group.user_id ' +
                 'where round_id = ?',
                 [id],
                 (err, res) => {
-                    console.log(err);
                     if (err) reject(err);
                     else resolve(res);
                 }
