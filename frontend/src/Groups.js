@@ -3,22 +3,27 @@ import ReactDOM from 'react-dom';
 import {request, path} from './util';
 
 export const Groups = (props) => {
-    let table = props.groups.map((grp, idx) => {
+    let tables = props.groups.map((grp, idx) => {
         return (
-            <tr key={idx} className='score'>
-                <td>{grp.start_position}</td><td>{grp.user}</td>
-            </tr>
+            <>
+                <p>Group {idx + 1}</p>
+                <table>
+                    <tbody>
+                        <tr className='score'>
+                            <td>Start order</td>
+                            <td>Player</td>
+                        </tr>
+                            {grp.map((user, idx) =>
+                                <tr className='score'>
+                                    <td>{idx + 1}</td><td>{user.name}</td>
+                                </tr>
+                            )}
+                    </tbody>
+                </table>
+            </>
         );
     });
     return (
-        <table>
-            <tbody>
-                <tr className='score'>
-                    <td>Start order</td>
-                    <td>Player</td>
-                </tr>
-                {table}
-            </tbody>
-        </table>
+        <>{tables}</>
     );
 };
