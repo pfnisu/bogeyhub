@@ -1,4 +1,5 @@
 const db = require('./db_competition.js');
+const db_course = require('./db_course.js');
 const compSchema = require('./schema.js').competition;
 const competition = require('express').Router();
 const validate = require('jsonschema').validate;
@@ -66,7 +67,7 @@ competition.get('/rounds/:id([0-9]+)', async (req, res) => {
         let rounds = await db.roundsById(req.params.id);
         if (rounds) {
             for (let i = 0; i<rounds.length;i++) {
-                let holes = await db.holesById(rounds[i].course_id);
+                let holes = await db_course.holesById(rounds[i].course_id);
                 // Transpose column-oriented hole data to arrays
                 if (holes) {
                     rounds[i].holes = [];
@@ -87,9 +88,20 @@ competition.get('/rounds/:id([0-9]+)', async (req, res) => {
 // Get groups for round id
 competition.get('/groups/:id([0-9]+)', async (req, res) => {
     try {
-        let result = await db.groupsById(req.params.id);
-        if (result) res.status(200).send(result);
-        else res.status(404).send('Id not found');
+        let groups = await db.groupsById(req.params.id);
+        let result = [];
+        if (groups) {
+            // Get unique group numbers
+            let set = new Set(groups.map(g => g.group_number));
+            // Push sorted names into corresponding group array
+            set.forEach(gNum =>
+                result.push(groups.filter(g => g.group_number == gNum)
+                    .sort((a, b) => a.start_position < b.start_position)
+                    .map(row => { return { id: row.id, name: row.user }})
+                )
+            );
+            res.status(200).send(result);
+        } else res.status(404).send('Id not found');
     } catch (err) {
         res.status(500).send(err);
     }
