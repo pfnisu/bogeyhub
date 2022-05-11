@@ -13,6 +13,7 @@ export const Competition = (props) => {
     const [competition, setCompetition] = React.useState({});
     const [round, setRound] = React.useState({});
     const [groups, setGroups] = React.useState([]);
+    const [active, setActive] = React.useState(false);
     const params = useParams();
 
     // GET competition and rounds data at component mount
@@ -38,6 +39,15 @@ export const Competition = (props) => {
         })();
     }, [round]);
 
+    // Activate score input if user is included in groups
+    React.useEffect(() => {
+        (async () => {
+            groups.forEach(g => {
+                g.find(user => user.id === props.user.id) ?? setActive(true);
+            });
+        })();
+    }, [groups]);
+
     return (
         <>
             <h1>{competition.name}</h1>
@@ -48,7 +58,7 @@ export const Competition = (props) => {
                 &#119558; Registrations
             </button>
             <button onClick={(ev) => focus(ev, setUi('groups'))}>&#9776; Groups</button>
-            {props.user.name !== '' &&
+            {props.user.name !== '' && active &&
                 <button className='right' onClick={(ev) => focus(ev, setUi('input'))}>
                     &#9998; Input scores
                 </button>
@@ -62,7 +72,7 @@ export const Competition = (props) => {
             {ui === 'groups' && <>
                 <Groups groups={groups} setErr={props.setErr} />
             </>}
-            {ui === 'input' && <>
+            {ui === 'input' && active && <>
                 <ScoreInput id={params.compId} groups={groups} user={props.user} setErr={props.setErr} />
             </>}
         </>
