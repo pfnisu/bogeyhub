@@ -39,7 +39,7 @@ INSERT INTO round(start_time, course_id, competition_id) VALUES
     ('12:00:00', 1, 1);
 INSERT INTO grp(group_number, start_position, user_id, round_id) VALUES
     (1, 1, 2, 1);
-INSERT INTO score(hole, result, user_id, round_id) VALUES
+INSERT INTO score(hole_id, result, user_id, round_id) VALUES
     (1, 3, 2, 1),
     (2, 3, 2, 1),
     (3, 3, 2, 1),

@@ -19,7 +19,7 @@ module.exports = {
     holesById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select name, par from hole where course_id = ?',
+                'select id, name, par from hole where course_id = ?',
                 [id],
                 (err, res) => {
                     if (err) reject(err);

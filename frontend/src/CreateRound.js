@@ -51,8 +51,6 @@ export const CreateRound = (props) => {
             }
             setGroups(namegrps);
             setIdGroups(idgrps);
-
-            console.log(idgrps);
         } else props.setErr('Failed to create groups');
     }
 

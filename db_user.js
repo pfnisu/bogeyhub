@@ -81,7 +81,6 @@ module.exports = {
         return new Promise((resolve, reject) => {
             // Transpose scores into two-dimensional array
             let rows = scores.reduce((sum, row) => [...sum, Object.values(row)], []);
-            console.log(rows);
             pool.query(
                 'insert into score(result, hole_id, user_id, round_id) ' +
                 'values ?',

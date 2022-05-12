@@ -76,7 +76,6 @@ user.post('/score/:id([0-9]+)', async (req, res) => {
         };
     });
 
-    console.log(body);
     if (body
         .map(row => validate(row, scoreSchema).errors.length)
         .find(errors => errors > 0)) {

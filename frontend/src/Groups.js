@@ -7,17 +7,17 @@ export const Groups = (props) => {
         return (
             <>
                 <p>Group {idx + 1}</p>
-                <table>
+                <table key={idx}>
                     <tbody>
                         <tr className='score'>
                             <td>Start order</td>
                             <td>Player</td>
                         </tr>
-                            {grp.map((user, idx) =>
-                                <tr className='score'>
-                                    <td>{idx + 1}</td><td>{user.name}</td>
-                                </tr>
-                            )}
+                        {grp.map((user, idx) =>
+                            <tr className='score' key={idx}>
+                                <td>{idx + 1}</td><td>{user.name}</td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </>
