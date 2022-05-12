@@ -64,7 +64,7 @@ module.exports = {
         });
     },
     // Return the new id if insert succeeded
-    save: (user) => {
+    saveUser: (user) => {
         return new Promise((resolve, reject) => {
             pool.query(
                 'insert into user set name = ?, password = ?, ' +
@@ -76,8 +76,25 @@ module.exports = {
             );
         });
     },
+    // Return the new id if insert succeeded
+    saveScores: (scores) => {
+        return new Promise((resolve, reject) => {
+            // Transpose scores into two-dimensional array
+            let rows = scores.reduce((sum, row) => [...sum, Object.values(row)], []);
+            console.log(rows);
+            pool.query(
+                'insert into score(result, hole_id, user_id, round_id) ' +
+                'values ?',
+                [rows],
+                (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.insertId);
+                }
+            );
+        });
+    },
     // Return true if updated, false if no rows affected
-    update: (id, user) => {
+    updateUser: (id, user) => {
         return new Promise((resolve, reject) => {
             let columns = [user.birth_year, user.sex, id];
             // Only update pw if it's included in user data
