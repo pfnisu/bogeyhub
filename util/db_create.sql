@@ -92,7 +92,7 @@ CREATE TABLE round (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `group` (
+CREATE TABLE grp (
     group_number INT NOT NULL,
     start_time TIME,
     start_hole INT,
@@ -108,10 +108,12 @@ CREATE TABLE `group` (
 
 CREATE TABLE score (
     result INT NOT NULL,
-    hole INT NOT NULL,
+    hole_id INT NOT NULL,
     user_id INT NOT NULL,
     round_id INT NOT NULL,
-    PRIMARY KEY(hole, user_id, round_id),
+    PRIMARY KEY(hole_id, user_id, round_id),
+    FOREIGN KEY(hole_id) REFERENCES hole(id)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY(user_id) REFERENCES user(id)
         ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY(round_id) REFERENCES round(id)
