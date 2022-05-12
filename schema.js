@@ -14,7 +14,7 @@ const competition = {
     maxProperties: 7,
 };
 
-// Define valid spec for competition object
+// Define valid spec for round object
 const round = {
     type: 'object',
     properties: {
@@ -24,6 +24,19 @@ const round = {
         competition_id: { type: 'integer', minimum: 1 },
     },
     required: ['start_time', 'course_id', 'competition_id'],
+    maxProperties: 4,
+};
+
+// Define valid spec for score object
+const score = {
+    type: 'object',
+    properties: {
+        result: { type: 'integer', minimum: 1 },
+        hole_id: { type: 'integer', minimum: 1 },
+        user_id: { type: 'integer', minimum: 1 },
+        round_id: { type: 'integer', minimum: 1 },
+    },
+    required: ['result', 'hole_id', 'user_id', 'round_id'],
     maxProperties: 4,
 };
 
@@ -53,4 +66,4 @@ const registration = {
     maxProperties: 3,
 };
 
-module.exports = { competition, round, user, registration };
+module.exports = { competition, round, score, user, registration };
