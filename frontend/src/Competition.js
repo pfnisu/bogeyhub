@@ -13,7 +13,8 @@ export const Competition = (props) => {
     const [competition, setCompetition] = React.useState({});
     const [round, setRound] = React.useState({});
     const [groups, setGroups] = React.useState([]);
-    const [active, setActive] = React.useState(false);
+    const [group, setGroup] = React.useState([]);
+    const [hole, setHole] = React.useState({});
     const params = useParams();
 
     // GET competition and rounds data at component mount
@@ -39,12 +40,20 @@ export const Competition = (props) => {
         })();
     }, [round]);
 
-    // Activate score input if user is included in groups
+    // Find user's group and start hole
+    // score input is activated if a starting hole can be defined
     React.useEffect(() => {
-        (async () => {
-            groups.forEach(g => {
-                g.find(user => user.id === props.user.id) ?? setActive(true);
-            });
+        groups.length && (async () => {
+            setGroup(groups.find((g, idx) => {
+                let found = g.find(user => user.id === props.user.id);
+                found && setHole({
+                    index: idx,
+                    id: round.holes[idx].id,
+                    name: round.holes[idx].name,
+                    par: round.holes[idx].par,
+                });
+                return found;
+            }));
         })();
     }, [groups]);
 
@@ -58,7 +67,7 @@ export const Competition = (props) => {
                 &#119558; Registrations
             </button>
             <button onClick={(ev) => focus(ev, setUi('groups'))}>&#9776; Groups</button>
-            {props.user.name !== '' && active &&
+            {props.user.name !== '' && hole.id &&
                 <button className='right' onClick={(ev) => focus(ev, setUi('input'))}>
                     &#9998; Input scores
                 </button>
@@ -72,8 +81,8 @@ export const Competition = (props) => {
             {ui === 'groups' && <>
                 <Groups groups={groups} setErr={props.setErr} />
             </>}
-            {ui === 'input' && active && <>
-                <ScoreInput id={params.compId} groups={groups} user={props.user} setErr={props.setErr} />
+            {ui === 'input' && hole.id && <>
+                <ScoreInput round={round} group={group} hole={hole} setHole={setHole} user={props.user} setErr={props.setErr} />
             </>}
         </>
     );
