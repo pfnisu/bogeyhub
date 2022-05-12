@@ -68,15 +68,9 @@ competition.get('/rounds/:id([0-9]+)', async (req, res) => {
         if (rounds) {
             for (let i = 0; i<rounds.length;i++) {
                 let holes = await db_course.holesById(rounds[i].course_id);
-                // Transpose column-oriented hole data to arrays
-                if (holes) {
-                    rounds[i].holes = [];
-                    rounds[i].pars = [];
-                    holes.forEach((h) => {
-                        rounds[i].holes.push(h.name);
-                        rounds[i].pars.push(h.par);
-                    });
-                } else res.status(404).send('Holes not found');
+                // Add holes to round data
+                if (holes) rounds[i].holes = holes;
+                else res.status(404).send('Holes not found');
             }
             res.status(200).send(rounds);
         } else res.status(404).send('Id not found');
