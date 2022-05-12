@@ -11,18 +11,18 @@ export const ScoreTable = (props) => {
         (async () => {
             props.setErr(null);
             // Calculate round par only once
-            setPar(props.round.pars.reduce((s, sum) => sum += s));
+            setPar(props.round.holes.reduce((sum, h) => sum += h.par, 0));
             let resp = await request(path.comp + 'result/' + props.id);
             resp ? setResults(resp) : props.setErr('Loading results failed');
         })();
     }, []);
 
     let table = results.map((row, idx) => {
-        let total = row.scores.reduce((s, sum) => sum += s);
+        let total = row.scores.reduce((sum, s) => sum += s);
         // Use pars for rest of the round to calculate +/- for incomplete round
-        let relative = props.round.pars
+        let relative = props.round.holes
             .slice(row.scores.length)
-            .reduce((s, sum) => sum += s, total - par);
+            .reduce((sum, h) => sum += h.par, total - par);
 
         // Null-pad incomplete scores
         while (row.scores.length < props.round.holes.length) row.scores.push(null);
@@ -32,7 +32,7 @@ export const ScoreTable = (props) => {
                 <td>{row.user}</td>
                 {row.scores.map((s, idx) =>
                     // Highlight scores under par
-                    <td className={s && s < props.round.pars[idx] ? 'important' : ''}
+                    <td className={s && s < props.round.holes[idx].par ? 'important' : ''}
                         key={idx}>{s}</td>)}
                 <td>{total}</td>
                 <td className={relative < 0 ? 'important' : 'normal'}>
@@ -48,7 +48,7 @@ export const ScoreTable = (props) => {
                 <tbody>
                     <tr className='score'>
                         <td>Player</td>
-                        {props.round.holes.map((h, idx) => <td key={idx}>{h}</td>)}
+                        {props.round.holes.map((h, idx) => <td key={idx}>{h.name}</td>)}
                         <td>&#8721;</td>
                         <td>+/-</td>
                     </tr>
