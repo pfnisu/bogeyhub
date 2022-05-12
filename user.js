@@ -1,4 +1,5 @@
 const db = require('./db_user.js');
+const scoreSchema = require('./schema.js').score;
 const userSchema = require('./schema.js').user;
 const regSchema = require('./schema.js').registration;
 const user = require('express').Router();
@@ -56,7 +57,7 @@ user.post('/create', async (req, res) => {
         res.status(400).send('Invalid account data');
     } else {
         try {
-            let uid = await db.save(body);
+            let uid = await db.saveUser(body);
             res.status(201).send({...req.body, id: uid}); // 201 Created
         } catch (err) {
             res.status(500).send(err);
@@ -64,6 +65,31 @@ user.post('/create', async (req, res) => {
     }
 });
 
+// POST group scores for a hole
+user.post('/score/:id([0-9]+)', async (req, res) => {
+    // Return 400 Bad Request if invalid score data
+    let body = req.body.map(row => {
+        return {
+            ...row,
+            result: Number(row.result),
+            round_id: Number(req.params.id),
+        };
+    });
+
+    console.log(body);
+    if (body
+        .map(row => validate(row, scoreSchema).errors.length)
+        .find(errors => errors > 0)) {
+        res.status(400).send('Invalid score data');
+    } else {
+        try {
+            let result = await db.saveScores(body);
+            if (res) res.status(204).end(); // 204 No Content
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    }
+});
 // Add new registration with POST
 user.post('/register/:id([0-9]+)', async (req, res) => {
     let body = {
@@ -109,7 +135,7 @@ user.delete('/:id([0-9]+)', async (req, res) => {
     }
 });
 
-// Partial update with PATCH
+// Partial user data update with PATCH
 user.patch('/:id([0-9]+)', async (req, res) => {
     let body = {
         ...req.body,
@@ -121,7 +147,7 @@ user.patch('/:id([0-9]+)', async (req, res) => {
         res.status(400).send('Invalid user data');
     } else {
         // Try to update db row that has id
-        let success = await db.update(req.params.id, body);
+        let success = await db.updateUser(req.params.id, body);
         if (success) res.status(204).end(); // Update ok, 204 No Content
         else res.status(404).send('Id not found');
     }
