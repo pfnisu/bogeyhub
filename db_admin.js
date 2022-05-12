@@ -23,18 +23,18 @@ module.exports = {
     },
     // Return true if groups inserted, false if no rows affected
     addGroups: (id, groups) => {
-        let values = [];
-        // Transpose groups into columnar two-dimensional array
+        let rows = [];
+        // Transpose groups into two-dimensional array
         groups.forEach((group, g_num) =>
             group.forEach((uid, s_pos) =>
-                values.push([g_num + 1, s_pos + 1, uid, id])
+                rows.push([g_num + 1, s_pos + 1, uid, id])
             )
         );
         return new Promise((resolve, reject) => {
             pool.query(
-                'insert into `group`(group_number, start_position, user_id, round_id) ' +
+                'insert into grp(group_number, start_position, user_id, round_id) ' +
                 'values ?',
-                [values],
+                [rows],
                 (err, res) => {
                     if (err) reject(err);
                     else resolve(res.affectedRows !== 0);
