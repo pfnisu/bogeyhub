@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {request, path} from './util';
 
 export const ScoreTable = (props) => {
-    const [results, setResults] = React.useState([]);
     const [par, setPar] = React.useState(0);
 
     // GET results for compId
@@ -13,11 +12,37 @@ export const ScoreTable = (props) => {
             // Calculate round par only once
             setPar(props.round.holes.reduce((sum, h) => sum += h.par, 0));
             let resp = await request(path.comp + 'result/' + props.id);
-            resp ? setResults(resp) : props.setErr('Loading results failed');
+            resp ? props.setResults(resp) : props.setErr('Loading results failed');
+
+            // Set current hole based on already inputted scores
+            props.setHole(state => {
+                let idx = 0;
+                // Check score data to determine hole
+                resp && resp.forEach(row => {
+                    if (row.user.id === props.user.id) {
+                        idx = row.scores.length;
+                        // Wrap to first hole after last
+                        if (idx >= props.round.holes.length) idx = 0;
+                    }
+                });
+                return {
+                    index: idx,
+                    roundId: state.roundId,
+                    ...props.round.holes[idx],
+                };
+            });
         })();
     }, []);
 
-    let table = results.map((row, idx) => {
+    // Sort results by total score
+    // TODO optimize total and relative: now they are calculated multiple times
+    let table = props.results;
+    table.sort((a, b) =>
+        a.scores.reduce((sum, s) => sum += s) >
+            b.scores.reduce((sum, s) => sum += s)
+    );
+
+    table = table.map((row, idx) => {
         let total = row.scores.reduce((sum, s) => sum += s);
         // Use pars for rest of the round to calculate +/- for incomplete round
         let relative = props.round.holes
@@ -29,7 +54,7 @@ export const ScoreTable = (props) => {
 
         return (
             <tr key={idx} className='score'>
-                <td>{row.user}</td>
+                <td>{row.user.name}</td>
                 {row.scores.map((s, idx) =>
                     // Highlight scores under par
                     <td className={s && s < props.round.holes[idx].par ? 'important' : ''}
@@ -41,6 +66,7 @@ export const ScoreTable = (props) => {
             </tr>
         );
     });
+
     return (
         <>
             <p>&#9873; {props.round.course}, par {par}</p>
