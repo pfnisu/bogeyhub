@@ -29,14 +29,13 @@ export const ScoreInput = (props) => {
             props.setHole(state => {
                 let idx = ++state.index;
                 // Wrap to first hole after last
-                if (idx > props.round.holes.length) idx = 0;
+                if (idx >= props.round.holes.length) idx = 0;
                 // Clear inputs
                 inputs.forEach(i => i.value = '');
                 return {
                     index: idx,
-                    id: props.round.holes[idx].id,
-                    name: props.round.holes[idx].name,
-                    par: props.round.holes[idx].par,
+                    roundId: state.roundId,
+                    ...props.round.holes[idx],
                 };
             });
         } else props.setErr('Failed to save scores');
@@ -52,6 +51,11 @@ export const ScoreInput = (props) => {
             <input type='number' />
         </span>
     );
+
+    // Set focus to first input
+    React.useEffect(() => {
+        document.querySelector('input').focus();
+    }, []);
 
     return (
         <>
