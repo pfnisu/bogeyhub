@@ -175,3 +175,8 @@ button:last-of-type {
 		margin:0 auto 8px;
 	}
 }
+@media (max-width:640px) {
+    * {
+        outline:none !important;
+    }
+}
