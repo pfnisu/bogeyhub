@@ -31,14 +31,16 @@ competition.get('/result/:id([0-9]+)', async (req, res) => {
     try {
         let result = await db.resultsById(req.params.id);
         if (result) {
-            // Transpose column-oriented scores to per-player data
-            let set = new Set(result.map(obj => obj.user));
+            // Transpose row-oriented scores to per-player data
+            let set = new Set(result.map(row => row.user_id));
             let arr = [];
-            set.forEach(usr => {
-                let score = [];
-                result.forEach(el => el.user === usr && score.push(el.result)),
+            set.forEach(uid => {
+                let name, score = [];
+                result.forEach(row => row.user_id === uid &&
+                    score.push(row.result) &&
+                    (name = row.user_name));
                 arr.push({
-                    user: usr,
+                    user: {id: uid, name: name},
                     scores: score,
                 });
             });

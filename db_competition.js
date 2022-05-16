@@ -22,7 +22,8 @@ module.exports = {
     resultsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select hole_id, result, user.name as user from competition ' +
+                'select hole_id, result, user.id as user_id, user.name as user_name ' +
+                'from competition ' +
                 'inner join round on competition.id = round.competition_id ' +
                 'inner join score on round.id = score.round_id ' +
                 'inner join user on user.id = score.user_id ' +
