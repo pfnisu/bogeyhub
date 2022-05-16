@@ -14,6 +14,8 @@ const App = () => {
     const [user, setUser] = React.useState({name: '', role: ''});
     // Competition id's where user is registered
     const [regs, setRegs] = React.useState([]);
+    // Current hole of active score input, stored here for persistence
+    const [hole, setHole] = React.useState({});
     // App-wide error message
     const [err, setErr] = React.useState(null);
 
@@ -53,7 +55,7 @@ const App = () => {
                         <Login user={user} setUser={setUser} setErr={setErr} />} />
                     <Route path='competition/'>
                         <Route path=':compId' element={
-                            <Competition user={user} setErr={setErr} />} />
+                            <Competition user={user} hole={hole} setHole={setHole} setErr={setErr} />} />
                     </Route>
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>
