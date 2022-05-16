@@ -14,7 +14,7 @@ export const Competition = (props) => {
     const [round, setRound] = React.useState({});
     const [groups, setGroups] = React.useState([]);
     const [group, setGroup] = React.useState([]);
-    const [hole, setHole] = React.useState({});
+    const [results, setResults] = React.useState([]);
     const params = useParams();
 
     // GET competition and rounds data at component mount
@@ -28,7 +28,7 @@ export const Competition = (props) => {
             props.setErr(null);
             let rnds = await request(path.comp + 'rounds/' + params.compId);
             // Only 1 round is supported currently
-            rnds[0] ?  setRound(rnds[0]) : props.setErr('Loading round info failed');
+            rnds[0] ?  setRound(rnds[0]) : props.setErr('Round info not found');
         })();
     }, []);
 
@@ -40,20 +40,11 @@ export const Competition = (props) => {
         })();
     }, [round]);
 
-    // Find user's group and start hole
-    // score input is activated if a starting hole can be defined
+    // Find user's group
+    // Score input is activated if user is in a group
     React.useEffect(() => {
         groups.length && (async () => {
-            setGroup(groups.find((g, idx) => {
-                let found = g.find(user => user.id === props.user.id);
-                found && setHole({
-                    index: idx,
-                    id: round.holes[idx].id,
-                    name: round.holes[idx].name,
-                    par: round.holes[idx].par,
-                });
-                return found;
-            }));
+            setGroup(groups.find((g, idx) => g.find(user => user.id === props.user.id)));
         })();
     }, [groups]);
 
@@ -67,13 +58,15 @@ export const Competition = (props) => {
                 &#119558; Registrations
             </button>
             <button onClick={(ev) => focus(ev, setUi('groups'))}>&#9776; Groups</button>
-            {props.user.name !== '' && hole.id &&
+            {props.user.name !== '' && !!group?.length &&
                 <button className='right' onClick={(ev) => focus(ev, setUi('input'))}>
                     &#9998; Input scores
                 </button>
             }
             {ui === 'results' && round.id && <>
-                <ScoreTable id={params.compId} round={round} setErr={props.setErr} />
+                <ScoreTable id={params.compId} user={props.user}
+                    round={round} setHole={props.setHole}
+                    results={results} setResults={setResults} setErr={props.setErr} />
             </>}
             {ui === 'registrations' && <>
                 <RegList id={params.compId} setErr={props.setErr} />
@@ -81,8 +74,10 @@ export const Competition = (props) => {
             {ui === 'groups' && <>
                 <Groups groups={groups} setErr={props.setErr} />
             </>}
-            {ui === 'input' && hole.id && <>
-                <ScoreInput round={round} group={group} hole={hole} setHole={setHole} user={props.user} setErr={props.setErr} />
+            {ui === 'input' && !!group?.length && <>
+                <ScoreInput round={round} group={group}
+                    hole={props.hole} setHole={props.setHole}
+                    user={props.user} setErr={props.setErr} />
             </>}
         </>
     );
