@@ -60,4 +60,13 @@ module.exports = {
             });
         });
     },
+    // Return true if deleted, false if no rows affected
+    deleteRound: (id) => {
+        return new Promise((resolve, reject) => {
+            pool.query('delete from round where id = ?', [id], (err, res) => {
+                if (err) reject(err);
+                else resolve(res.affectedRows !== 0);
+            });
+        });
+    },
 };

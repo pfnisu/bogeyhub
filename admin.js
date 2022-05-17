@@ -90,6 +90,17 @@ admin.delete('/:id([0-9]+)', async (req, res) => {
     }
 });
 
+// Delete round matching url param
+admin.delete('/round/:id([0-9]+)', async (req, res) => {
+    try {
+        let success = await db.deleteRound(req.params.id);
+        if (success) res.status(204).end(); // Delete ok, 204 No Content
+        else res.status(404).send('Id not found'); // Nothing deleted
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
 // Partial update with PATCH
 admin.patch('/:id([0-9]+)', async (req, res) => {
     // Return 400 Bad Request if patched obj doesn't validate
