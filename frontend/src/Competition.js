@@ -24,13 +24,17 @@ export const Competition = (props) => {
             let resp = await request(path.comp + params.compId);
             resp ?  setCompetition(resp) : props.setErr('Loading competition failed');
         })();
-        (async () => {
+    }, []);
+
+    // GET round data if phase is after registration
+    React.useEffect(() => {
+        competition.phase_id > 2 && (async () => {
             props.setErr(null);
             let rnds = await request(path.comp + 'rounds/' + params.compId);
             // Only 1 round is supported currently
             rnds[0] ?  setRound(rnds[0]) : props.setErr('Round info not found');
         })();
-    }, []);
+    }, [competition]);
 
     // GET groups after round is loaded
     React.useEffect(() => {
