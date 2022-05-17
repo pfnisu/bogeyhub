@@ -56,7 +56,7 @@ export const Register = (props) => {
                 <Link to={'/admin/' + props.comp.id}>
                     <button>&#9881; Edit</button>
                 </Link>}
-            {props.user.name !== '' && !props.reg &&
+            {props.user.name !== '' && !props.reg && props.comp.phase === 'registration' &&
                 <button ref={regRef} onClick={(ev) => focus(ev, setUi('register'))}>
                     &#119558; Register
                 </button>}

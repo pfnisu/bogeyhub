@@ -135,10 +135,10 @@ ul > li {
 li a {
     color:black;
 }
-li.registration, .under, tr.score td.under,button.sel,.ok {
+li.active,.under,tr.score td.under,button.sel,.ok {
 	background:#cff3fd;
 }
-tr.score td.over {
+li.registration,tr.score td.over {
 	background:#dddedf;
 }
 li form {
