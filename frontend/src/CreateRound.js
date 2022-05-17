@@ -98,7 +98,7 @@ export const CreateRound = (props) => {
                 <input ref={courseRef} type='text' list='courses' onChange={(ev) =>
                     setCourse(state => courses.find((c) => c.name === ev.target.value) || state)} />
                 <datalist id='courses'>
-                    {courses.map((c, idx) => <option value={c.name}>{c.name}</option>)}
+                    {courses.map((c, idx) => <option key={idx} value={c.name}>{c.name}</option>)}
                 </datalist>
                 {course.id && <p>&#9873; {course.name}, par {holes.map((h) => h.par).reduce((sum, p) => sum += p, 0)}</p>}
                 <button onClick={(ev) => addRound(ev)}>&#10023; Create round</button>
