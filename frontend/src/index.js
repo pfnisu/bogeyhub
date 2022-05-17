@@ -41,7 +41,7 @@ const App = () => {
                 <NavLink to='/login'>{user.name ? 'User: ' + user.name : 'Login'}</NavLink>
             </nav>
             <main>
-                {err && <p className='error'>{err}</p>}
+                {err && <p className='error'>&#9888; {err}</p>}
                 <Routes>
                     <Route path='/' element={
                         <CompList user={user} regs={regs} setRegs={setRegs} setErr={setErr} />} />
