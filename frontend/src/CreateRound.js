@@ -89,7 +89,7 @@ export const CreateRound = (props) => {
 
     return (
         <>
-            <h1>Create round and groups: {props.competition.name}</h1>
+            <h1>Create round: {props.competition.name}</h1>
             <button onClick={() => props.setUi('edit')}>&#171; Back</button>
             <form onSubmit={e => e.preventDefault()}>
                 <label>Start time:</label>
@@ -103,7 +103,7 @@ export const CreateRound = (props) => {
                 {course.id && <p>&#9873; {course.name}, par {holes.map((h) => h.par).reduce((sum, p) => sum += p, 0)}</p>}
                 <button onClick={(ev) => addRound(ev)}>&#10023; Create round</button>
             </form>
-            <h2>Round id: {round.id || 'not created'}</h2>
+            <h2>Generate groups (round id: {round.id || 'not created'})</h2>
             <form onSubmit={e => e.preventDefault()}>
                 <label>
                     <input type="checkbox" defaultChecked={false} onChange={(ev) => setGolfStart(ev.target.value)} />
