@@ -65,6 +65,9 @@ tr.score td,span.score {
 tr.score td:not(:first-child) {
     text-align:right;
 }
+thead,span label {
+    font-weight:bold;
+}
 form {
 	display:flex;
 	flex-wrap:wrap;

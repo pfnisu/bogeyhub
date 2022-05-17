@@ -29,13 +29,15 @@ export const RegList = (props) => {
     });
     return (
         <table>
-            <tbody>
+            <thead>
                 <tr className='score'>
                     <td>#</td>
                     <td>Player</td>
                     <td>Division</td>
                     <td>Time</td>
                 </tr>
+            </thead>
+            <tbody>
                 {table}
             </tbody>
         </table>

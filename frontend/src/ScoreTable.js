@@ -71,13 +71,15 @@ export const ScoreTable = (props) => {
         <>
             <p>&#9873; {props.round.course}, par {par}</p>
             <table>
-                <tbody>
+                <thead>
                     <tr className='score'>
                         <td>Player</td>
                         {props.round.holes.map((h, idx) => <td key={idx}>{h.name}</td>)}
                         <td>&#8721;</td>
                         <td>+/-</td>
                     </tr>
+                </thead>
+                <tbody>
                     {table}
                 </tbody>
             </table>
