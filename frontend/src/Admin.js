@@ -100,7 +100,7 @@ export const Admin = (props) => {
                     <input ref={venueRef} type='text' defaultValue={competition.venue} />
                     <label>Info:</label>
                     <textarea ref={infoRef} defaultValue={competition.info} />
-                    <select ref={phaseRef} defaultValue='2'>
+                    <select ref={phaseRef} defaultValue={competition.phase_id}>
                         <option value='2'>Registration phase</option>
                         <option value='4'>Active phase</option>
                     </select>
