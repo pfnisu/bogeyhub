@@ -70,7 +70,7 @@ admin.post('/round/:id([0-9]+)', async (req, res) => {
 // Add groups for a round
 admin.post('/group/:id([0-9]+)', async (req, res) => {
     // Return 400 Bad Request if invalid group data
-    if (validate(body, groupSchema).errors.length) {
+    if (validate(req.body, groupSchema).errors.length) {
         res.status(400).send('Invalid group data');
     } else {
         try {

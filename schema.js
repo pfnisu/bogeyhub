@@ -28,17 +28,11 @@ const round = {
 };
 
 const group = {
-    type: 'object',
-    properties: {
-        group_number: { type: 'integer', minimum: 1 },
-        start_time: { type: 'string', format: 'time' },
-        start_hole: { type: 'integer', minimum: 1 },
-        start_position: { type: 'integer', minimum: 1 },
-        user_id: { type: 'integer', minimum: 1 },
-        round_id: { type: 'integer', minimum: 1 },
-    },
-    required: ['group_number', 'start_position', 'user_id', 'round_id'],
-    maxProperties: 6,
+    type: 'array',
+    items: {
+        type: 'array',
+        items: { type: 'integer', minimum: 1 },
+    }
 };
 
 const score = {
