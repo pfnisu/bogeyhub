@@ -66,12 +66,7 @@ export const Register = (props) => {
                 </button>}
             <button onClick={(ev) => focus(ev, setUi('info'))}>&#8505; Info</button>
             <h2>{title}</h2>
-            <span>
-                {new Date(props.comp.start_date).toJSON().split('T')[0]}
-                {props.comp.end_date
-                    ?  ' - ' + new Date(props.comp.end_date).toJSON().split('T')[0]
-                    : ''}
-            </span>
+            <span>{props.comp.start_date.split('T')[0]}</span>
             {ui === 'register' && <>
                 <p>Register to division:</p>
                 <select ref={divRef} defaultValue={props.user.sex}>
