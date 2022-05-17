@@ -30,8 +30,9 @@ export const ScoreInput = (props) => {
                 let idx = ++state.index;
                 // Wrap to first hole after last
                 if (idx >= props.round.holes.length) idx = 0;
-                // Clear inputs
+                // Clear inputs and focus first
                 inputs.forEach(i => i.value = '');
+                inputs[0].focus();
                 return {
                     index: idx,
                     roundId: state.roundId,
