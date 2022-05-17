@@ -7,10 +7,10 @@ export const ScoreTable = (props) => {
 
     // GET results for compId
     React.useEffect(() => {
+        // Calculate round par only once
+        setPar(props.round.holes.reduce((sum, h) => sum += h.par, 0));
         (async () => {
             props.setErr(null);
-            // Calculate round par only once
-            setPar(props.round.holes.reduce((sum, h) => sum += h.par, 0));
             let resp = await request(path.comp + 'result/' + props.id);
             resp ? props.setResults(resp) : props.setErr('Loading results failed');
 
@@ -34,19 +34,19 @@ export const ScoreTable = (props) => {
         })();
     }, []);
 
+    let table = [...props.results];
     // Sort results by total score
-    // TODO optimize total and relative: now they are calculated multiple times
-    let table = props.results;
     table.sort((a, b) =>
         a.scores.reduce((sum, s) => sum += s) >
             b.scores.reduce((sum, s) => sum += s)
     );
 
+    // Generate results table from score rows
     table = table.map((row, idx) => {
         let total = row.scores.reduce((sum, s) => sum += s);
         // Use pars for rest of the round to calculate +/- for incomplete round
         let relative = props.round.holes
-            .slice(row.scores.length)
+            .slice(row.scores.filter(score => score).length)
             .reduce((sum, h) => sum += h.par, total - par);
 
         // Null-pad incomplete scores
