@@ -56,12 +56,13 @@ export const ScoreTable = (props) => {
             <tr key={idx} className='score'>
                 <td>{row.user.name}</td>
                 {row.scores.map((s, idx) =>
-                    // Highlight scores under par
-                    <td className={s && s < props.round.holes[idx].par ? 'important' : ''}
+                    // Highlight scores over or under par
+                    <td className={s && (s === props.round.holes[idx].par ? '' :
+                        s > props.round.holes[idx].par ? 'over' : 'under')}
                         key={idx}>{s}</td>)}
                 <td>{total}</td>
-                <td className={relative < 0 ? 'important' : 'normal'}>
-                    {relative}
+                <td className={relative < 0 ? 'under' : ''}>
+                    {relative > 0 ? '+' + relative : relative}
                 </td>
             </tr>
         );
