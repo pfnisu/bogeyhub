@@ -1,4 +1,5 @@
-// Define valid spec for competition object
+// Define valid specs for objects to check before inserting to db
+
 const competition = {
     type: 'object',
     properties: {
@@ -14,7 +15,6 @@ const competition = {
     maxProperties: 7,
 };
 
-// Define valid spec for round object
 const round = {
     type: 'object',
     properties: {
@@ -27,7 +27,20 @@ const round = {
     maxProperties: 4,
 };
 
-// Define valid spec for score object
+const group = {
+    type: 'object',
+    properties: {
+        group_number: { type: 'integer', minimum: 1 },
+        start_time: { type: 'string', format: 'time' },
+        start_hole: { type: 'integer', minimum: 1 },
+        start_position: { type: 'integer', minimum: 1 },
+        user_id: { type: 'integer', minimum: 1 },
+        round_id: { type: 'integer', minimum: 1 },
+    },
+    required: ['group_number', 'start_position', 'user_id', 'round_id'],
+    maxProperties: 6,
+};
+
 const score = {
     type: 'object',
     properties: {
@@ -40,7 +53,6 @@ const score = {
     maxProperties: 4,
 };
 
-// Define valid spec for user object
 const user = {
     type: 'object',
     properties: {
@@ -54,7 +66,6 @@ const user = {
     maxProperties: 6,
 };
 
-// Define valid spec for registration object
 const registration = {
     type: 'object',
     properties: {
@@ -66,4 +77,4 @@ const registration = {
     maxProperties: 3,
 };
 
-module.exports = { competition, round, score, user, registration };
+module.exports = { competition, round, group, score, user, registration };

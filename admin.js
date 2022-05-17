@@ -2,6 +2,7 @@ const db = require('./db_admin.js');
 const db_course = require('./db_course.js');
 const compSchema = require('./schema.js').competition;
 const roundSchema = require('./schema.js').round;
+const groupSchema = require('./schema.js').group;
 const admin = require('express').Router();
 const validate = require('jsonschema').validate;
 
@@ -69,6 +70,9 @@ admin.post('/round/:id([0-9]+)', async (req, res) => {
 // Add groups for a round
 admin.post('/group/:id([0-9]+)', async (req, res) => {
     // Return 400 Bad Request if invalid group data
+    if (validate(body, groupSchema).errors.length) {
+        res.status(400).send('Invalid group data');
+    } else {
         try {
             let result = {
                 id: await db.addGroups(req.params.id, req.body),
@@ -77,6 +81,7 @@ admin.post('/group/:id([0-9]+)', async (req, res) => {
         } catch (err) {
             res.status(500).send(err);
         }
+    }
 });
 
 // Delete competition matching url param

@@ -67,7 +67,6 @@ user.post('/create', async (req, res) => {
 
 // POST group scores for a hole
 user.post('/score/:id([0-9]+)', async (req, res) => {
-    // Return 400 Bad Request if invalid score data
     let body = req.body.map(row => {
         return {
             ...row,
@@ -75,7 +74,7 @@ user.post('/score/:id([0-9]+)', async (req, res) => {
             round_id: Number(req.params.id),
         };
     });
-
+    // Return 400 Bad Request if invalid score data
     if (body
         .map(row => validate(row, scoreSchema).errors.length)
         .find(errors => errors > 0)) {
