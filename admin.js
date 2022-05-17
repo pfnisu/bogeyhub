@@ -108,12 +108,16 @@ admin.delete('/round/:id([0-9]+)', async (req, res) => {
 
 // Partial update with PATCH
 admin.patch('/:id([0-9]+)', async (req, res) => {
+    let body = {
+        ...req.body,
+        phase_id: Number(req.body.phase_id),
+    };
     // Return 400 Bad Request if patched obj doesn't validate
-    if (validate(req.body, compSchema).errors.length > 0) {
+    if (validate(body, compSchema).errors.length > 0) {
         res.status(400).send('Invalid competition data');
     } else {
         // Try to update db row that has id
-        let success = await db.updateComp(req.params.id, req.body);
+        let success = await db.updateComp(req.params.id, body);
         if (success) res.status(204).end(); // Update ok, 204 No Content
         else res.status(404).send('Id not found');
     }
