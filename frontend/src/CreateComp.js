@@ -17,7 +17,7 @@ export const CreateComp = (props) => {
         let data = {
             start_date: dateRef.current.value,
             name: nameRef.current.value,
-            phase_id: 1,
+            phase_id: 2, // Set to registration phase by default
         };
         // POST data to backend
         let resp = await request(path.admin, 'POST', data);

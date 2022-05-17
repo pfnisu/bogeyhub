@@ -17,6 +17,7 @@ export const Admin = (props) => {
     const nameRef = React.createRef();
     const venueRef = React.createRef();
     const infoRef = React.createRef();
+    const phaseRef = React.createRef();
 
     // GET competition with compId at component mount
     React.useEffect(() => {
@@ -51,7 +52,7 @@ export const Admin = (props) => {
             name: nameRef.current.value,
             venue: venueRef.current.value,
             info: infoRef.current.value,
-            phase_id: 1,
+            phase_id: phaseRef.current.value,
         };
 
         let resp = await request(path.admin + params.compId, 'PATCH', data);
@@ -99,6 +100,10 @@ export const Admin = (props) => {
                     <input ref={venueRef} type='text' defaultValue={competition.venue} />
                     <label>Info:</label>
                     <textarea ref={infoRef} defaultValue={competition.info} />
+                    <select ref={phaseRef} defaultValue='2'>
+                        <option value='2'>Registration phase</option>
+                        <option value='4'>Active phase</option>
+                    </select>
                     <button onClick={(ev) => editComp(ev)}>Save changes</button>
                 </form>
                 <h2>Rounds</h2>
