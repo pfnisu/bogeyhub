@@ -10,7 +10,8 @@ module.exports = {
                 'select competition.id, start_date, end_date, ' +
                 'competition.name, venue, max_users, competition.info, ' +
                 'phase.name as phase from competition ' +
-                'inner join phase on phase.id = competition.phase_id',
+                'inner join phase on phase.id = competition.phase_id ' +
+                'order by start_date desc',
                 (err, res) => {
                     if (err) reject(err);
                     else resolve(res);
@@ -18,7 +19,7 @@ module.exports = {
             );
         });
     },
-    // Find round result data, result in columnar form for scalability
+    // Find round result data, result in row form for scalability
     resultsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
@@ -44,7 +45,8 @@ module.exports = {
                 'from registration ' +
                 'inner join user on user.id = registration.user_id ' +
                 'inner join division on division.id = registration.division_id ' +
-                'where competition_id = ?',
+                'where competition_id = ? ' +
+                'order by time asc',
                 [id],
                 (err, res) => {
                     if (err) reject(err);
