@@ -100,9 +100,11 @@ export const Admin = (props) => {
                     <input ref={venueRef} type='text' defaultValue={competition.venue} />
                     <label>Info:</label>
                     <textarea ref={infoRef} defaultValue={competition.info} />
+                    <span className='tag'>&#10227; Phase</span>
                     <select ref={phaseRef} defaultValue={competition.phase_id}>
-                        <option value='2'>Registration phase</option>
-                        <option value='4'>Active phase</option>
+                        <option value='2'>Registration open</option>
+                        <option value='4'>Ongoing competition</option>
+                        <option value='5'>Completed</option>
                     </select>
                     <button onClick={(ev) => editComp(ev)}>Save changes</button>
                 </form>

@@ -147,7 +147,7 @@ li.complete,tr.score td.over {
 li form {
 	margin:0;
 }
-li button,li select,li label,.tag,span.score {
+li button,li select,li label,li .tag,span.score {
 	padding:4px;
 }
 li span,ol p {
