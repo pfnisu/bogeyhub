@@ -60,7 +60,7 @@ export const Register = (props) => {
                 <button ref={regRef} onClick={(ev) => focus(ev, setUi('register'))}>
                     &#119558; Register
                 </button>}
-            {props.user.name !== '' && props.reg &&
+            {props.user.name !== '' && props.reg && props.comp.phase === 'registration' &&
                 <button ref={regRef} onClick={(ev) => focus(ev, setUi('unregister'))}>
                     &#10005; Unregister
                 </button>}
