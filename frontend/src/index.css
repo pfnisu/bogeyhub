@@ -75,14 +75,14 @@ form {
 	display:flex;
 	flex-wrap:wrap;
 }
-input,select,textarea,button,.list {
+input,select,textarea,button,.tag {
 	margin-right:4px;
 	border:1px solid #484c54;
 	border-radius:6px;
 	padding:8px 4px;
 	font-size:1em;
 }
-.list {
+.tag {
 	background-color:#484c54;
 	color:white;
 }
@@ -147,7 +147,7 @@ li.complete,tr.score td.over {
 li form {
 	margin:0;
 }
-li button,li select,li label,.list,span.score {
+li button,li select,li label,.tag,span.score {
 	padding:4px;
 }
 li span,ol p {

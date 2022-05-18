@@ -68,22 +68,28 @@ export const Register = (props) => {
             <h2>{title}</h2>
             <span>{props.comp.start_date.split('T')[0]}</span>
             {ui === 'register' && <>
-                <p>Register to division:</p>
+                <p>Register to competition:</p>
+                <span className='tag'>Division</span>
                 <select ref={divRef} defaultValue={props.user.sex}>
                     <option value='' disabled hidden>Division</option>
                     <option value='MPO'>MPO</option>
                     <option value='FPO'>FPO</option>
                 </select>
-                <button onClick={(ev) => addReg(ev)}>Add registration</button>
+                <button onClick={(ev) => addReg(ev)}>&#10023; Add registration</button>
             </>}
             {ui === 'unregister' && <>
                 <p>Remove registration:</p>
+                <span className='tag'>Are you sure?</span>
                 <button onClick={(ev) => removeReg(ev)}>&#10005; Confirm removal</button>
-                <p>Are you sure?</p>
             </>}
             {ui === 'info' && <>
-                <p>Venue: {props.comp.venue}</p>
-                <p>Info: {props.comp.info}</p>
+                <br/>
+                <span className='tag'>&#10227; {props.comp.phase === 'registration'
+                    ? 'Registration open' : 'Competition started'}</span>
+                {props.comp.venue &&
+                    <span className='tag'>&#8984; {props.comp.venue}</span>}
+                {props.comp.info &&
+                    <p>{props.comp.info}</p>}
             </>}
         </li>
     );
