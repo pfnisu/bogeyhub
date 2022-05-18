@@ -39,7 +39,7 @@ export const CompList = (props) => {
         <>
             <h1>Competitions</h1>
             <button className='sel' onClick={(ev) => focus(ev, setUi('open'))}>
-                &#119558; Available
+                &#119558; Current
             </button>
             <button onClick={(ev) => focus(ev, setUi('history'))}>&#10226; History</button>
             {props.user.name !== '' && <button className='right' onClick={(ev) => focus(ev, setUi('my'))}>
