@@ -97,7 +97,7 @@ input[type=checkbox] {
     float:right;
     margin:2px auto 4px;
 }
-select,button,ol span {
+li.registration,select,button,ol span {
 	background:#f6f5f4;
 }
 ol span {
@@ -138,10 +138,10 @@ ul > li {
 li a {
     color:black;
 }
-li.active,.under,tr.score td.under,button.sel,.ok {
+li.ongoing,.under,tr.score td.under,button.sel,.ok {
 	background:#cff3fd;
 }
-li.registration,tr.score td.over {
+li.complete,tr.score td.over {
 	background:#dddedf;
 }
 li form {

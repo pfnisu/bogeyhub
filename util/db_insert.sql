@@ -16,7 +16,7 @@ INSERT INTO phase(name) VALUES
     ('announce'),
     ('registration'),
     ('closed'),
-    ('active'),
+    ('ongoing'),
     ('complete');
 INSERT INTO course(name, holes) VALUES
     ('Sellupuiston frisbeegolfrata', 9),
