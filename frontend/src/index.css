@@ -57,6 +57,9 @@ h2,ul p {
 table,span.score {
     width:100%;
 }
+div {
+    overflow-x:auto;
+}
 tr.score td,span.score {
 	border-radius:6px;
     padding:4px;
