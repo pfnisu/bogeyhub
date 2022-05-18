@@ -61,9 +61,7 @@ export const ScoreTable = (props) => {
                         s > props.round.holes[idx].par ? 'over' : 'under')}
                         key={idx}>{s}</td>)}
                 <td>{total}</td>
-                <td className={relative < 0 ? 'under' : ''}>
-                    {relative > 0 ? '+' + relative : relative}
-                </td>
+                <td>{relative > 0 ? '+' + relative : relative}</td>
             </tr>
         );
     });
