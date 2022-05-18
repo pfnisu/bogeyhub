@@ -84,8 +84,10 @@ export const Register = (props) => {
             </>}
             {ui === 'info' && <>
                 <br/>
-                <span className='tag'>&#10227; {props.comp.phase === 'registration'
-                    ? 'Registration open' : 'Competition started'}</span>
+                <span className='tag'>&#10227;
+                    {props.comp.phase === 'registration' ? 'Registration open' :
+                        props.comp.phase === 'ongoing' ? 'Ongoing competition' : 'Completed'}
+                </span>
                 {props.comp.venue &&
                     <span className='tag'>&#8984; {props.comp.venue}</span>}
                 {props.comp.info &&
