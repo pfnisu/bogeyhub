@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
 import {CreateRound} from './CreateRound';
-import {useParams} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import {request, path, check} from './util';
 
 // Creating competitions is limited to admin
@@ -115,8 +115,14 @@ export const Admin = (props) => {
                             <button id={round.id} onClick={(ev) => delRound(ev)}>
                                 &#10005; Delete round
                             </button>
-                            <p>Round id: {round.id}</p>
-                            <p>Course: {round.course}</p>
+                            <h2>
+                                <Link to={path.admin + 'round/' + round.id}>Round id: {round.id}</Link>
+                            </h2>
+                            <span>{round.start_time}</span>
+                            <p>
+                                &#9873; {round.course},
+                                par {round.holes.reduce((sum, h) => sum += h.par, 0)}
+                            </p>
                         </li>
                     )
                 }
