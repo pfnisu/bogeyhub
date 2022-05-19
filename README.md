@@ -13,25 +13,25 @@ App is deployed to Heroku: <https://dg-scoring.herokuapp.com>
 ## Screenshots
 
 List of current competitions:
-![Competition list](/../screenshots/blob/screenshots/screenshots/complist.png?raw=true)
+![Competition list](/../screenshots/complist.png?raw=true)
 
 Results -table:
-![Results](/../screenshots/blob/screenshots/screenshots/scoretable.png?raw=true)
+![Results](/../screenshots/scoretable.png?raw=true)
 
 User profile:
-![Profile](/../screenshots/blob/screenshots/screenshots/profile.png?raw=true)
+![Profile](/../screenshots/profile.png?raw=true)
 
 Registering to a competition:
-![Register](/../screenshots/blob/screenshots/screenshots/register.png?raw=true)
+![Register](/../screenshots/register.png?raw=true)
 
 Inputting scores:
-![Input](/../screenshots/blob/screenshots/screenshots/scoreinput.png?raw=true)
+![Input](/../screenshots/scoreinput.png?raw=true)
 
 Editing competition info:
-![Admin view](/../screenshots/blob/screenshots/screenshots/admin.png?raw=true)
+![Admin view](/../screenshots/admin.png?raw=true)
 
 Creating rounds and groups:
-![Round creation](/../screenshots/blob/screenshots/screenshots/createround.png?raw=true)
+![Round creation](/../screenshots/createround.png?raw=true)
 
 ## Author
 
