@@ -56,31 +56,32 @@ Creating rounds and groups:
 ## Local installation instructions
 
 1. Clone the repository
-
+    ```
     git clone https://github.com/pfnisu/tamk-backend-project-suoniemi-niko
-
+    ```
 2. Install dependencies
-
+    ```
     cd tamk-backend-project-suoniemi-niko
     npm install --only=prod
-
+    ```
 3. Edit ENV variables. You might also have to change db name in sql scripts
-
+    ```
     cp .env.sample .env
     $EDITOR .env
-
+    ```
 4. Run sql scripts on your db server. WARNING: this will DROP database
-
+    ```
     mysql --user=user_name --password=password < util/db_create.sql
     mysql --user=user_name --password=password < util/db_insert.sql
-
+    ```
 5. Run app
-
+    ```
     node index.js
-
+    ```
 6. Open in browser
-
+    ```
     http://localhost:8080
+    ```
 
 ## Releases
 
