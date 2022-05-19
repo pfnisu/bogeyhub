@@ -82,6 +82,11 @@ Creating rounds and groups:
     ```
     http://localhost:8080
     ```
+7. Login as administrator
+    ```
+    User name: admin
+    Password: admin
+    ```
 
 ## Releases
 
