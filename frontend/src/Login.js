@@ -92,7 +92,9 @@ export const Login = (props) => {
                     <h1>New user?</h1>
                     <form onSubmit={e => e.preventDefault()}>
                         <p>Create an account to get started:</p>
-                        <button className='right' onClick={() => setUi('create')}>Create account &#187;</button>
+                        <button className='right' onClick={() => setUi('create')}>
+                            Create account &#187;
+                        </button>
                     </form>
                 </>}
                 {props.user.name !== '' && <>

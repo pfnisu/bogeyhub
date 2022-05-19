@@ -90,7 +90,9 @@ export const Admin = (props) => {
             {ui === 'edit' && <>
                 <h1>Edit competition: {competition.name}</h1>
                 <button onClick={() => setUi('create')}>&#171; Administration</button>
-                <button className='right' onClick={() => setUi('delete')}>&#10005; Delete competition</button>
+                <button className='right' onClick={() => setUi('delete')}>
+                    &#10005; Delete competition
+                </button>
                 <form onSubmit={e => e.preventDefault()}>
                     <label>Name:</label>
                     <input ref={nameRef} type='text' defaultValue={competition.name} />
@@ -118,7 +120,9 @@ export const Admin = (props) => {
                                 &#10005; Delete round
                             </button>
                             <h2>
-                                <Link to={path.admin + 'round/' + round.id}>Round id: {round.id}</Link>
+                                <Link to={path.admin + 'round/' + round.id}>
+                                    Round id: {round.id}
+                                </Link>
                             </h2>
                             <span>{round.start_time}</span>
                             <p>

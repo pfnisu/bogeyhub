@@ -7,6 +7,7 @@ export const CreateRound = (props) => {
     const [course, setCourse] = React.useState({});
     const [round, setRound] = React.useState({});
     const [holes, setHoles] = React.useState([]);
+    const [golfStart, setGolfStart] = React.useState([]);
     const [groups, setGroups] = React.useState([]);
     const [idGroups, setIdGroups] = React.useState([]);
     const timeRef = React.createRef();
@@ -100,20 +101,28 @@ export const CreateRound = (props) => {
                 <datalist id='courses'>
                     {courses.map((c, idx) => <option key={idx} value={c.name}>{c.name}</option>)}
                 </datalist>
-                {course.id && <p>&#9873; {course.name}, par {holes.map((h) => h.par).reduce((sum, p) => sum += p, 0)}</p>}
+                {course.id && <p>
+                    &#9873; {course.name},
+                    par {holes.map((h) => h.par).reduce((sum, p) => sum += p, 0)}
+                </p>}
                 <button onClick={(ev) => addRound(ev)}>&#10023; Create round</button>
             </form>
             <h2>Generate groups (round id: {round.id || 'not created'})</h2>
             <form onSubmit={e => e.preventDefault()}>
                 <label>
-                    <input type="checkbox" defaultChecked={false} onChange={(ev) => setGolfStart(ev.target.value)} />
+                    <input type="checkbox" defaultChecked={false} onChange={(ev) =>
+                        setGolfStart(ev.target.value)} />
                     Golf start (leave unchecked for shotgun start)
                 </label>
                 <table>
                     <tbody>
                         <tr className='score'>
                             <td>Group #</td>
-                            <td>Player 1</td><td>Player 2</td><td>Player 3</td><td>Player 4</td><td>Player 5</td>
+                            <td>Player 1</td>
+                            <td>Player 2</td>
+                            <td>Player 3</td>
+                            <td>Player 4</td>
+                            <td>Player 5</td>
                         </tr>
                         {groups.map((g, idx) =>
                             <tr className='score' key={idx}>
