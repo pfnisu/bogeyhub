@@ -4,6 +4,8 @@ const compSchema = require('./schema.js').competition;
 const competition = require('express').Router();
 const validate = require('jsonschema').validate;
 
+// Handle requests relating to competition data
+
 // Root returns all competitions, filtered by optional parameters
 competition.get('/', async (req, res) => {
     try {

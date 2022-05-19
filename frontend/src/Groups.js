@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {request, path} from './util';
 
+// View groups under a competition round
 export const Groups = (props) => {
     let tables = props.groups.map((grp, idx) => {
         return (

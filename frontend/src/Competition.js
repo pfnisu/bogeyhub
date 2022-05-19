@@ -7,6 +7,7 @@ import {Groups} from './Groups';
 import {RegList} from './RegList';
 import {request, path, focus} from './util';
 
+// View a single competition
 export const Competition = (props) => {
     // UI mode: results, registrations, groups, input
     const [ui, setUi] = React.useState('results');

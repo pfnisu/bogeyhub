@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {request, path, check, compare} from './util';
 
+// Login, account creation and user profile
 export const Login = (props) => {
     // UI mode: login, create
     const [ui, setUi] = React.useState('login');

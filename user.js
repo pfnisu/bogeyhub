@@ -6,6 +6,8 @@ const user = require('express').Router();
 const validate = require('jsonschema').validate;
 const crypto = require('node:crypto');
 
+// Handle requests for normal users
+
 // Hash password before passing to db
 // TODO proper salt + pepper
 const hash = (pw) => {

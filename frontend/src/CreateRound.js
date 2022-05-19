@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {request, path, check} from './util';
 
+// Create rounds and groups
 export const CreateRound = (props) => {
     const [courses, setCourses] = React.useState([]);
     const [course, setCourse] = React.useState({});

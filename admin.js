@@ -6,6 +6,8 @@ const groupSchema = require('./schema.js').group;
 const admin = require('express').Router();
 const validate = require('jsonschema').validate;
 
+// Handle requests for administration functionality
+
 // Get all courses
 admin.get('/course', async (req, res) => {
     try {

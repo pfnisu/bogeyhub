@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {useParams} from 'react-router-dom';
 import {request, path, check} from './util';
 
+// Group-specific score input for a round
 export const ScoreInput = (props) => {
     const params = useParams();
 

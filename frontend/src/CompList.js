@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Register} from './Register';
 import {request, path, focus} from './util';
 
+// List competitions, split to categories depending on current user
 export const CompList = (props) => {
     // UI mode: open, history, my
     const [ui, setUi] = React.useState('open');

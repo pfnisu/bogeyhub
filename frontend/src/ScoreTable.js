@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {request, path} from './util';
 
+// List results for a round
 export const ScoreTable = (props) => {
     const [par, setPar] = React.useState(0);
 

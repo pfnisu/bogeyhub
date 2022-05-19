@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
 import {request, path, focus} from './util';
 
+// Registration and info box for a competition
 export const Register = (props) => {
     // UI mode: initial, register, unregister, info
     const [ui, setUi] = React.useState('initial');

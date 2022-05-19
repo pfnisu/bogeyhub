@@ -5,7 +5,7 @@ import {CreateRound} from './CreateRound';
 import {Link, useParams} from 'react-router-dom';
 import {request, path, check} from './util';
 
-// Creating competitions is limited to admin
+// Create and edit competitions, limited to admin
 export const Admin = (props) => {
     // UI mode: create, edit, delete
     const [ui, setUi] = React.useState('create');

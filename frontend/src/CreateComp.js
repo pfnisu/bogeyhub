@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {useNavigate} from 'react-router-dom';
 import {request, path, check} from './util';
 
+// Create new competition
 export const CreateComp = (props) => {
     const nav = useNavigate();
     const dateRef = React.createRef();
