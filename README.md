@@ -6,9 +6,17 @@ Disc golf scoring and competition organizing app.
 
 App is at a feature preview stage for the scope of the course, but the aim is to develop it to a more full-featured, robust scoring platform.
 
+## Author
+
+Niko Suoniemi <niko.suoniemi@tuni.fi>
+
 ## App URL
 
 App is deployed to Heroku: <https://dg-scoring.herokuapp.com>
+
+## Screencast URL
+
+Youtube playlist: <https://www.youtube.com/playlist?list=PL2M6n8GGUlLZscum3IjfP9JJKoTb6c2hm>
 
 ## Screenshots
 
@@ -32,10 +40,6 @@ Editing competition info:
 
 Creating rounds and groups:
 ![Round creation](/../screenshots/screenshots/createround.png?raw=true)
-
-## Author
-
-Niko Suoniemi <niko.suoniemi@tuni.fi>
 
 ## Technology
 
