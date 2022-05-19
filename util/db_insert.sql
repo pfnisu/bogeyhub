@@ -1,4 +1,5 @@
 -- Insert dummy data into scoring database
+USE dbpfnisu2;
 
 INSERT INTO sex(name) VALUES
     ('male'),

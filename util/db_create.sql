@@ -1,5 +1,5 @@
 -- Create tables for scoring database
-DROP DATABASE dbpfnisu2;
+DROP DATABASE IF EXISTS dbpfnisu2;
 CREATE DATABASE dbpfnisu2;
 USE dbpfnisu2;
 
