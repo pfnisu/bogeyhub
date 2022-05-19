@@ -52,27 +52,54 @@ Niko Suoniemi <niko.suoniemi@tuni.fi>
 ## Local installation instructions
 
 1. Clone the repository
+
     git clone https://github.com/pfnisu/tamk-backend-project-suoniemi-niko
 
 2. Install dependencies
+
     cd tamk-backend-project-suoniemi-niko
     npm install --only=prod
 
 3. Edit ENV variables. You might also have to change db name in sql scripts
+
     cp .env.sample .env
     $EDITOR .env
 
 4. Run sql scripts on your db server. WARNING: this will DROP database
+
     mysql --user=user_name --password=password < util/db_create.sql
     mysql --user=user_name --password=password < util/db_insert.sql
 
 5. Run app
+
     node index.js
 
 6. Open in browser
+
     http://localhost:8080
 
 ## Releases
+
+### 1.0.0
+
+* Production release
+* Contains several bug fixes and a couple new features since 0.9.0
+    * Round listing and deletion for admin
+    * Competition phases: registration, active
+    * Persistent score input state
+    * Correctly sorted lists and results
+    * Fixed crashing off-by-one hole number
+    * Fixed wrong relative scores on first render
+    * Usability and style improvements
+* Next steps for the project
+    * Editing scores and rounds
+    * Starting holes and times
+    * Better group creation
+    * Multi-round competitions
+    * Creating courses and more course data (e.g. hole lengths)
+    * Secure account handling and proper authorization
+    * Stream-updating result view
+    * Licensing and hosting
 
 ### 0.9.0
 
@@ -84,16 +111,6 @@ Niko Suoniemi <niko.suoniemi@tuni.fi>
     * Competition edit with round and group creation
     * Score input per group
     * Result view
-* Todo
-    * Order data in queries
-    * Fetch more data at frontend startup
-    * Some work to administration side
-    * Stream-updating result view
-    * Better state-handling in frontend
-    * Better score input UI
-    * Clean-up of backend code
-    * Clean-up extraneous features from frontend
-    * Secure account handling and proper authorization
 
 ### 0.1.1
 
