@@ -20,7 +20,7 @@ export const CompList = (props) => {
         })();
     }, []);
 
-    // Sepatare comps where active user is registered
+    // Separate comps where active user is registered
     React.useEffect(() => {
         (async () => {
             props.setErr(null);
@@ -28,7 +28,9 @@ export const CompList = (props) => {
                 let my = [];
                 let open = [];
                 competitions.forEach((comp) => {
-                    props.regs.find((el) => el.id === comp.id) ? my.push(comp) : open.push(comp);
+                    props.regs.find((el) => el.id === comp.id)
+                        ? my.push(comp)
+                        : open.push(comp);
                 });
                 setMyComps([...my]);
                 setOpenComps([...open]);
