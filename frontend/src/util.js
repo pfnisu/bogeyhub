@@ -1,5 +1,10 @@
 // Utility functions
 
+// Strings
+export const str = {
+    site: 'Bogeyhub',
+};
+
 // Paths for routing and requests
 export const path = {
     admin:'/admin/',

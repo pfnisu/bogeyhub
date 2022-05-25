@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Register} from './Register';
-import {request, path, focus} from './util';
+import {request, str, path, focus} from './util';
 
 // List competitions, split to categories depending on current user
 export const CompList = (props) => {
@@ -22,6 +22,7 @@ export const CompList = (props) => {
 
     // Separate comps where active user is registered
     React.useEffect(() => {
+        document.title = str.site;
         (async () => {
             props.setErr(null);
             if (props.user.name !== '') {

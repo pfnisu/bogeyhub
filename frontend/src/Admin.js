@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
 import {CreateRound} from './CreateRound';
 import {Link, useParams} from 'react-router-dom';
-import {request, path, check} from './util';
+import {request, str, path, check} from './util';
 
 // Create and edit competitions, limited to admin
 export const Admin = (props) => {
@@ -21,6 +21,7 @@ export const Admin = (props) => {
 
     // GET competition with compId at component mount
     React.useEffect(() => {
+        document.title = 'Administration - ' + str.site;
         (async () => {
             props.setErr(null);
             if (params.compId == undefined) return false;

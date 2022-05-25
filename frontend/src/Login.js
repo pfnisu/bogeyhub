@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {request, path, check, compare} from './util';
+import {request, str, path, check, compare} from './util';
 
 // Login, account creation and user profile
 export const Login = (props) => {
@@ -77,7 +77,10 @@ export const Login = (props) => {
         } else props.setErr('Saving failed');
     }
 
-    React.useEffect(() => { props.setErr(null) }, []);
+    React.useEffect(() => {
+        props.setErr(null);
+        document.title = 'User - ' + str.site;
+    }, []);
     React.useEffect(() => { props.setErr(null) }, [ui]);
 
     return (
