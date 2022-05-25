@@ -5,13 +5,12 @@ import {ScoreTable} from './ScoreTable';
 import {ScoreInput} from './ScoreInput';
 import {Groups} from './Groups';
 import {RegList} from './RegList';
-import {request, path, focus} from './util';
+import {request, str, path, focus} from './util';
 
 // View a single competition
 export const Competition = (props) => {
     // UI mode: results, registrations, groups, input
     const [ui, setUi] = React.useState('results');
-    const [competition, setCompetition] = React.useState({});
     const [round, setRound] = React.useState({});
     const [groups, setGroups] = React.useState([]);
     const [group, setGroup] = React.useState([]);
@@ -23,19 +22,20 @@ export const Competition = (props) => {
         (async () => {
             props.setErr(null);
             let resp = await request(path.comp + params.compId);
-            resp ?  setCompetition(resp) : props.setErr('Loading competition failed');
+            resp ?  props.setCompetition(resp) : props.setErr('Loading competition failed');
         })();
     }, []);
 
     // GET round data if phase is after registration
     React.useEffect(() => {
-        competition.phase_id > 2 && (async () => {
+        document.title = props.competition.name + ' - ' + str.site;
+        props.competition.phase_id > 2 && (async () => {
             props.setErr(null);
             let rnds = await request(path.comp + 'rounds/' + params.compId);
             // Only 1 round is supported currently
             rnds[0] ?  setRound(rnds[0]) : props.setErr('Round info not found');
         })();
-    }, [competition]);
+    }, [props.competition]);
 
     // GET groups after round is loaded
     React.useEffect(() => {
@@ -55,7 +55,7 @@ export const Competition = (props) => {
 
     return (
         <>
-            <h1>{competition.name}</h1>
+            <h1>{props.competition.name}</h1>
             <button className='sel' onClick={(ev) => focus(ev, setUi('results'))}>
                 &#9733; Results
             </button>
@@ -63,7 +63,7 @@ export const Competition = (props) => {
                 &#119558; Registrations
             </button>
             <button onClick={(ev) => focus(ev, setUi('groups'))}>&#9776; Groups</button>
-            {props.user.name !== '' && !!group?.length && competition.phase_id === 4 &&
+            {props.user.name !== '' && !!group?.length && props.competition.phase_id === 4 &&
                 <button className='right' onClick={(ev) => focus(ev, setUi('input'))}>
                     &#9998; Input scores
                 </button>

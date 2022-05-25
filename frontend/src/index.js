@@ -5,7 +5,7 @@ import {Admin} from './Admin';
 import {CompList} from './CompList';
 import {Login} from './Login';
 import {Competition} from './Competition';
-import {request, path} from './util';
+import {request, str, path} from './util';
 import './index.css';
 
 // Main component: routing, nav, error msgs
@@ -14,13 +14,11 @@ const App = () => {
     const [user, setUser] = React.useState({name: '', role: ''});
     // Competition id's where user is registered
     const [regs, setRegs] = React.useState([]);
-    // Current hole of active score input, stored here for persistence
+    // Current comp and hole of active score input, stored here for persistence
+    const [competition, setCompetition] = React.useState({});
     const [hole, setHole] = React.useState({});
     // App-wide error message
     const [err, setErr] = React.useState(null);
-
-    // Set title
-    React.useEffect(() => { document.title = 'Disc golf scoring' }, []);
 
     // Load regs when user changes
     React.useEffect(() => {
@@ -36,7 +34,10 @@ const App = () => {
     return (
         <BrowserRouter>
             <nav>
-                <NavLink to='/'>Disc golf scoring</NavLink>
+                <NavLink to='/'>Competitions</NavLink>
+                {hole.name && <NavLink to={'/competition/' + competition.id}>
+                    {competition.name}
+                </NavLink>}
                 {user.role === 'admin' && <NavLink to='/admin'>Administration</NavLink>}
                 <NavLink to='/login'>{user.name ? 'User: ' + user.name : 'Login'}</NavLink>
             </nav>
@@ -55,7 +56,9 @@ const App = () => {
                         <Login user={user} setUser={setUser} setErr={setErr} />} />
                     <Route path='competition/'>
                         <Route path=':compId' element={
-                            <Competition user={user} hole={hole} setHole={setHole} setErr={setErr} />} />
+                            <Competition user={user}
+                                competition={competition} setCompetition={setCompetition}
+                                hole={hole} setHole={setHole} setErr={setErr} />} />
                     </Route>
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>
