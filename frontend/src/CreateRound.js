@@ -10,7 +10,7 @@ export const CreateRound = (props) => {
     const [holes, setHoles] = React.useState([]);
     const [golfStart, setGolfStart] = React.useState([]);
     const [groups, setGroups] = React.useState([]);
-    const [idGroups, setIdGroups] = React.useState([]);
+    const nameRef = React.createRef();
     const timeRef = React.createRef();
     const courseRef = React.createRef();
 
@@ -20,6 +20,7 @@ export const CreateRound = (props) => {
         if (!check(timeRef)) return false;
         if (!check(courseRef)) return false;
         let data = {
+            name: nameRef.current.value,
             start_time: timeRef.current.value + ':00',
             course_id: course.id,
         };
@@ -34,25 +35,32 @@ export const CreateRound = (props) => {
         } else props.setErr('Round creation failed');
     }
 
+    // Randomize array
+    // TODO group divisions
+    const shuffle = (arr) => {
+        let rnd, idx = arr.length;
+        while (idx) {
+            rnd = Math.floor(Math.random() * idx--);
+            [arr[idx], arr[rnd]] = [arr[rnd], arr[idx]];
+        }
+        return arr;
+    };
+
     // Generate groups for the round
     const createGroups = async () => {
         props.setErr(null);
         // GET registrations for compId
+        // TODO fetch only once
         let resp = await request(path.comp + 'registrations/' + props.competition.id);
 
         if (resp) {
             // Slice players into groups of 4
-            // TODO shuffle
-            let ids = resp.map((reg) => reg.id);
-            let names = resp.map((reg) => reg.user);
-            let idgrps = [];
-            let namegrps = [];
-            for (let i = 0; i < ids.length; i += 4) {
-                idgrps.push(ids.slice(i, i + 4));
-                namegrps.push(names.slice(i, i + 4));
+            let shuf = shuffle(resp);
+            let grps = [];
+            for (let i = 0; i < shuf.length; i += 4) {
+                grps.push(shuf.slice(i, i + 4));
             }
-            setGroups(namegrps);
-            setIdGroups(idgrps);
+            setGroups(grps);
         } else props.setErr('Failed to create groups');
     }
 
@@ -63,7 +71,9 @@ export const CreateRound = (props) => {
             props.setErr('Round id not found. Create round first');
             return false;
         }
-        let resp = await request(path.admin + 'group/' + round.id, 'POST', idGroups);
+        // Include only user ids in data
+        let ids = groups.map(g => g.map(reg => reg.id));
+        let resp = await request(path.admin + 'group/' + round.id, 'POST', ids);
         if (resp) {
             ev.target.classList.add('ok');
             ev.target.innerHTML = '&#10003; Saved';
@@ -94,8 +104,10 @@ export const CreateRound = (props) => {
             <h1>Create round: {props.competition.name}</h1>
             <button onClick={() => props.setUi('edit')}>&#171; Back</button>
             <form onSubmit={e => e.preventDefault()}>
+                <label>Round name:</label>
+                <input ref={nameRef} type='text' defaultValue='Round 1' autoFocus />
                 <label>Start time:</label>
-                <input ref={timeRef} type='time' autoFocus />
+                <input ref={timeRef} type='time' />
                 <label>Course:</label>
                 <input ref={courseRef} type='text' list='courses' onChange={(ev) =>
                     setCourse(state => courses.find((c) => c.name === ev.target.value) || state)} />
@@ -128,7 +140,7 @@ export const CreateRound = (props) => {
                         {groups.map((g, idx) =>
                             <tr className='score' key={idx}>
                                 <td>{idx + 1}</td>
-                                {g.map((user, idx) => <td key={idx}>{user}</td>)}
+                                {g.map((reg, idx) => <td key={idx}>{reg.user}</td>)}
                             </tr>)}
                     </tbody>
                 </table>
