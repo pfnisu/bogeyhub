@@ -5,7 +5,7 @@ import {Admin} from './Admin';
 import {CompList} from './CompList';
 import {Login} from './Login';
 import {Competition} from './Competition';
-import {request, str, path} from './util';
+import {request, str, path, crop} from './util';
 import './index.css';
 
 // Main component: routing, nav, error msgs
@@ -35,11 +35,11 @@ const App = () => {
         <BrowserRouter>
             <nav>
                 <NavLink to='/'>Competitions</NavLink>
-                {hole.name && <NavLink to={'/competition/' + competition.id}>
-                    {competition.name}
+                {competition.name && <NavLink to={'/competition/' + competition.id}>
+                    {crop(competition.name)}
                 </NavLink>}
                 {user.role === 'admin' && <NavLink to='/admin'>Administration</NavLink>}
-                <NavLink to='/login'>{user.name ? 'User: ' + user.name : 'Login'}</NavLink>
+                <NavLink to='/login'>{user.name ? crop('User: ' + user.name) : 'Login'}</NavLink>
             </nav>
             <main>
                 {err && <p className='error'>&#9888; {err}</p>}

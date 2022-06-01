@@ -62,3 +62,8 @@ export const compare = (f1, f2) => {
     }
     return true;
 };
+
+// Crop string to fit ui
+export const crop = (str) => {
+    return str.length > 15 ? str.slice(0, 15) + '…' : str;
+};
