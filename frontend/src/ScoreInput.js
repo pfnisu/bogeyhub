@@ -61,7 +61,7 @@ export const ScoreInput = (props) => {
 
     return (
         <>
-            <p>&#9873; {props.round.course}: hole {props.hole.name}, par {props.hole.par}</p>
+            <p>&#9873; {props.round.course}: hole {props.hole.name}, par {props.hole.par}, {props.hole.meters}m</p>
             <form onSubmit={e => e.preventDefault()}>
                 {form}
                 <button onClick={(ev) => prev(ev)}>&#171; Prev hole</button>

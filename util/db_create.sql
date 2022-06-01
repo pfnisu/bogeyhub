@@ -37,6 +37,7 @@ CREATE TABLE hole (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
     par INT NOT NULL,
+    meters INT,
     course_id INT NOT NULL,
     FOREIGN KEY(course_id) REFERENCES course(id)
         ON DELETE CASCADE ON UPDATE CASCADE
