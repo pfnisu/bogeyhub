@@ -18,13 +18,14 @@ const competition = {
 const round = {
     type: 'object',
     properties: {
+        name: { type: 'string', minLength: 1, maxLength: 100 },
         start_date: { type: 'string', format: 'date' },
         start_time: { type: 'string', format: 'time' },
         course_id: { type: 'integer', minimum: 1 },
         competition_id: { type: 'integer', minimum: 1 },
     },
-    required: ['start_time', 'course_id', 'competition_id'],
-    maxProperties: 4,
+    required: ['name', 'start_time', 'course_id', 'competition_id'],
+    maxProperties: 5,
 };
 
 const group = {

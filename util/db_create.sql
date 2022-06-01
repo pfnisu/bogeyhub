@@ -83,6 +83,7 @@ CREATE TABLE registration (
 
 CREATE TABLE round (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL,
     start_date DATE,
     start_time TIME NOT NULL,
     course_id INT NOT NULL,

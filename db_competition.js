@@ -59,7 +59,7 @@ module.exports = {
     roundsById: (id) => {
         return new Promise((resolve, reject) => {
             pool.query(
-                'select round.id as id, start_time, course.name as course, course.id as course_id ' +
+                'select round.id as id, round.name as round, start_time, course.name as course, course.id as course_id ' +
                 'from round ' +
                 'inner join course on course.id = round.course_id ' +
                 'where competition_id = ?',
