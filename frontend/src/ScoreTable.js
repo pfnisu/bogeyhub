@@ -35,24 +35,24 @@ export const ScoreTable = (props) => {
         })();
     }, []);
 
-    let table = [...props.results];
-    // Sort results by total score
-    table.sort((a, b) =>
-        a.scores.reduce((sum, s) => sum += s) >
-            b.scores.reduce((sum, s) => sum += s)
-    );
-
-    // Generate results table from score rows
-    table = table.map((row, idx) => {
-        let total = row.scores.reduce((sum, s) => sum += s);
+    // Calculate complete score rows
+    let table = props.results.map((row) => {
+        row.total = row.scores.reduce((sum, s) => sum += s);
         // Use pars for rest of the round to calculate +/- for incomplete round
-        let relative = props.round.holes
+        row.relative = props.round.holes
             .slice(row.scores.filter(score => score).length)
-            .reduce((sum, h) => sum += h.par, total - par);
+            .reduce((sum, h) => sum += h.par, row.total - par);
 
         // Null-pad incomplete scores
         while (row.scores.length < props.round.holes.length) row.scores.push(null);
+        return row;
+    });
 
+    // Sort results by relative score
+    table.sort((a, b) => a.relative > b.relative);
+
+    // Generate results table from score rows
+    table = table.map((row, idx) => {
         return (
             <tr key={idx} className='score'>
                 <td>{row.user.name}</td>
@@ -60,9 +60,10 @@ export const ScoreTable = (props) => {
                     // Highlight scores over or under par
                     <td className={s && (s === props.round.holes[idx].par ? '' :
                         s > props.round.holes[idx].par ? 'over' : 'under')}
-                        key={idx}>{s}</td>)}
-                <td>{total}</td>
-                <td>{relative > 0 ? '+' + relative : relative}</td>
+                        key={idx}>{s}</td>)
+                }
+                <td>{row.total}</td>
+                <td>{row.relative > 0 ? '+' + row.relative : row.relative}</td>
             </tr>
         );
     });
