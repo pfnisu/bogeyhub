@@ -69,7 +69,6 @@ user.post('/create', async (req, res) => {
 
 // PUT group scores for a hole
 user.put('/score/:id([0-9]+)', async (req, res) => {
-    console.log('put');
     let body = req.body.map(row => {
         return {
             ...row,
