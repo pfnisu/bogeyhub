@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {CreateComp} from './CreateComp';
 import {CreateRound} from './CreateRound';
+import {Round} from './Round';
 import {Link, useParams} from 'react-router-dom';
 import {request, str, path, check} from './util';
 
@@ -72,18 +73,6 @@ export const Admin = (props) => {
         resp ? setUi('create') : props.setErr('Deletion failed');
     }
 
-    // DELETE round
-    const delRound = async (ev) => {
-        props.setErr(null);
-        ev.target.classList.remove('ok');
-        if (ev.target.id == undefined) return false;
-        let resp = await request(path.admin + 'round/' + ev.target.id, 'DELETE');
-        if (resp) {
-            ev.target.classList.add('ok');
-            ev.target.innerHTML = '&#10003; Deleted';
-        } else props.setErr('Deletion failed');
-    }
-
     return (
         <>
             {ui === 'create' &&
@@ -113,26 +102,10 @@ export const Admin = (props) => {
                 </form>
                 <h2>Rounds</h2>
                 <ul>
-                {rounds.length === 0
-                    ? <li>No rounds created</li>
-                    : rounds.map((round, idx) =>
-                        <li key={idx}>
-                            <button id={round.id} onClick={(ev) => delRound(ev)}>
-                                &#10005; Delete round
-                            </button>
-                            <h2>
-                                <Link to={path.admin + 'round/' + round.id}>
-                                    Round id: {round.id}
-                                </Link>
-                            </h2>
-                            <span>{round.start_time}</span>
-                            <p>
-                                &#9873; {round.course},
-                                par {round.holes.reduce((sum, h) => sum += h.par, 0)}
-                            </p>
-                        </li>
-                    )
-                }
+                    {rounds.length === 0
+                        ? <li>No rounds created</li>
+                        : rounds.map(rnd => <Round round={rnd} setErr={props.setErr} />)
+                    }
                 </ul>
                 <button onClick={() => setUi('round')}>&#10023; Create round</button>
             </>}
