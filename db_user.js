@@ -82,7 +82,7 @@ module.exports = {
             // Transpose scores into two-dimensional array
             let rows = scores.reduce((sum, row) => [...sum, Object.values(row)], []);
             pool.query(
-                'insert into score(result, hole_id, user_id, round_id) ' +
+                'replace into score(result, hole_id, user_id, round_id) ' +
                 'values ?',
                 [rows],
                 (err, res) => {
