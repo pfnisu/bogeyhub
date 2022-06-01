@@ -7,7 +7,7 @@ import {request, path, check} from './util';
 export const ScoreInput = (props) => {
     const params = useParams();
 
-    // POST scores and advance to next hole
+    // PUT scores and advance to next hole
     const next = async (ev) => {
         props.setErr(null);
         let inputs = document.querySelectorAll('input');
@@ -23,8 +23,8 @@ export const ScoreInput = (props) => {
             });
         }
 
-        // POST data to backend
-        let resp = await request(path.user + 'score/' + props.round.id, 'POST', data);
+        // PUT data to backend
+        let resp = await request(path.user + 'score/' + props.round.id, 'PUT', data);
 
         if (resp) {
             props.setHole(state => {
@@ -45,6 +45,20 @@ export const ScoreInput = (props) => {
 
     // Return to previous hole
     const prev = (ev) => {
+        props.setErr(null);
+        let inputs = document.querySelectorAll('input');
+        props.setHole(state => {
+            let idx = --state.index;
+            // Wrap to last hole after first
+            if (idx < 0) idx = props.round.holes.length - 1;
+            // Clear inputs and focus first
+            inputs[0].focus();
+            return {
+                index: idx,
+                roundId: state.roundId,
+                ...props.round.holes[idx],
+            };
+        });
     };
 
     let form = props.group.map((user, idx) =>
