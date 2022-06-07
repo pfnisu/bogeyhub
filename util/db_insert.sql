@@ -23,7 +23,9 @@ INSERT INTO course(name, holes) VALUES
     ('Sellupuiston frisbeegolfrata', 9),
     ('Epilä frisbeegolfpuisto', 15),
     ('Kortekumpu frisbeegolf', 18),
-    ('Julkujärvi DiscGolfPark', 18);
+    ('Julkujärvi DiscGolfPark', 18),
+    ('Julkujärvi AM 12', 12),
+    ('Vihiojan frisbeepuisto', 9);
 INSERT INTO hole(name, par, meters, course_id) VALUES
     ('1', 3, 87, 1),
     ('2', 3, 134, 1),
@@ -84,4 +86,25 @@ INSERT INTO hole(name, par, meters, course_id) VALUES
     ('15', 3, 108, 4),
     ('16', 3, 132, 4),
     ('17', 5, 256, 4),
-    ('18', 3, 125, 4);
+    ('18', 3, 125, 4),
+    ('1', 3, 67, 5),
+    ('2', 3, 61, 5),
+    ('3', 3, 62, 5),
+    ('4', 3, 73, 5),
+    ('5', 3, 69, 5),
+    ('6', 3, 62, 5),
+    ('7', 3, 75, 5),
+    ('8', 3, 54, 5),
+    ('9', 3, 74, 5),
+    ('10', 3, 65, 5),
+    ('11', 3, 85, 5),
+    ('12', 3, 72, 5),
+    ('1', 3, 89, 6),
+    ('2', 3, 70, 6),
+    ('3', 3, 91, 6),
+    ('4', 3, 83, 6),
+    ('5', 3, 85, 6),
+    ('6', 3, 87, 6),
+    ('7', 3, 75, 6),
+    ('8', 3, 70, 6),
+    ('9', 3, 95, 6);
