@@ -55,6 +55,7 @@ export const ScoreTable = (props) => {
     table = table.map((row, idx) => {
         return (
             <tr key={idx} className='score'>
+                <td>{idx + 1}</td>
                 <td>{row.user.name}</td>
                 {row.scores.map((s, idx) =>
                     // Highlight scores over or under par
@@ -75,6 +76,7 @@ export const ScoreTable = (props) => {
                 <table>
                     <thead>
                         <tr className='score'>
+                            <td>#</td>
                             <td>Player</td>
                             {props.round.holes.map((h, idx) => <td key={idx}>{h.name}</td>)}
                             <td>&#8721;</td>
