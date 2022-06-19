@@ -34,11 +34,11 @@ const App = () => {
     return (
         <BrowserRouter>
             <nav>
-                <NavLink to='/'>Competitions</NavLink>
+                <NavLink to='/'><img src='favicon.png' alt={str.site} /> {str.site}</NavLink>
                 {competition.name && <NavLink to={'/competition/' + competition.id}>
                     {crop(competition.name)}
                 </NavLink>}
-                {user.role === 'admin' && <NavLink to='/admin'>Administration</NavLink>}
+                {user.role === 'admin' && <NavLink to='/admin'>TD</NavLink>}
                 <NavLink to='/login'>{user.name ? crop('User: ' + user.name) : 'Login'}</NavLink>
             </nav>
             <main>

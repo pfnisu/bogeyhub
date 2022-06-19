@@ -25,6 +25,10 @@ nav a {
 	text-decoration:none;
 	cursor:pointer;
 }
+nav img {
+    height:1em;
+    vertical-align:bottom;
+}
 nav a:hover {
 	background-color:#61dafb;
 	color:#282c34;
