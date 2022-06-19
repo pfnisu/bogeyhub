@@ -78,7 +78,8 @@ module.exports = {
                 'select group_number, start_position, user.name as user, user.id as id ' +
                 'from grp ' +
                 'inner join user on user.id = grp.user_id ' +
-                'where round_id = ?',
+                'where round_id = ?' +
+                'order by start_position asc',
                 [id],
                 (err, res) => {
                     if (err) reject(err);
