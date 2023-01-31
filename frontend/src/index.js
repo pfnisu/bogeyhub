@@ -5,6 +5,7 @@ import {Admin} from './Admin';
 import {CompList} from './CompList';
 import {Login} from './Login';
 import {Competition} from './Competition';
+import {Legal} from './Legal';
 import {request, str, path, crop} from './util';
 import './index.css';
 
@@ -60,9 +61,13 @@ const App = () => {
                                 competition={competition} setCompetition={setCompetition}
                                 hole={hole} setHole={setHole} setErr={setErr} />} />
                     </Route>
+                    <Route path='legal/*' element={<Legal />} />
                     <Route path='*' element={<h1>Invalid url</h1>} />
                 </Routes>
             </main>
+            <footer>
+                <p><NavLink to='/legal'>Licensing and contact info</NavLink></p>
+            </footer>
         </BrowserRouter>
     );
 };

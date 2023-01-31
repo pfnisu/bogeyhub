@@ -47,6 +47,14 @@ main {
 main * {
 	margin:0 0 8px;
 }
+footer p {
+    margin:0 8px;
+	font-size:0.9em;
+    text-align:right;
+}
+footer a {
+	color:#282c34;
+}
 h1 {
 	font-size:1.3em;
     border-bottom:1px solid #484c54;
@@ -174,7 +182,7 @@ button:last-of-type {
 		width:auto;
 		padding:12px 3vw;
 	}
-	main {
+	main,footer {
 		width:80%;
 		max-width:960px;
 		margin:0 auto 8px;
