@@ -1,22 +1,18 @@
-# Fullstack project for course 4A00FQ05-3001
+# Bogeyhub
 
 ## App description
 
 Disc golf scoring and competition organizing app.
 
-App is at a feature preview stage for the scope of the course, but the aim is to develop it to a more full-featured, robust scoring platform.
+App is at a feature preview stage, but fully usable for the features that are implemented.
 
 ## Author
 
-Niko Suoniemi <niko.suoniemi@tuni.fi>
+Niko Suoniemi <niko@tamperelainen.org>
 
 ## App URL
 
-App is deployed to Heroku: <https://dg-scoring.herokuapp.com>
-
-## Screencast URL
-
-Youtube playlist: <https://www.youtube.com/playlist?list=PL2M6n8GGUlLZscum3IjfP9JJKoTb6c2hm>
+Currently not deployed.
 
 ## Screenshots
 
@@ -57,11 +53,11 @@ Creating rounds and groups:
 
 1. Clone the repository
     ```
-    git clone https://github.com/pfnisu/tamk-backend-project-suoniemi-niko
+    git clone https://github.com/pfnisu/bogeyhub
     ```
 2. Install dependencies
     ```
-    cd tamk-backend-project-suoniemi-niko
+    cd bogeyhub
     npm install --only=prod
     ```
 3. Edit ENV variables. You might also have to change db name in sql scripts
@@ -135,9 +131,9 @@ Creating rounds and groups:
     * username: admin
     * no password
 
-## Licence
+## License
 
-Copyright (C) 2022 Niko Suoniemi <niko.suoniemi@tuni.fi>
+Copyright (C) 2022-2023 Niko Suoniemi <niko@tamperelainen.org>
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3.
 
