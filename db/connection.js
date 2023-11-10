@@ -1,9 +1,14 @@
-require('dotenv').config();
+require('dotenv').config()
+const { Pool } = require('pg')
 
-module.exports = {
-    host: process.env.host,
-    user: process.env.user,
-    password: process.env.password,
-    database: process.env.database,
-    connectionLimit: 10,
-};
+// Create connection pool to db
+module.exports = new Pool({
+    host: process.env.DBHOST,
+    user: process.env.DBUSER,
+    password: process.env.DBPW,
+    database: process.env.DBNAME,
+    max: 30,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+    ssl: process.env.DBSSL === 'true' ? true : false,
+})

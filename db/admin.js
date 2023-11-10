@@ -1,21 +1,21 @@
-const mysql = require('mysql');
-const settings = require('./db_settings.js');
-const pool = mysql.createPool(settings);
+const db = require('./connection.js');
 
 module.exports = {
     // Add competition, return the new id if insert succeeded
     addComp: (comp) => {
         return new Promise((resolve, reject) => {
-            pool.query('insert into competition set ?', comp, (err, res) => {
-                if (err) reject(err);
-                else resolve(res.insertId);
-            });
+            db.query('insert into competition set $1',
+                [comp], (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.insertId);
+                }
+            );
         });
     },
     // Add round for a comp, return the new id if insert succeeded
     addRound: (round) => {
         return new Promise((resolve, reject) => {
-            pool.query('insert into round set ?', round, (err, res) => {
+            db.query('insert into round set $1', [round], (err, res) => {
                 if (err) reject(err);
                 else resolve(res.insertId);
             });
@@ -31,9 +31,9 @@ module.exports = {
             )
         );
         return new Promise((resolve, reject) => {
-            pool.query(
+            db.query(
                 'insert into grp(group_number, start_position, user_id, round_id) ' +
-                'values ?',
+                'values $1',
                 [rows],
                 (err, res) => {
                     if (err) reject(err);
@@ -45,28 +45,35 @@ module.exports = {
     // Return true if updated, false if no rows affected
     updateComp: (id, comp) => {
         return new Promise((resolve, reject) => {
-            pool.query('update competition set ? where id = ?', [comp, id], (err, res) => {
-                if (err) reject(err);
-                else resolve(res.affectedRows !== 0);
-            });
+            db.query('update competition set $1 where id = $2',
+                [comp, id],
+                (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.affectedRows !== 0);
+                }
+            );
         });
     },
     // Return true if deleted, false if no rows affected
     deleteComp: (id) => {
         return new Promise((resolve, reject) => {
-            pool.query('delete from competition where id = ?', [id], (err, res) => {
-                if (err) reject(err);
-                else resolve(res.affectedRows !== 0);
-            });
+            db.query('delete from competition where id = $1',
+                [id], (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.affectedRows !== 0);
+                }
+            );
         });
     },
     // Return true if deleted, false if no rows affected
     deleteRound: (id) => {
         return new Promise((resolve, reject) => {
-            pool.query('delete from round where id = ?', [id], (err, res) => {
-                if (err) reject(err);
-                else resolve(res.affectedRows !== 0);
-            });
+            db.query('delete from round where id = $1',
+                [id], (err, res) => {
+                    if (err) reject(err);
+                    else resolve(res.affectedRows !== 0);
+                }
+            );
         });
     },
 };

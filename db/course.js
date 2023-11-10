@@ -1,12 +1,10 @@
-const mysql = require('mysql');
-const settings = require('./db_settings.js');
-const pool = mysql.createPool(settings);
+const db = require('./connection.js');
 
 module.exports = {
     // Return an array of course objects, can be empty
     allCourses: () => {
         return new Promise((resolve, reject) => {
-            pool.query(
+            db.query(
                 'select * from course',
                 (err, res) => {
                     if (err) reject(err);
@@ -18,8 +16,8 @@ module.exports = {
     // Return an array of holes with course id, can be empty
     holesById: (id) => {
         return new Promise((resolve, reject) => {
-            pool.query(
-                'select id, name, par, meters from hole where course_id = ?',
+            db.query(
+                'select id, name, par, meters from hole where course_id = $1',
                 [id],
                 (err, res) => {
                     if (err) reject(err);
