@@ -1,5 +1,5 @@
-const db = require('./db_admin.js');
-const db_course = require('./db_course.js');
+const db = require('./db/admin.js');
+const db_course = require('./db/course.js');
 const compSchema = require('./schema.js').competition;
 const roundSchema = require('./schema.js').round;
 const groupSchema = require('./schema.js').group;

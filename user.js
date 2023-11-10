@@ -1,4 +1,4 @@
-const db = require('./db_user.js');
+const db = require('./db/user.js');
 const scoreSchema = require('./schema.js').score;
 const userSchema = require('./schema.js').user;
 const regSchema = require('./schema.js').registration;
@@ -39,7 +39,7 @@ user.post('/login', async (req, res) => {
         try {
             let result = await db.login(body);
             // If user matched, return name and id
-            if (result) res.status(201).send(result);
+            if (result) res.status(200).send(result); // OK
             else res.status(404).send('User not found');
         } catch (err) {
             res.status(500).send(err);

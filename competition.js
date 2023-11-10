@@ -1,5 +1,5 @@
-const db = require('./db_competition.js');
-const db_course = require('./db_course.js');
+const db = require('./db/competition.js');
+const db_course = require('./db/course.js');
 const compSchema = require('./schema.js').competition;
 const competition = require('express').Router();
 const validate = require('jsonschema').validate;
