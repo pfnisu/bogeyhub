@@ -28,6 +28,56 @@ competition.get('/:id([0-9]+)', async (req, res) => {
     }
 });
 
+// Get scores by competition id
+competition.get('/scores/:id([0-9]+)', async (req, res) => {
+    try {
+        let rounds = await db.roundsById(req.params.id);
+        if (rounds) {
+            for (const round of rounds) {
+                let holes = await db_course.holesById(round.course_id);
+
+                // Add holes to round data
+                if (holes) {
+                    round.holes = holes;
+                    round.par = round.holes.rows.reduce((sum, hole) => sum += hole.par, 0);
+                } else res.status(404).send('Holes not found');
+            }
+            let scores = await db.resultsById(req.params.id);
+            // Transpose row-oriented scores to per-player data
+            let set = new Set(scores.map(row => row.user_id));
+            rounds[0].results = [];
+
+            set.forEach(uid => {
+                let name, score = [];
+                scores.forEach(row => row.user_id === uid &&
+                    score.push(row.result) &&
+                    (name = row.user_name));
+
+                // Null-pad incomplete scores
+                while (score.length < rounds[0].holes.rows.length) score.push(null);
+                const total = score.reduce((sum, hole) => sum += hole);
+                rounds[0].results.push({
+                    user: {id: uid, name: name},
+                    scores: score,
+                    total: total,
+                    // Use pars for rest of the round to calculate +/- for incomplete round
+                    relative: rounds[0].holes.rows
+                        .slice(score.filter(hole => hole).length)
+                        .reduce((sum, hole) => sum += hole.par, total - rounds[0].par),
+                });
+            });
+            // Sort results by total score
+            rounds[0].results.sort((a, b) => a.total - b.total);
+
+            res.status(200).send(rounds);
+        }
+        else res.status(404).send('Id not found');
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
 // Get results by competition id
 competition.get('/result/:id([0-9]+)', async (req, res) => {
     try {
