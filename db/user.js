@@ -23,9 +23,8 @@ module.exports = {
     register: (reg) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'insert into registration set ' +
-                'division_id = (select id from division where name = $1), ' +
-                'user_id = $2, competition_id = $3',
+                'insert into registration (division_id, user_id, competition_id) ' +
+                `values ((select id from division where name = $1), $2, $3)`,
                 [reg.division, reg.user_id, reg.competition_id], (err, res) => {
                     if (err) reject(err.code);
                     else resolve(res.rowCount === 1);
@@ -34,7 +33,7 @@ module.exports = {
         });
     },
     // Return true if deleted, false if no rows affected
-    deleleReg: (uid, cid) => {
+    deleteReg: (uid, cid) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'delete from registration where user_id = $1 and competition_id = $2',
