@@ -8,7 +8,7 @@ module.exports = {
                 'select * from course',
                 (err, res) => {
                     if (err) reject(err);
-                    else resolve(res);
+                    else resolve(res.rows);
                 }
             );
         });
@@ -21,7 +21,7 @@ module.exports = {
                 [id],
                 (err, res) => {
                     if (err) reject(err);
-                    else resolve(res);
+                    else resolve(res.rows);
                 }
             );
         });
