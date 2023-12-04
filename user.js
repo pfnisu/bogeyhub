@@ -18,7 +18,7 @@ const hash = (pw) => {
 // Get registrations by user id
 user.get('/:id([0-9]+)', async (req, res) => {
     try {
-        let result = await db.findRegistrations(req.params.id)
+        let result = await db.readRegs(req.params.id)
         if (result) res.status(200).send(result)
         else res.status(404).send('Id not found')
     } catch (err) {
@@ -37,7 +37,7 @@ user.post('/login', async (req, res) => {
         res.status(400).send('Invalid account data')
     } else {
         try {
-            let result = await db.login(body)
+            let result = await db.readUser(body)
             // If user matched, return name and id
             if (result) res.status(200).send(result) // OK
             else res.status(404).send('User not found')
@@ -59,7 +59,7 @@ user.post('/create', async (req, res) => {
         res.status(400).send('Invalid account data')
     } else {
         try {
-            let uid = await db.saveUser(body)
+            let uid = await db.createUser(body)
             res.status(201).send({...req.body, id: uid}) // 201 Created
         } catch (err) {
             res.status(500).send(err)
@@ -83,7 +83,7 @@ user.put('/score/:id([0-9]+)', async (req, res) => {
         res.status(400).send('Invalid score data')
     } else {
         try {
-            let result = await db.saveScores(body)
+            let result = await db.updateScores(body)
             if (res) res.status(204).end() // 204 No Content
         } catch (err) {
             res.status(500).send(err)
@@ -102,7 +102,7 @@ user.post('/register/:id([0-9]+)', async (req, res) => {
         res.status(400).send('Invalid registration data')
     } else {
         try {
-            let success = await db.register(body)
+            let success = await db.createReg(body)
             if (success) res.status(204).end() // 204 No Content
             else res.status(404).send('Competition id not found')
         } catch (err) {
@@ -128,7 +128,7 @@ user.delete('/unregister/:id([0-9]+)', async (req, res) => {
 // Delete user matching url param
 user.delete('/:id([0-9]+)', async (req, res) => {
     try {
-        let success = await db.del(req.params.id)
+        let success = await db.deleteUser(req.params.id)
         if (success) res.status(204).end() // Delete ok, 204 No Content
         else res.status(404).send('Id not found') // Nothing deleted
     } catch (err) {

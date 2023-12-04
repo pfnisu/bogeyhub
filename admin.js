@@ -11,7 +11,7 @@ const validate = require('jsonschema').validate
 // Get all courses
 admin.get('/course', async (req, res) => {
     try {
-        let result = await db_course.allCourses()
+        let result = await db_course.readCourses()
         if (result) res.status(200).send(result)
         else res.status(404).send('No courses found')
     } catch (err) {
@@ -22,7 +22,7 @@ admin.get('/course', async (req, res) => {
 // Get holes for a course
 admin.get('/hole/:id([0-9]+)', async (req, res) => {
     try {
-        let result = await db_course.holesById(req.params.id)
+        let result = await db_course.readHoles(req.params.id)
         if (result) res.status(200).send(result)
         else res.status(404).send('No holes found')
     } catch (err) {
@@ -38,7 +38,7 @@ admin.post('/', async (req, res) => {
     } else {
         try {
             let result = {
-                id: await db.addComp(req.body),
+                id: await db.createComp(req.body),
                 ...req.body,
             }
             res.status(201).send(result) // 201 Created
@@ -61,7 +61,7 @@ admin.post('/round/:id([0-9]+)', async (req, res) => {
     } else {
         try {
             let result = {
-                id: await db.addRound(body),
+                id: await db.createRound(body),
             }
             res.status(201).send(result) // 201 Created
         } catch (err) {
@@ -79,7 +79,7 @@ admin.post('/group/:id([0-9]+)', async (req, res) => {
     } else {
         try {
             let result = {
-                id: await db.addGroups(Number(req.params.id), body),
+                id: await db.createGroups(Number(req.params.id), body),
             }
             res.status(201).send(result) // 201 Created
         } catch (err) {

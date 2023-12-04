@@ -2,7 +2,7 @@ const db = require('./connection.js')
 
 module.exports = {
     // Return an array of competition objects, can be empty
-    findAll: (params) => {
+    readAll: (params) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'select competition.id, start_date, end_date, ' +
@@ -17,8 +17,22 @@ module.exports = {
             )
         })
     },
+    // Return a competition object, or null if id doesn't exist
+    readComp: (id) => {
+        return new Promise((resolve, reject) => {
+            db.query(
+                'select * from competition where id = $1',
+                [id],
+                (err, res) => {
+                    if (err) reject(err)
+                    else if (res.rowCount === 0) resolve(null)
+                    else resolve(res.rows[0])
+                }
+            )
+        })
+    },
     // Find round result data, result in row form for scalability
-    resultsById: (id) => {
+    readResults: (id) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'select hole_id, result, usr.id as user_id, usr.name as user_name ' +
@@ -36,7 +50,7 @@ module.exports = {
         })
     },
     // Find registrations for a competition
-    registrationsById: (id) => {
+    readRegs: (id) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'select time, division.name as division, usr.name as user, usr.id as id ' +
@@ -54,10 +68,11 @@ module.exports = {
         })
     },
     // Find rounds of a competition
-    roundsById: (id) => {
+    readRounds: (id) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'select round.id as id, round.name as round, start_time, course.name as course, course.id as course_id ' +
+                'select round.id as id, round.name as round, start_time, ' +
+                'course.name as course, course.id as course_id ' +
                 'from round ' +
                 'inner join course on course.id = round.course_id ' +
                 'where competition_id = $1',
@@ -70,7 +85,7 @@ module.exports = {
         })
     },
     // Find groups of a round
-    groupsById: (id) => {
+    readGroups: (id) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'select group_number, start_position, usr.name as user, usr.id as id ' +
@@ -82,20 +97,6 @@ module.exports = {
                 (err, res) => {
                     if (err) reject(err)
                     else resolve(res.rows)
-                }
-            )
-        })
-    },
-    // Return a competition object, or null if id doesn't exist
-    findById: (id) => {
-        return new Promise((resolve, reject) => {
-            db.query(
-                'select * from competition where id = $1',
-                [id],
-                (err, res) => {
-                    if (err) reject(err)
-                    else if (res.rowCount === 0) resolve(null)
-                    else resolve(res.rows[0])
                 }
             )
         })

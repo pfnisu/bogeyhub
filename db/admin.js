@@ -2,7 +2,7 @@ const db = require('./connection.js')
 
 module.exports = {
     // Add competition, return the new id if insert succeeded
-    addComp: (comp) => {
+    createComp: (comp) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'insert into competition (start_date, name, phase_id) ' +
@@ -16,7 +16,7 @@ module.exports = {
         })
     },
     // Add round for a comp, return the new id if insert succeeded
-    addRound: (round) => {
+    createRound: (round) => {
         return new Promise((resolve, reject) => {
             db.query(
                 'insert into round (name, start_time, course_id, competition_id) ' +
@@ -30,7 +30,7 @@ module.exports = {
         })
     },
     // Return true if groups inserted, false if no rows affected
-    addGroups: (id, groups) => {
+    createGroups: (id, groups) => {
         // Transpose groups into column-based array
         let cols = [[], [], groups.flat(), []]
         groups.forEach((g, gnum) => {
