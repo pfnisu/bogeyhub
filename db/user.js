@@ -23,9 +23,10 @@ module.exports = {
     register: (reg) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'insert into registration (division_id, user_id, competition_id) ' +
-                `values ((select id from division where name = $1), $2, $3)`,
-                [reg.division, reg.user_id, reg.competition_id], (err, res) => {
+                'insert into registration (user_id, division_id, competition_id) ' +
+                'values ($1, (select id from division where name = $2), $3)',
+                [...Object.values(reg)],
+                (err, res) => {
                     if (err) reject(err.code);
                     else resolve(res.rowCount === 1);
                 }
@@ -55,7 +56,7 @@ module.exports = {
                 [id],
                 (err, res) => {
                     if (err) reject(err);
-                    else resolve(res);
+                    else resolve(res.rows);
                 }
             );
         });
@@ -78,14 +79,22 @@ module.exports = {
     saveScores: (scores) => {
         return new Promise((resolve, reject) => {
             // Transpose scores into two-dimensional array
-            let rows = scores.reduce((sum, row) => [...sum, Object.values(row)], []);
+            let cols = [[], [], [], []];
+            scores.forEach((s) => {
+                cols[0].push(s.result);
+                cols[1].push(s.hole_id);
+                cols[2].push(s.user_id);
+                cols[3].push(s.round_id);
+            });
             db.query(
-                'replace into score(result, hole_id, user_id, round_id) ' +
-                'values $1',
-                [rows],
+                'insert into score (result, hole_id, user_id, round_id) ' +
+                'select * from unnest($1::int[], $2::int[], $3::int[], $4::int[]) ' +
+                'on conflict (hole_id, user_id, round_id) ' +
+                'do update set result = excluded.result', // excluded is a builtin
+                cols,
                 (err, res) => {
                     if (err) reject(err);
-                    else resolve(res.insertId);
+                    else resolve(res.rowCount !== 0);
                 }
             );
         });
@@ -96,7 +105,6 @@ module.exports = {
             let columns = [user.birth_year, user.sex, id];
             // Only update pw if it's included in user data
             user.password && columns.push(user.password);
-
             db.query(
                 'update usr set ' +
                 (user.password ? 'password = $4, ' : '') +
@@ -105,7 +113,7 @@ module.exports = {
                 columns,
                 (err, res) => {
                     if (err) reject(err);
-                    else resolve(res.affectedRows !== 0);
+                    else resolve(res.rowCount === 1);
                 }
             );
         });
@@ -115,7 +123,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.query('delete from usr where id = $1', [id], (err, res) => {
                 if (err) reject(err);
-                else resolve(res.affectedRows !== 0);
+                else resolve(res.rowCount === 1);
             });
         });
     },

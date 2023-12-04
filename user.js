@@ -93,8 +93,9 @@ user.put('/score/:id([0-9]+)', async (req, res) => {
 // Add new registration with POST
 user.post('/register/:id([0-9]+)', async (req, res) => {
     let body = {
-        competition_id: Number(req.params.id),
         ...req.body,
+        user_id: Number(req.body.user_id),
+        competition_id: Number(req.params.id),
     };
     // Return 400 Bad Request if invalid user data
     if (validate(body, regSchema).errors.length) {
