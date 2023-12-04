@@ -52,6 +52,7 @@ admin.post('/', async (req, res) => {
 admin.post('/round/:id([0-9]+)', async (req, res) => {
     let body = {
         ...req.body,
+        course_id: Number(req.body.course_id),
         competition_id: Number(req.params.id),
     };
     // Return 400 Bad Request if invalid round data
@@ -71,13 +72,14 @@ admin.post('/round/:id([0-9]+)', async (req, res) => {
 
 // Add groups for a round
 admin.post('/group/:id([0-9]+)', async (req, res) => {
+    let body = req.body.map((grp) => grp.map((id) => Number(id)));
     // Return 400 Bad Request if invalid group data
-    if (validate(req.body, groupSchema).errors.length) {
+    if (validate(body, groupSchema).errors.length) {
         res.status(400).send('Invalid group data');
     } else {
         try {
             let result = {
-                id: await db.addGroups(req.params.id, req.body),
+                id: await db.addGroups(Number(req.params.id), body),
             };
             res.status(201).send(result); // 201 Created
         } catch (err) {
