@@ -13,7 +13,7 @@ const competition = {
     },
     required: ['start_date', 'name', 'phase_id'],
     maxProperties: 7,
-};
+}
 
 const round = {
     type: 'object',
@@ -26,7 +26,7 @@ const round = {
     },
     required: ['name', 'start_time', 'course_id', 'competition_id'],
     maxProperties: 5,
-};
+}
 
 const group = {
     type: 'array',
@@ -34,7 +34,7 @@ const group = {
         type: 'array',
         items: { type: 'integer', minimum: 1 },
     }
-};
+}
 
 const score = {
     type: 'object',
@@ -46,7 +46,7 @@ const score = {
     },
     required: ['result', 'hole_id', 'user_id', 'round_id'],
     maxProperties: 4,
-};
+}
 
 const user = {
     type: 'object',
@@ -59,7 +59,7 @@ const user = {
         role: { type: 'string', pattern: /admin|td|user/ },
     },
     maxProperties: 6,
-};
+}
 
 const registration = {
     type: 'object',
@@ -70,6 +70,6 @@ const registration = {
     },
     required: ['user_id', 'competition_id', 'division'],
     maxProperties: 3,
-};
+}
 
-module.exports = { competition, round, group, score, user, registration };
+module.exports = { competition, round, group, score, user, registration }
