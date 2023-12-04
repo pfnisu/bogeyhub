@@ -120,10 +120,10 @@ competition.get('/rounds/:id([0-9]+)', async (req, res) => {
     try {
         let rounds = await db.roundsById(req.params.id)
         if (rounds) {
-            for (let i = 0; i<rounds.length;i++) {
-                let holes = await db_course.holesById(rounds[i].course_id)
+            for (const round of rounds) {
+                let holes = await db_course.holesById(round.course_id)
                 // Add holes to round data
-                if (holes) rounds[i].holes = holes
+                if (holes) round.holes = holes
                 else res.status(404).send('Holes not found')
             }
             res.status(200).send(rounds)
