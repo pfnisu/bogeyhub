@@ -1,4 +1,4 @@
-const db = require('./connection.js');
+const db = require('./connection.js')
 
 module.exports = {
     // Return an array of competition objects, can be empty
@@ -11,11 +11,11 @@ module.exports = {
                 'inner join phase on phase.id = competition.phase_id ' +
                 'order by start_date desc',
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows);
+                    if (err) reject(err)
+                    else resolve(res.rows)
                 }
-            );
-        });
+            )
+        })
     },
     // Find round result data, result in row form for scalability
     resultsById: (id) => {
@@ -29,11 +29,11 @@ module.exports = {
                 'where competition.id = $1',
                 [id],
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows);
+                    if (err) reject(err)
+                    else resolve(res.rows)
                 }
-            );
-        });
+            )
+        })
     },
     // Find registrations for a competition
     registrationsById: (id) => {
@@ -47,11 +47,11 @@ module.exports = {
                 'order by time asc',
                 [id],
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows);
+                    if (err) reject(err)
+                    else resolve(res.rows)
                 }
-            );
-        });
+            )
+        })
     },
     // Find rounds of a competition
     roundsById: (id) => {
@@ -63,11 +63,11 @@ module.exports = {
                 'where competition_id = $1',
                 [id],
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows);
+                    if (err) reject(err)
+                    else resolve(res.rows)
                 }
-            );
-        });
+            )
+        })
     },
     // Find groups of a round
     groupsById: (id) => {
@@ -80,11 +80,11 @@ module.exports = {
                 'order by start_position asc',
                 [id],
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows);
+                    if (err) reject(err)
+                    else resolve(res.rows)
                 }
-            );
-        });
+            )
+        })
     },
     // Return a competition object, or null if id doesn't exist
     findById: (id) => {
@@ -93,11 +93,11 @@ module.exports = {
                 'select * from competition where id = $1',
                 [id],
                 (err, res) => {
-                    if (err) reject(err);
-                    else if (res.rowCount === 0) resolve(null);
-                    else resolve(res.rows[0]);
+                    if (err) reject(err)
+                    else if (res.rowCount === 0) resolve(null)
+                    else resolve(res.rows[0])
                 }
-            );
-        });
+            )
+        })
     },
-};
+}

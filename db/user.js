@@ -1,4 +1,4 @@
-const db = require('./connection.js');
+const db = require('./connection.js')
 
 module.exports = {
     // Return name and id if success, else false
@@ -12,12 +12,12 @@ module.exports = {
                 'where usr.name = $1 and password = $2',
                 [user.name, user.password],
                 (err, res) => {
-                    if (err) reject(err);
-                    else if (res.rowCount === 0) resolve(false); // No matching user
-                    else resolve(res.rows[0]);
+                    if (err) reject(err)
+                    else if (res.rowCount === 0) resolve(false) // No matching user
+                    else resolve(res.rows[0])
                 }
-            );
-        });
+            )
+        })
     },
     // Add user to competition: return the new id if insert succeeded
     register: (reg) => {
@@ -27,11 +27,11 @@ module.exports = {
                 'values ($1, (select id from division where name = $2), $3)',
                 [...Object.values(reg)],
                 (err, res) => {
-                    if (err) reject(err.code);
-                    else resolve(res.rowCount === 1);
+                    if (err) reject(err.code)
+                    else resolve(res.rowCount === 1)
                 }
-            );
-        });
+            )
+        })
     },
     // Return true if deleted, false if no rows affected
     deleteReg: (uid, cid) => {
@@ -40,11 +40,11 @@ module.exports = {
                 'delete from registration where user_id = $1 and competition_id = $2',
                 [uid, cid],
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rowCount !== 0);
+                    if (err) reject(err)
+                    else resolve(res.rowCount !== 0)
                 }
-            );
-        });
+            )
+        })
     },
     // Return an array of competition objects, can be empty
     findRegistrations: (id) => {
@@ -55,11 +55,11 @@ module.exports = {
                 'where usr.id = $1',
                 [id],
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows);
+                    if (err) reject(err)
+                    else resolve(res.rows)
                 }
-            );
-        });
+            )
+        })
     },
     // Return the new id if insert succeeded
     saveUser: (user) => {
@@ -69,23 +69,24 @@ module.exports = {
                 'values ($1, $2, (select id from role where name = $3))' +
                 'returning id',
                 [user.name, user.password, user.role], (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rows[0].id);
+                    if (err) reject(err)
+                    else resolve(res.rows[0].id)
                 }
-            );
-        });
+            )
+        })
     },
     // Return the new id if insert succeeded
     saveScores: (scores) => {
         return new Promise((resolve, reject) => {
             // Transpose scores into two-dimensional array
-            let cols = [[], [], [], []];
+            let cols = [[], [], [], []]
             scores.forEach((s) => {
-                cols[0].push(s.result);
-                cols[1].push(s.hole_id);
-                cols[2].push(s.user_id);
-                cols[3].push(s.round_id);
-            });
+                cols[0].push(s.result)
+                cols[1].push(s.hole_id)
+                cols[2].push(s.user_id)
+                cols[3].push(s.round_id)
+            })
+            // TODO merge ...
             db.query(
                 'insert into score (result, hole_id, user_id, round_id) ' +
                 'select * from unnest($1::int[], $2::int[], $3::int[], $4::int[]) ' +
@@ -93,18 +94,18 @@ module.exports = {
                 'do update set result = excluded.result', // excluded is a builtin
                 cols,
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rowCount !== 0);
+                    if (err) reject(err)
+                    else resolve(res.rowCount !== 0)
                 }
-            );
-        });
+            )
+        })
     },
     // Return true if updated, false if no rows affected
     updateUser: (id, user) => {
         return new Promise((resolve, reject) => {
-            let columns = [user.birth_year, user.sex, id];
+            let columns = [user.birth_year, user.sex, id]
             // Only update pw if it's included in user data
-            user.password && columns.push(user.password);
+            user.password && columns.push(user.password)
             db.query(
                 'update usr set ' +
                 (user.password ? 'password = $4, ' : '') +
@@ -112,19 +113,19 @@ module.exports = {
                 'where id = $3',
                 columns,
                 (err, res) => {
-                    if (err) reject(err);
-                    else resolve(res.rowCount === 1);
+                    if (err) reject(err)
+                    else resolve(res.rowCount === 1)
                 }
-            );
-        });
+            )
+        })
     },
     // Return true if deleted, false if no rows affected
     del: (id) => {
         return new Promise((resolve, reject) => {
             db.query('delete from usr where id = $1', [id], (err, res) => {
-                if (err) reject(err);
-                else resolve(res.rowCount === 1);
-            });
-        });
+                if (err) reject(err)
+                else resolve(res.rowCount === 1)
+            })
+        })
     },
-};
+}
