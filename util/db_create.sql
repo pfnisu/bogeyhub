@@ -30,6 +30,7 @@ CREATE TABLE course (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     holes INT NOT NULL,
+    active BOOLEAN NOT NULL,
     info TEXT
 );
 
@@ -110,6 +111,8 @@ CREATE TABLE grp (
 
 CREATE TABLE score (
     result INT NOT NULL,
+    time TIMESTAMP DEFAULT now(),
+    input_user_id INT,
     hole_id INT NOT NULL,
     user_id INT NOT NULL,
     round_id INT NOT NULL,
