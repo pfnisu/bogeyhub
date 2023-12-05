@@ -32,14 +32,14 @@ competition.get('/:id([0-9]+)', async (req, res) => {
 competition.get('/scores/:id([0-9]+)', async (req, res) => {
     try {
         let rounds = await db.readRounds(req.params.id)
-        if (rounds) {
+        if (rounds.length) {
             for (const round of rounds) {
                 let holes = await db_course.readHoles(round.course_id)
 
                 // Add holes to round data
                 if (holes) {
                     round.holes = holes
-                    round.par = round.holes.rows.reduce((sum, hole) => sum += hole.par, 0)
+                    round.par = round.holes.reduce((sum, hole) => sum += hole.par, 0)
                 } else res.status(404).send('Holes not found')
             }
             let scores = await db.readResults(req.params.id)
@@ -47,6 +47,7 @@ competition.get('/scores/:id([0-9]+)', async (req, res) => {
             let set = new Set(scores.map(row => row.user_id))
             rounds[0].results = []
 
+            // TODO put scores to correct holes, order by user_id, hole_id
             set.forEach(uid => {
                 let name, score = []
                 scores.forEach(row => row.user_id === uid &&
@@ -54,19 +55,20 @@ competition.get('/scores/:id([0-9]+)', async (req, res) => {
                     (name = row.user_name))
 
                 // Null-pad incomplete scores
-                while (score.length < rounds[0].holes.rows.length) score.push(null)
+                while (score.length < rounds[0].holes.length) score.push(null)
                 const total = score.reduce((sum, hole) => sum += hole)
                 rounds[0].results.push({
                     user: {id: uid, name: name},
                     scores: score,
                     total: total,
                     // Use pars for rest of the round to calculate +/- for incomplete round
-                    relative: rounds[0].holes.rows
+                    relative: rounds[0].holes
                         .slice(score.filter(hole => hole).length)
                         .reduce((sum, hole) => sum += hole.par, total - rounds[0].par),
                 })
             })
             // Sort results by total score
+            // TODO sort equal total by birdie amount etc.
             rounds[0].results.sort((a, b) => a.total - b.total)
 
             res.status(200).send(rounds)
@@ -76,7 +78,6 @@ competition.get('/scores/:id([0-9]+)', async (req, res) => {
         res.status(500).send(err)
     }
 })
-
 
 // Get results by competition id
 competition.get('/result/:id([0-9]+)', async (req, res) => {

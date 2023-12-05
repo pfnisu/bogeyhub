@@ -22,6 +22,7 @@ const main = async () => {
             express.static('frontend/build')
         )
 
+        // TODO change to /api/
         app.use('/backend/competition', competition)
         app.use('/backend/admin', admin) // TODO authenticate /admin requests
         app.use('/backend/user', user)
