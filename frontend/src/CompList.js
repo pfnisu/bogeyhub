@@ -11,6 +11,8 @@ export const CompList = (props) => {
     const [myComps, setMyComps] = React.useState([]);
     const [openComps, setOpenComps] = React.useState([]);
 
+    const myRef = React.createRef();
+
     // GET competitions from backend to state array at component mount
     React.useEffect(() => {
         (async () => {
@@ -39,6 +41,13 @@ export const CompList = (props) => {
         })();
     }, [competitions, ui]);
 
+    // Focus my comps if user has comps
+    React.useEffect(() => {
+        (async () => {
+            props.regs.length && focus({target: myRef.current}, setUi('my'));
+        })();
+    }, [props.regs]);
+
     return (
         <>
             <h1>Competitions</h1>
@@ -47,7 +56,7 @@ export const CompList = (props) => {
             </button>
             <button onClick={(ev) => focus(ev, setUi('history'))}>&#10226; History</button>
             {props.user.name !== '' &&
-                <button className='right' onClick={(ev) => focus(ev, setUi('my'))}>
+                <button ref={myRef} className='right' onClick={(ev) => focus(ev, setUi('my'))}>
                     &#9829; My competitions
                 </button>}
             {ui === 'open' && <>
