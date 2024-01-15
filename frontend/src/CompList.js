@@ -20,6 +20,10 @@ export const CompList = (props) => {
             let resp = await request(path.comp);
             resp ? setCompetitions([...resp]) : props.setErr('Loading competitions failed');
         })();
+        // Focus my comps if user has comps
+        (async () => {
+            props.regs.length && focus({target: myRef.current}, setUi('my'));
+        })();
     }, []);
 
     // Separate comps where active user is registered
@@ -40,13 +44,6 @@ export const CompList = (props) => {
             } else setOpenComps(competitions);
         })();
     }, [competitions, ui]);
-
-    // Focus my comps if user has comps
-    React.useEffect(() => {
-        (async () => {
-            props.regs.length && focus({target: myRef.current}, setUi('my'));
-        })();
-    }, [props.regs]);
 
     return (
         <>
