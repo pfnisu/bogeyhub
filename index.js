@@ -4,7 +4,8 @@ const user = require('./user.js')
 const express = require('express')
 
 const app = express()
-const port = process.env.PORT || 8080
+const host = process.env.HOST || '0.0.0.0'
+const port = process.env.PORT || 10000
 
 // Main function
 const main = async () => {
@@ -27,8 +28,9 @@ const main = async () => {
         app.use('/backend/admin', admin) // TODO authenticate /admin requests
         app.use('/backend/user', user)
 
-        const server = app.listen(port, () => {
-            console.log('Listening on port ' + port)
+
+        const server = app.listen(port, host, () => {
+            console.log(`Listening ${host}:${port}`)
         })
         process.on('SIGINT', async () => {
             server.close(() => {
