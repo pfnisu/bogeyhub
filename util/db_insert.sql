@@ -1,5 +1,4 @@
 -- Insert dummy data into scoring database
-USE dbpfnisu2;
 
 INSERT INTO sex(name) VALUES
     ('male'),
@@ -11,7 +10,7 @@ INSERT INTO role(name) VALUES
 INSERT INTO division(name) VALUES
     ('MPO'),
     ('FPO');
-INSERT INTO user(name, password, role_id) VALUES
+INSERT INTO usr(name, password, role_id) VALUES
     ('admin', 'bf1bb50b534ed0e3f690d3a9193d46ab15dffb42a8f2433dbf9af9abe9a10fbf4e53bc0c95cdd0b9e3e14f3b7152355b2d70a850f284e128cb00edb6610c9b89', 1);
 INSERT INTO phase(name) VALUES
     ('announce'),
@@ -19,13 +18,14 @@ INSERT INTO phase(name) VALUES
     ('closed'),
     ('ongoing'),
     ('complete');
-INSERT INTO course(name, holes) VALUES
-    ('Sellupuiston frisbeegolfrata', 9),
-    ('Epilä frisbeegolfpuisto', 15),
-    ('Kortekumpu frisbeegolf', 18),
-    ('Julkujärvi DiscGolfPark', 18),
-    ('Julkujärvi AM 12', 12),
-    ('Vihiojan frisbeepuisto', 9);
+INSERT INTO course(name, holes, active) VALUES
+    ('Sellupuiston frisbeegolfrata', 9, TRUE),
+    ('Epilä frisbeegolfpuisto 2019', 15, FALSE),
+    ('Kortekumpu frisbeegolf', 18, TRUE),
+    ('Julkujärvi DiscGolfPark', 18, TRUE),
+    ('Julkujärvi AM 12', 12, TRUE),
+    ('Vihiojan frisbeepuisto', 9, TRUE),
+    ('Epilä frisbeegolfpuisto 2022', 15, TRUE);
 INSERT INTO hole(name, par, meters, course_id) VALUES
     ('1', 3, 87, 1),
     ('2', 3, 134, 1),
@@ -107,4 +107,19 @@ INSERT INTO hole(name, par, meters, course_id) VALUES
     ('6', 3, 87, 6),
     ('7', 3, 75, 6),
     ('8', 3, 70, 6),
-    ('9', 3, 95, 6);
+    ('9', 3, 95, 6),
+    ('1', 4, 156, 7),
+    ('2', 4, 154, 7),
+    ('3', 3, 105, 7),
+    ('4', 3, 114, 7),
+    ('5', 3, 99, 7),
+    ('6', 3, 117, 7),
+    ('7', 3, 95, 7),
+    ('8', 3, 96, 7),
+    ('9', 4, 126, 7),
+    ('10', 3, 115, 7),
+    ('11', 3, 91, 7),
+    ('12', 3, 81, 7),
+    ('13', 3, 83, 7),
+    ('14', 3, 71, 7),
+    ('15', 3, 77, 7);
