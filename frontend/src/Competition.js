@@ -63,7 +63,7 @@ export const Competition = (props) => {
                 &#119558; Registrations
             </button>
             <button onClick={(ev) => focus(ev, setUi('groups'))}>&#9776; Groups</button>
-            {props.user.name !== '' && !!group?.length && props.competition.phase_id === 4 &&
+            {!!group?.length && props.competition.phase_id === 4 &&
                 <button className='right' onClick={(ev) => focus(ev, setUi('input'))}>
                     &#9998; Input scores
                 </button>
