@@ -19,8 +19,8 @@ export const RegList = (props) => {
     }, []);
 
     let table = regs.map((reg, idx) => {
-        let date = reg.time.split('T')[0];
-        let time = reg.time.split('T')[1].substr(0, 8);
+        let date = reg.dt.split('T')[0];
+        let time = reg.dt.split('T')[1].substr(0, 8);
         return (
             <tr key={idx} className='score'>
                 <td>{idx + 1}</td><td>{reg.user}</td><td>{reg.division}</td><td>{date} {time}</td>
