@@ -94,7 +94,7 @@ CREATE TABLE rnd (
 
 CREATE TABLE grp (
     group_number INTEGER NOT NULL,
-    start_time TIME WITHOUT TIME ZONE NOT NULL,
+    start_time TIME WITHOUT TIME ZONE,
     start_hole INTEGER,
     start_position INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE grp (
 CREATE TABLE score (
     result INTEGER NOT NULL,
     dt TIMESTAMP NOT NULL DEFAULT now(),
-    input_user_id INTEGER,
+    input_user_id INTEGER NOT NULL,
     hole_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
     round_id INTEGER NOT NULL,

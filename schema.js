@@ -43,9 +43,10 @@ const score = {
         hole_id: { type: 'integer', minimum: 1 },
         user_id: { type: 'integer', minimum: 1 },
         round_id: { type: 'integer', minimum: 1 },
+        input_user_id: { type: 'integer', minimum: 1 },
     },
-    required: ['result', 'hole_id', 'user_id', 'round_id'],
-    maxProperties: 4,
+    required: ['result', 'hole_id', 'user_id', 'round_id', 'input_user_id'],
+    maxProperties: 5,
 }
 
 const user = {

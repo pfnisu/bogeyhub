@@ -85,17 +85,20 @@ module.exports = {
     updateScores: (scores) => {
         return new Promise((resolve, reject) => {
             // Transpose scores into two-dimensional array
-            let cols = [[], [], [], []]
+            let cols = [[], [], [], [], []]
             scores.forEach((s) => {
                 cols[0].push(s.result)
                 cols[1].push(s.hole_id)
                 cols[2].push(s.user_id)
                 cols[3].push(s.round_id)
+                cols[4].push(s.input_user_id)
             })
             // TODO merge ...
             db.query(
-                'insert into score (result, hole_id, user_id, round_id) ' +
-                'select * from unnest($1::int[], $2::int[], $3::int[], $4::int[]) ' +
+                'insert into score ' +
+                    '(result, hole_id, user_id, round_id, input_user_id) ' +
+                'select * from ' +
+                    'unnest($1::int[], $2::int[], $3::int[], $4::int[], $5::int[]) ' +
                 'on conflict (hole_id, user_id, round_id) ' +
                 'do update set result = excluded.result', // excluded is a builtin
                 cols,

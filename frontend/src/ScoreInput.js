@@ -20,6 +20,7 @@ export const ScoreInput = (props) => {
                 result: inputs[i].value,
                 hole_id: props.hole.id,
                 user_id: props.group[i].id,
+                input_user_id: props.user.id,
             });
         }
 
