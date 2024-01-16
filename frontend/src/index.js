@@ -35,7 +35,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <nav>
-                <NavLink to='/'><img src='favicon.png' alt={str.site} /> {str.site}</NavLink>
+                <NavLink to='/'>{str.site}</NavLink>
                 {competition.name && <NavLink to={'/competition/' + competition.id}>
                     {crop(competition.name)}
                 </NavLink>}
