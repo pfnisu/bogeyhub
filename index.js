@@ -23,11 +23,9 @@ const main = async () => {
             express.static('frontend/build')
         )
 
-        // TODO change to /api/
-        app.use('/backend/competition', competition)
-        app.use('/backend/admin', admin) // TODO authenticate /admin requests
-        app.use('/backend/user', user)
-
+        app.use('/api/competition', competition)
+        app.use('/api/admin', admin) // TODO authenticate /admin requests
+        app.use('/api/user', user)
 
         const server = app.listen(port, host, () => {
             console.log(`Listening ${host}:${port}`)
