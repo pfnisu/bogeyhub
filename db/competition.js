@@ -37,8 +37,8 @@ module.exports = {
             db.query(
                 'select hole_id, result, usr.id as user_id, usr.name as user_name ' +
                 'from competition ' +
-                'inner join round on competition.id = round.competition_id ' +
-                'inner join score on round.id = score.round_id ' +
+                'inner join rnd on competition.id = rnd.competition_id ' +
+                'inner join score on rnd.id = score.round_id ' +
                 'inner join usr on usr.id = score.user_id ' +
                 'where competition.id = $1',
                 [id],
@@ -53,12 +53,12 @@ module.exports = {
     readRegs: (id) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'select time, division.name as division, usr.name as user, usr.id as id ' +
+                'select dt, division.name as division, usr.name as user, usr.id as id ' +
                 'from registration ' +
                 'inner join usr on usr.id = registration.user_id ' +
                 'inner join division on division.id = registration.division_id ' +
                 'where competition_id = $1 ' +
-                'order by time asc',
+                'order by dt asc',
                 [id],
                 (err, res) => {
                     if (err) reject(err)
@@ -71,10 +71,10 @@ module.exports = {
     readRounds: (id) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'select round.id as id, round.name as round, start_time, ' +
+                'select rnd.id as id, rnd.name as round, start_time, ' +
                 'course.name as course, course.id as course_id ' +
-                'from round ' +
-                'inner join course on course.id = round.course_id ' +
+                'from rnd ' +
+                'inner join course on course.id = rnd.course_id ' +
                 'where competition_id = $1',
                 [id],
                 (err, res) => {

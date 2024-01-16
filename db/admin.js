@@ -19,7 +19,7 @@ module.exports = {
     createRound: (round) => {
         return new Promise((resolve, reject) => {
             db.query(
-                'insert into round (name, start_time, course_id, competition_id) ' +
+                'insert into rnd (name, start_time, course_id, competition_id) ' +
                 'values ($1, $2, $3, $4) returning id',
                 [...Object.values(round)],
                 (err, res) => {
@@ -81,7 +81,7 @@ module.exports = {
     // Return true if deleted, false if no rows affected
     deleteRound: (id) => {
         return new Promise((resolve, reject) => {
-            db.query('delete from round where id = $1',
+            db.query('delete from rnd where id = $1',
                 [id], (err, res) => {
                     if (err) reject(err)
                     else resolve(res.rowCount === 1)

@@ -5,7 +5,7 @@ module.exports = {
     readCourses: () => {
         return new Promise((resolve, reject) => {
             db.query(
-                'select * from course',
+                'select * from course where active = TRUE',
                 (err, res) => {
                     if (err) reject(err)
                     else resolve(res.rows)
