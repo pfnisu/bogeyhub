@@ -7,8 +7,8 @@ module.exports = new Pool({
     user: process.env.DBUSER,
     password: process.env.DBPW,
     database: process.env.DBNAME,
-    max: 30,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    max: process.env.DBCONN,
+    idleTimeoutMillis: process.env.DBIDLE,
+    connectionTimeoutMillis: process.env.DBWAIT,
     ssl: process.env.DBSSL === 'true' ? true : false,
 })
