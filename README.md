@@ -12,7 +12,7 @@ Niko Suoniemi <niko@tamperelainen.org>
 
 ## App URL
 
-Currently not deployed.
+<https://bogeyhub.onrender.com/>
 
 ## Screenshots
 
